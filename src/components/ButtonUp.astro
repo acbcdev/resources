@@ -1,0 +1,64 @@
+---
+import { Button } from '@/components/ui/button';
+---
+
+<div id="button-up" class="fixed bottom-5 right-5 z-10 opacity-0 duration-500">
+	<Button
+		id="scroll-to-top"
+		className=" duration-300 rounded-full p-1 w-16 h-16  hover:bg-zinc-700 hover:text-white"
+	>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			class="icon icon-tabler icon-tabler-chevrons-up"
+			width="44"
+			height="44"
+			viewBox="0 0 24 24"
+			stroke-width="1.5"
+			stroke="currentColor"
+			fill="none"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+		>
+			<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+			<path d="M7 11l5 -5l5 5"></path>
+			<path d="M7 17l5 -5l5 5"></path>
+		</svg>
+	</Button>
+</div>
+
+<script>
+	import { $ } from '@/lib/dom';
+
+	let timeout = 0; // Identificador para clearTimeout
+	const $button = $('#scroll-to-top') as HTMLButtonElement;
+
+	const DISPLAY = { BLOCK: 'block', NONE: 'none' } as const;
+
+	// Función para mostrar u ocultar el botón
+	function toggleScrollToTop() {
+		const scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+		const display = scrollTop > 400 ? DISPLAY.BLOCK : DISPLAY.NONE;
+
+		if ($button) {
+			const parent = $button.closest('#button-up');
+			parent?.classList.toggle('opacity-0', display === DISPLAY.NONE);
+			$button.classList.toggle('cursor-default', display === DISPLAY.NONE);
+		}
+	}
+
+	function throttledScrollHandler() {
+		if (!timeout) {
+			timeout = requestAnimationFrame(() => {
+				toggleScrollToTop();
+				timeout = 0;
+			});
+		}
+	}
+
+	window.addEventListener('scroll', throttledScrollHandler);
+
+	$button.addEventListener('click', () => {
+		console.log('click');
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	});
+</script>
