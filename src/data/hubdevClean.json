@@ -1,0 +1,2193 @@
+[
+	{
+		"name": "AWS Polly",
+		"url": "https://aws.amazon.com/polly/",
+		"category": "🤖\nAI"
+	},
+	{
+		"name": "Applio",
+		"url": "https://github.com/IAHispano/Applio",
+		"category": "🤖\nAI"
+	},
+	{ "name": "Cartesia", "url": "https://cartesia.ai/", "category": "🤖\nAI" },
+	{
+		"name": "ElevenLabs",
+		"url": "https://elevenlabs.io/",
+		"category": "🤖\nAI"
+	},
+	{
+		"name": "Hugging Face",
+		"url": "https://huggingface.co/",
+		"category": "🤖\nAI"
+	},
+	{ "name": "Ollama", "url": "https://ollama.ai/", "category": "🤖\nAI" },
+	{
+		"name": "Pinecone",
+		"url": "https://www.pinecone.io/",
+		"category": "🤖\nAI"
+	},
+	{
+		"name": "Remove Background",
+		"url": "https://www.remove.bg/",
+		"category": "🤖\nAI"
+	},
+	{
+		"name": "Replicate",
+		"url": "https://replicate.com/",
+		"category": "🤖\nAI"
+	},
+	{
+		"name": "Segment Anything | Meta AI",
+		"url": "https://segment-anything.com/",
+		"category": "🤖\nAI"
+	},
+	{
+		"name": "Dragonball API",
+		"url": "https://web.dragonball-api.com/",
+		"category": "⚙️\nAPIs"
+	},
+	{
+		"name": "ExchangeRate API",
+		"url": "https://www.exchangerate-api.com/",
+		"category": "⚙️\nAPIs"
+	},
+	{
+		"name": "Fake Store API",
+		"url": "https://fakestoreapi.com/",
+		"category": "⚙️\nAPIs"
+	},
+	{
+		"name": "Giphy API",
+		"url": "https://developers.giphy.com/",
+		"category": "⚙️\nAPIs"
+	},
+	{
+		"name": "Spotify API",
+		"url": "https://developer.spotify.com/documentation/web-api",
+		"category": "⚙️\nAPIs"
+	},
+	{
+		"name": "A11y-dialog",
+		"url": "https://a11y-dialog.netlify.app/",
+		"category": "👀\nAccessibility"
+	},
+	{
+		"name": "Color Review",
+		"url": "https://color.review/",
+		"category": "👀\nAccessibility"
+	},
+	{
+		"name": "Colour Contrast Checker",
+		"url": "https://colourcontrast.cc/",
+		"category": "👀\nAccessibility"
+	},
+	{
+		"name": "WhoCanUse",
+		"url": "https://www.whocanuse.com/",
+		"category": "👀\nAccessibility"
+	},
+	{
+		"name": "Aptabase",
+		"url": "https://aptabase.com/",
+		"category": "📈\nAnalytics"
+	},
+	{ "name": "Axiom", "url": "https://axiom.co/", "category": "📈\nAnalytics" },
+	{
+		"name": "Counterscale",
+		"url": "https://counterscale.dev/",
+		"category": "📈\nAnalytics"
+	},
+	{
+		"name": "CrUX Dashboard",
+		"url": "https://developer.chrome.com/docs/crux/dashboard",
+		"category": "📈\nAnalytics"
+	},
+	{
+		"name": "Fathom Analytics",
+		"url": "https://usefathom.com/",
+		"category": "📈\nAnalytics"
+	},
+	{
+		"name": "Grafana",
+		"url": "https://grafana.com/",
+		"category": "📈\nAnalytics"
+	},
+	{
+		"name": "Medama Analytics",
+		"url": "https://oss.medama.io/introduction",
+		"category": "📈\nAnalytics"
+	},
+	{
+		"name": "Plausible",
+		"url": "https://plausible.io/",
+		"category": "📈\nAnalytics"
+	},
+	{
+		"name": "Typelytics",
+		"url": "https://typelytics.rhyssul.com/",
+		"category": "📈\nAnalytics"
+	},
+	{ "name": "Umami", "url": "https://umami.is/", "category": "📈\nAnalytics" },
+	{
+		"name": "Animated-tailwindcss",
+		"url": "https://www.npmjs.com/package/animated-tailwindcss",
+		"category": "🎞️\nAnimation"
+	},
+	{
+		"name": "AnimatiSS",
+		"url": "https://xsgames.co/animatiss/",
+		"category": "🎞️\nAnimation"
+	},
+	{
+		"name": "Animista",
+		"url": "https://animista.net/play/basic/flip",
+		"category": "🎞️\nAnimation"
+	},
+	{
+		"name": "AutoAnimate",
+		"url": "https://auto-animate.formkit.com/#usage-react",
+		"category": "🎞️\nAnimation"
+	},
+	{
+		"name": "CSS Spring Easing Generator",
+		"url": "https://www.kvin.me/css-springs",
+		"category": "🎞️\nAnimation"
+	},
+	{
+		"name": "Cattocss",
+		"url": "https://www.cattocss.com/",
+		"category": "🎞️\nAnimation"
+	},
+	{
+		"name": "Clippy",
+		"url": "https://bennettfeely.com/clippy/",
+		"category": "🎞️\nAnimation"
+	},
+	{
+		"name": "Easing Cheat Sheet",
+		"url": "https://easings.net/",
+		"category": "🎞️\nAnimation"
+	},
+	{
+		"name": "Framer for Developers",
+		"url": "https://www.framer.com/motion/",
+		"category": "🎞️\nAnimation"
+	},
+	{
+		"name": "Kinesis",
+		"url": "https://aminerman.com/kinesis/",
+		"category": "🎞️\nAnimation"
+	},
+	{
+		"name": "Motion Number",
+		"url": "https://github.com/barvian/motion-number",
+		"category": "🎞️\nAnimation"
+	},
+	{
+		"name": "Motion One",
+		"url": "https://motion.dev/",
+		"category": "🎞️\nAnimation"
+	},
+	{
+		"name": "Moving Letters",
+		"url": "https://tobiasahlin.com/moving-letters/",
+		"category": "🎞️\nAnimation"
+	},
+	{
+		"name": "Scroll-driven Animations",
+		"url": "https://scroll-driven-animations.style/",
+		"category": "🎞️\nAnimation"
+	},
+	{
+		"name": "Svelte Animations",
+		"url": "https://animation-svelte.vercel.app/",
+		"category": "🎞️\nAnimation"
+	},
+	{
+		"name": "The Spriters Resource",
+		"url": "https://www.spriters-resource.com/",
+		"category": "🎞️\nAnimation"
+	},
+	{
+		"name": "Theme Toggle",
+		"url": "https://theme-toggle.rdsx.dev/",
+		"category": "🎞️\nAnimation"
+	},
+	{
+		"name": "UI Ball",
+		"url": "https://uiball.com/ldrs/",
+		"category": "🎞️\nAnimation"
+	},
+	{
+		"name": "Variant Vault",
+		"url": "https://variantvault.vercel.app/",
+		"category": "🎞️\nAnimation"
+	},
+	{
+		"name": "Auth.js",
+		"url": "https://authjs.dev/",
+		"category": "🔐\nAuthentication"
+	},
+	{
+		"name": "Clerk",
+		"url": "https://clerk.com/",
+		"category": "🔐\nAuthentication"
+	},
+	{
+		"name": "Lucia Auth",
+		"url": "https://lucia-auth.com/",
+		"category": "🔐\nAuthentication"
+	},
+	{
+		"name": "Contentful",
+		"url": "https://www.contentful.com/",
+		"category": "🗂️\nCMS"
+	},
+	{ "name": "Hygraph", "url": "https://hygraph.com/", "category": "🗂️\nCMS" },
+	{
+		"name": "Outstatic",
+		"url": "https://outstatic.com/",
+		"category": "🗂️\nCMS"
+	},
+	{ "name": "Payload", "url": "https://payloadcms.com/", "category": "🗂️\nCMS" },
+	{ "name": "Sanity", "url": "https://www.sanity.io/", "category": "🗂️\nCMS" },
+	{ "name": "Strapi", "url": "https://strapi.io/", "category": "🗂️\nCMS" },
+	{
+		"name": "100 proyectos de JavaScript",
+		"url": "https://www.javascript100.dev/",
+		"category": "🧠\nChallenges"
+	},
+	{
+		"name": "CodeCombat",
+		"url": "https://codecombat.com/",
+		"category": "🧠\nChallenges"
+	},
+	{
+		"name": "CodeMonkey",
+		"url": "https://www.codemonkey.com/",
+		"category": "🧠\nChallenges"
+	},
+	{
+		"name": "Codedex",
+		"url": "https://www.codedex.io/",
+		"category": "🧠\nChallenges"
+	},
+	{
+		"name": "CryptoZombies",
+		"url": "https://cryptozombies.io/",
+		"category": "🧠\nChallenges"
+	},
+	{
+		"name": "Flexbox Froggy",
+		"url": "https://flexboxfroggy.com/",
+		"category": "🧠\nChallenges"
+	},
+	{
+		"name": "Frontend Mentor",
+		"url": "https://www.frontendmentor.io/",
+		"category": "🧠\nChallenges"
+	},
+	{
+		"name": "Grid Garden",
+		"url": "https://cssgridgarden.com/",
+		"category": "🧠\nChallenges"
+	},
+	{
+		"name": "HackerRank",
+		"url": "https://www.hackerrank.com/",
+		"category": "🧠\nChallenges"
+	},
+	{
+		"name": "Learn Git Branching",
+		"url": "https://learngitbranching.js.org/",
+		"category": "🧠\nChallenges"
+	},
+	{
+		"name": "SQL Murder Mystery",
+		"url": "https://mystery.knightlab.com/",
+		"category": "🧠\nChallenges"
+	},
+	{
+		"name": "WarriorJS",
+		"url": "https://warriorjs.com/",
+		"category": "🧠\nChallenges"
+	},
+	{
+		"name": "ApexCharts",
+		"url": "https://apexcharts.com/",
+		"category": "📊\nCharts"
+	},
+	{
+		"name": "Charts.css",
+		"url": "https://chartscss.org/",
+		"category": "📊\nCharts"
+	},
+	{
+		"name": "Layer Cake",
+		"url": "https://layercake.graphics/",
+		"category": "📊\nCharts"
+	},
+	{
+		"name": "Npmchart",
+		"url": "https://github.com/atinux/npm-chart",
+		"category": "📊\nCharts"
+	},
+	{
+		"name": "Plotteus",
+		"url": "https://www.plotteus.dev/",
+		"category": "📊\nCharts"
+	},
+	{
+		"name": "React Graph Gallery",
+		"url": "https://www.react-graph-gallery.com/",
+		"category": "📊\nCharts"
+	},
+	{
+		"name": "Recharts",
+		"url": "https://recharts.org",
+		"category": "📊\nCharts"
+	},
+	{
+		"name": "Svend3r",
+		"url": "https://svend3r.dev/",
+		"category": "📊\nCharts"
+	},
+	{
+		"name": "Aprende JavaScript",
+		"url": "https://www.aprendejavascript.dev/",
+		"category": "🎓\nCourse"
+	},
+	{
+		"name": "Build UI",
+		"url": "https://buildui.com/",
+		"category": "🎓\nCourse"
+	},
+	{
+		"name": "CSS for JavaScript Developers",
+		"url": "https://css-for-js.dev/",
+		"category": "🎓\nCourse"
+	},
+	{
+		"name": "Curso de React.js",
+		"url": "https://cursoreact.dev/",
+		"category": "🎓\nCourse"
+	},
+	{
+		"name": "High Performance SQLite",
+		"url": "https://highperformancesqlite.com/",
+		"category": "🎓\nCourse"
+	},
+	{
+		"name": "Kaggle",
+		"url": "https://www.kaggle.com/",
+		"category": "🎓\nCourse"
+	},
+	{
+		"name": "Lenguaje CSS",
+		"url": "https://lenguajecss.com/",
+		"category": "🎓\nCourse"
+	},
+	{
+		"name": "Lenguaje HTML",
+		"url": "https://lenguajehtml.com/",
+		"category": "🎓\nCourse"
+	},
+	{
+		"name": "Lenguaje Javascript",
+		"url": "https://lenguajejs.com/",
+		"category": "🎓\nCourse"
+	},
+	{
+		"name": "The Joy of React",
+		"url": "https://www.joyofreact.com/",
+		"category": "🎓\nCourse"
+	},
+	{
+		"name": "Three.js Journey",
+		"url": "https://threejs-journey.com/",
+		"category": "🎓\nCourse"
+	},
+	{
+		"name": "Total Typescript",
+		"url": "https://www.totaltypescript.com/",
+		"category": "🎓\nCourse"
+	},
+	{
+		"name": "Type-Level TypeScript",
+		"url": "https://type-level-typescript.com/",
+		"category": "🎓\nCourse"
+	},
+	{
+		"name": "TypeScript Course",
+		"url": "https://www.typescriptcourse.com/",
+		"category": "🎓\nCourse"
+	},
+	{
+		"name": "ChartDB",
+		"url": "https://app.chartdb.io/",
+		"category": "💾\nDatabase"
+	},
+	{
+		"name": "Cloudflare D1",
+		"url": "https://developers.cloudflare.com/d1/",
+		"category": "💾\nDatabase"
+	},
+	{
+		"name": "Couchbase",
+		"url": "https://www.couchbase.com/",
+		"category": "💾\nDatabase"
+	},
+	{
+		"name": "DBdiagram.io",
+		"url": "https://dbdiagram.io/home",
+		"category": "💾\nDatabase"
+	},
+	{
+		"name": "DBngin",
+		"url": "https://dbngin.com/",
+		"category": "💾\nDatabase"
+	},
+	{
+		"name": "Dataflare",
+		"url": "https://dataflare.app/",
+		"category": "💾\nDatabase"
+	},
+	{
+		"name": "Drizzle ORM",
+		"url": "https://orm.drizzle.team/",
+		"category": "💾\nDatabase"
+	},
+	{
+		"name": "DynamoDB",
+		"url": "https://aws.amazon.com/dynamodb/",
+		"category": "💾\nDatabase"
+	},
+	{
+		"name": "ElectricSQL",
+		"url": "https://electric-sql.com/",
+		"category": "💾\nDatabase"
+	},
+	{
+		"name": "MongoDB Atlas",
+		"url": "https://www.mongodb.com/cloud/atlas",
+		"category": "💾\nDatabase"
+	},
+	{
+		"name": "MySQL Explain",
+		"url": "https://mysqlexplain.com/",
+		"category": "💾\nDatabase"
+	},
+	{
+		"name": "Neon Serverless Postgres",
+		"url": "https://neon.tech/",
+		"category": "💾\nDatabase"
+	},
+	{
+		"name": "PGlite",
+		"url": "https://pglite.dev/",
+		"category": "💾\nDatabase"
+	},
+	{
+		"name": "Planetscale",
+		"url": "https://planetscale.com/",
+		"category": "💾\nDatabase"
+	},
+	{
+		"name": "Postgres Sandbox",
+		"url": "https://postgres.new/",
+		"category": "💾\nDatabase"
+	},
+	{
+		"name": "Prisma",
+		"url": "https://www.prisma.io/",
+		"category": "💾\nDatabase"
+	},
+	{ "name": "Redis", "url": "https://redis.io/", "category": "💾\nDatabase" },
+	{
+		"name": "SQLocal",
+		"url": "https://sqlocal.dallashoffman.com/",
+		"category": "💾\nDatabase"
+	},
+	{
+		"name": "Sequelize",
+		"url": "https://sequelize.org/",
+		"category": "💾\nDatabase"
+	},
+	{
+		"name": "Supabase",
+		"url": "https://supabase.com/",
+		"category": "💾\nDatabase"
+	},
+	{
+		"name": "TablePlus",
+		"url": "https://tableplus.com/",
+		"category": "💾\nDatabase"
+	},
+	{ "name": "Tembo", "url": "https://tembo.io/", "category": "💾\nDatabase" },
+	{
+		"name": "Ts-safeql",
+		"url": "https://github.com/ts-safeql/safeql",
+		"category": "💾\nDatabase"
+	},
+	{ "name": "Turso", "url": "https://turso.tech/", "category": "💾\nDatabase" },
+	{
+		"name": "Upstash",
+		"url": "https://upstash.com/",
+		"category": "💾\nDatabase"
+	},
+	{
+		"name": "Code Hike",
+		"url": "https://codehike.org/",
+		"category": "📖\nDocumentation"
+	},
+	{
+		"name": "Documate",
+		"url": "https://documate.site/",
+		"category": "📖\nDocumentation"
+	},
+	{
+		"name": "Docusaurus",
+		"url": "https://docusaurus.io/",
+		"category": "📖\nDocumentation"
+	},
+	{
+		"name": "Fumadocs",
+		"url": "https://fumadocs.vercel.app/",
+		"category": "📖\nDocumentation"
+	},
+	{
+		"name": "GitBook",
+		"url": "https://www.gitbook.com/",
+		"category": "📖\nDocumentation"
+	},
+	{
+		"name": "Mintlify",
+		"url": "https://mintlify.com/",
+		"category": "📖\nDocumentation"
+	},
+	{
+		"name": "Nextra",
+		"url": "https://nextra.vercel.app/",
+		"category": "📖\nDocumentation"
+	},
+	{
+		"name": "Node.js Green Support",
+		"url": "https://node.green/",
+		"category": "📖\nDocumentation"
+	},
+	{
+		"name": "Nuxt Content",
+		"url": "https://content.nuxtjs.org/",
+		"category": "📖\nDocumentation"
+	},
+	{
+		"name": "TS Docs",
+		"url": "https://tsdocs.dev/",
+		"category": "📖\nDocumentation"
+	},
+	{
+		"name": "VitePress",
+		"url": "https://vitepress.vuejs.org/",
+		"category": "📖\nDocumentation"
+	},
+	{
+		"name": "Don Dominio",
+		"url": "https://www.dondominio.com/",
+		"category": "🔗\nDomain"
+	},
+	{
+		"name": "Namecheap",
+		"url": "https://www.namecheap.com/",
+		"category": "🔗\nDomain"
+	},
+	{
+		"name": "Porkbun",
+		"url": "https://porkbun.com/",
+		"category": "🔗\nDomain"
+	},
+	{
+		"name": "Rayst Domains",
+		"url": "https://domains.ray.st/",
+		"category": "🔗\nDomain"
+	},
+	{
+		"name": "10 Minute Mail",
+		"url": "https://10minutemail.com/",
+		"category": "📧\nEmail"
+	},
+	{
+		"name": "React Email",
+		"url": "https://react.email/",
+		"category": "📧\nEmail"
+	},
+	{ "name": "Resend", "url": "https://resend.com/", "category": "📧\nEmail" },
+	{
+		"name": "File Icons",
+		"url": "https://chromewebstore.google.com/detail/file-icons-for-github-and/ficfmibkjjnpogdcfhfokmihanoldbfe",
+		"category": "💫\nExtensions"
+	},
+	{
+		"name": "JSON Formatter",
+		"url": "https://chromewebstore.google.com/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa",
+		"category": "💫\nExtensions"
+	},
+	{
+		"name": "Meta SEO Inspector",
+		"url": "https://chromewebstore.google.com/detail/meta-seo-inspector/ibkclpciafdglkjkcibmohobjkcfkaef",
+		"category": "💫\nExtensions"
+	},
+	{
+		"name": "Mobile simulator",
+		"url": "https://chromewebstore.google.com/detail/simulador-m%C3%B3vil-herramien/ckejmhbmlajgoklhgbapkiccekfoccmk",
+		"category": "💫\nExtensions"
+	},
+	{
+		"name": "Tailwind Color Picker",
+		"url": "https://chromewebstore.google.com/detail/tailwind-color-picker/iaknbjonlhaajcfpfcimahgpfknpihfm",
+		"category": "💫\nExtensions"
+	},
+	{ "name": "WXT", "url": "https://wxt.dev/", "category": "💫\nExtensions" },
+	{
+		"name": "WhatFont",
+		"url": "https://chromewebstore.google.com/detail/whatfont/jabopobgcpjmedljpbcaablpmlmfcogm",
+		"category": "💫\nExtensions"
+	},
+	{
+		"name": "Calcom Font",
+		"url": "https://github.com/calcom/font",
+		"category": "🔠\nFont"
+	},
+	{ "name": "Fontjoy", "url": "https://fontjoy.com/", "category": "🔠\nFont" },
+	{
+		"name": "Fontshare",
+		"url": "https://www.fontshare.com/",
+		"category": "🔠\nFont"
+	},
+	{
+		"name": "Geist Font",
+		"url": "https://github.com/vercel/geist-font",
+		"category": "🔠\nFont"
+	},
+	{
+		"name": "Onest font",
+		"url": "https://onest.md/en",
+		"category": "🔠\nFont"
+	},
+	{
+		"name": "Zed Fonts",
+		"url": "https://github.com/zed-industries/zed-fonts",
+		"category": "🔠\nFont"
+	},
+	{ "name": "Formik", "url": "https://formik.org/", "category": "📝\nForms" },
+	{
+		"name": "HouseForm",
+		"url": "https://houseform.dev/",
+		"category": "📝\nForms"
+	},
+	{
+		"name": "React Hook Form",
+		"url": "https://react-hook-form.com/",
+		"category": "📝\nForms"
+	},
+	{
+		"name": "Typeform",
+		"url": "https://www.typeform.com/",
+		"category": "📝\nForms"
+	},
+	{
+		"name": "Angular",
+		"url": "https://angular.dev/",
+		"category": "🪄\nFrameworks"
+	},
+	{
+		"name": "Astro",
+		"url": "https://astro.build/",
+		"category": "🪄\nFrameworks"
+	},
+	{
+		"name": "CodeIgniter",
+		"url": "https://codeigniter.com/",
+		"category": "🪄\nFrameworks"
+	},
+	{
+		"name": "Create T3 App",
+		"url": "https://create.t3.gg/",
+		"category": "🪄\nFrameworks"
+	},
+	{
+		"name": "Deno Fresh",
+		"url": "https://fresh.deno.dev/",
+		"category": "🪄\nFrameworks"
+	},
+	{
+		"name": "Django",
+		"url": "https://www.djangoproject.com/",
+		"category": "🪄\nFrameworks"
+	},
+	{
+		"name": "Electron",
+		"url": "https://www.electronjs.org/",
+		"category": "🪄\nFrameworks"
+	},
+	{
+		"name": "Express",
+		"url": "https://expressjs.com/",
+		"category": "🪄\nFrameworks"
+	},
+	{
+		"name": "Fastify",
+		"url": "https://fastify.dev/",
+		"category": "🪄\nFrameworks"
+	},
+	{ "name": "Hono", "url": "https://hono.dev/", "category": "🪄\nFrameworks" },
+	{
+		"name": "Ionic",
+		"url": "https://ionicframework.com/",
+		"category": "🪄\nFrameworks"
+	},
+	{
+		"name": "Laravel",
+		"url": "https://laravel.com/",
+		"category": "🪄\nFrameworks"
+	},
+	{ "name": "Lume", "url": "https://lume.land/", "category": "🪄\nFrameworks" },
+	{
+		"name": "Medusa",
+		"url": "https://medusajs.com/",
+		"category": "🪄\nFrameworks"
+	},
+	{
+		"name": "NestJS",
+		"url": "https://nestjs.com/",
+		"category": "🪄\nFrameworks"
+	},
+	{
+		"name": "Next.js",
+		"url": "https://nextjs.org/",
+		"category": "🪄\nFrameworks"
+	},
+	{ "name": "Nuxt", "url": "https://nuxt.com/", "category": "🪄\nFrameworks" },
+	{
+		"name": "Phaser",
+		"url": "https://phaser.io/",
+		"category": "🪄\nFrameworks"
+	},
+	{ "name": "Qwik", "url": "https://qwik.dev/", "category": "🪄\nFrameworks" },
+	{
+		"name": "React",
+		"url": "https://react.dev/",
+		"category": "🪄\nFrameworks"
+	},
+	{
+		"name": "Reflex",
+		"url": "https://reflex.dev/",
+		"category": "🪄\nFrameworks"
+	},
+	{
+		"name": "Ruby on Rails",
+		"url": "https://rubyonrails.org/",
+		"category": "🪄\nFrameworks"
+	},
+	{
+		"name": "SolidJS",
+		"url": "https://www.solidjs.com/",
+		"category": "🪄\nFrameworks"
+	},
+	{
+		"name": "Spring",
+		"url": "https://spring.io/",
+		"category": "🪄\nFrameworks"
+	},
+	{
+		"name": "Svelte Native",
+		"url": "https://svelte-native.technology/",
+		"category": "🪄\nFrameworks"
+	},
+	{
+		"name": "Tauri Apps",
+		"url": "https://tauri.app/",
+		"category": "🪄\nFrameworks"
+	},
+	{
+		"name": "Unovis",
+		"url": "https://unovis.dev/",
+		"category": "🪄\nFrameworks"
+	},
+	{
+		"name": "Vue.js",
+		"url": "https://vuejs.org/",
+		"category": "🪄\nFrameworks"
+	},
+	{ "name": "Waku", "url": "https://waku.gg/", "category": "🪄\nFrameworks" },
+	{
+		"name": "Cloudflare",
+		"url": "https://pages.cloudflare.com/",
+		"category": "📡\nHosting"
+	},
+	{
+		"name": "Cloudflare Workers",
+		"url": "https://cloudflare.com/products/workers",
+		"category": "📡\nHosting"
+	},
+	{
+		"name": "Deno Deploy",
+		"url": "https://deno.com/deploy",
+		"category": "📡\nHosting"
+	},
+	{
+		"name": "Firebase",
+		"url": "https://firebase.google.com/products/hosting/",
+		"category": "📡\nHosting"
+	},
+	{ "name": "Fly", "url": "http://fly.io/", "category": "📡\nHosting" },
+	{
+		"name": "GitHub Pages",
+		"url": "https://pages.github.com/",
+		"category": "📡\nHosting"
+	},
+	{
+		"name": "Heroku",
+		"url": "https://www.heroku.com/",
+		"category": "📡\nHosting"
+	},
+	{
+		"name": "Koyeb",
+		"url": "https://www.koyeb.com/",
+		"category": "📡\nHosting"
+	},
+	{
+		"name": "Napkin",
+		"url": "https://www.napkin.io/",
+		"category": "📡\nHosting"
+	},
+	{
+		"name": "Netlify",
+		"url": "https://www.netlify.com",
+		"category": "📡\nHosting"
+	},
+	{
+		"name": "NuxtHub",
+		"url": "https://hub.nuxt.com/",
+		"category": "📡\nHosting"
+	},
+	{
+		"name": "Railway",
+		"url": "https://railway.app/",
+		"category": "📡\nHosting"
+	},
+	{ "name": "Render", "url": "http://render.com/", "category": "📡\nHosting" },
+	{ "name": "Surge", "url": "https://surge.sh/", "category": "📡\nHosting" },
+	{
+		"name": "Trigger.dev",
+		"url": "https://trigger.dev/",
+		"category": "📡\nHosting"
+	},
+	{ "name": "Vercel", "url": "https://vercel.com/", "category": "📡\nHosting" },
+	{ "name": "Zeabur", "url": "https://zeabur.com/", "category": "📡\nHosting" },
+	{ "name": "Zerops", "url": "https://zerops.io/", "category": "📡\nHosting" },
+	{ "name": "Boxicons", "url": "https://boxicons.com/", "category": "🖼️\nIcon" },
+	{ "name": "Devicon", "url": "https://devicon.dev/", "category": "🖼️\nIcon" },
+	{
+		"name": "Lottieflow",
+		"url": "https://finsweet.com/lottieflow",
+		"category": "🖼️\nIcon"
+	},
+	{ "name": "Ray.so", "url": "https://icon.ray.so/", "category": "🖼️\nIcon" },
+	{
+		"name": "Simple Badges",
+		"url": "https://badges.pages.dev/",
+		"category": "🖼️\nIcon"
+	},
+	{
+		"name": "Simple Icons",
+		"url": "https://simpleicons.org/",
+		"category": "🖼️\nIcon"
+	},
+	{ "name": "Svgl", "url": "https://svgl.app/", "category": "🖼️\nIcon" },
+	{
+		"name": "Tabler Icons",
+		"url": "https://tabler.io/icons",
+		"category": "🖼️\nIcon"
+	},
+	{
+		"name": "UseAnimations",
+		"url": "https://useanimations.com/",
+		"category": "🖼️\nIcon"
+	},
+	{
+		"name": "Avatars",
+		"url": "https://alohe.github.io/avatars/",
+		"category": "🎨\nIllustration"
+	},
+	{
+		"name": "Bean Heads",
+		"url": "https://beanheads.robertbroersma.com/",
+		"category": "🎨\nIllustration"
+	},
+	{
+		"name": "CSS Peeps",
+		"url": "https://css-peeps.com/",
+		"category": "🎨\nIllustration"
+	},
+	{
+		"name": "Doodle Ipsum",
+		"url": "https://doodleipsum.com/",
+		"category": "🎨\nIllustration"
+	},
+	{
+		"name": "Free SVG Illustrations",
+		"url": "https://lukaszadam.com/illustrations",
+		"category": "🎨\nIllustration"
+	},
+	{
+		"name": "Free Vector Illustrations",
+		"url": "https://www.reshot.com/free-vector-illustrations/",
+		"category": "🎨\nIllustration"
+	},
+	{
+		"name": "Notioly",
+		"url": "https://notioly.com/",
+		"category": "🎨\nIllustration"
+	},
+	{
+		"name": "Open Peeps",
+		"url": "https://www.openpeeps.com/",
+		"category": "🎨\nIllustration"
+	},
+	{
+		"name": "Pixels Market",
+		"url": "https://pixels.market/",
+		"category": "🎨\nIllustration"
+	},
+	{
+		"name": "Popsy",
+		"url": "https://popsy.co/illustrations",
+		"category": "🎨\nIllustration"
+	},
+	{
+		"name": "UnDraw",
+		"url": "https://undraw.co/",
+		"category": "🎨\nIllustration"
+	},
+	{
+		"name": "Unsplash",
+		"url": "https://unsplash.com/",
+		"category": "🎨\nIllustration"
+	},
+	{
+		"name": "60fps",
+		"url": "https://60fps.design/",
+		"category": "💡\nInspiration"
+	},
+	{
+		"name": "Bento",
+		"url": "https://bento.me/",
+		"category": "💡\nInspiration"
+	},
+	{
+		"name": "Brittany Chiang",
+		"url": "https://brittanychiang.com/",
+		"category": "💡\nInspiration"
+	},
+	{
+		"name": "Cosmos",
+		"url": "https://www.cosmos.so/",
+		"category": "💡\nInspiration"
+	},
+	{
+		"name": "Explore",
+		"url": "https://read.cv/explore",
+		"category": "💡\nInspiration"
+	},
+	{
+		"name": "Godly",
+		"url": "https://godly.website/",
+		"category": "💡\nInspiration"
+	},
+	{
+		"name": "Landingfolio",
+		"url": "https://www.landingfolio.com/inspiration/landing-page",
+		"category": "💡\nInspiration"
+	},
+	{
+		"name": "Linears",
+		"url": "https://www.linears.art/",
+		"category": "💡\nInspiration"
+	},
+	{
+		"name": "Mobbin",
+		"url": "https://mobbin.com/",
+		"category": "💡\nInspiration"
+	},
+	{
+		"name": "Nev Flynn",
+		"url": "https://nevflynn.com/",
+		"category": "💡\nInspiration"
+	},
+	{
+		"name": "SEESAW",
+		"url": "https://www.seesaw.website/",
+		"category": "💡\nInspiration"
+	},
+	{
+		"name": "Webamp",
+		"url": "https://github.com/captbaritone/webamp",
+		"category": "💡\nInspiration"
+	},
+	{
+		"name": "What's going on?",
+		"url": "https://goingon.app/",
+		"category": "💡\nInspiration"
+	},
+	{
+		"name": "Wins95Portfolio",
+		"url": "https://github.com/Yuteoctober/wins95Portfolio",
+		"category": "💡\nInspiration"
+	},
+	{
+		"name": "Daily.dev",
+		"url": "https://daily.dev/",
+		"category": "📰\nNewsletter"
+	},
+	{
+		"name": "Noticias.dev",
+		"url": "https://www.noticias.dev/",
+		"category": "📰\nNewsletter"
+	},
+	{
+		"name": "Rendezvous",
+		"url": "https://cassidoo.co/newsletter/",
+		"category": "📰\nNewsletter"
+	},
+	{
+		"name": "Unicorn Club",
+		"url": "https://unicornclub.dev/",
+		"category": "📰\nNewsletter"
+	},
+	{
+		"name": "Imgto",
+		"url": "https://imgto.xyz/",
+		"category": "🚀\nPerformance"
+	},
+	{
+		"name": "Ipx",
+		"url": "https://github.com/unjs/ipx",
+		"category": "🚀\nPerformance"
+	},
+	{
+		"name": "Million",
+		"url": "https://million.dev/",
+		"category": "🚀\nPerformance"
+	},
+	{
+		"name": "OpenStatus",
+		"url": "https://www.openstatus.dev/",
+		"category": "🚀\nPerformance"
+	},
+	{
+		"name": "Sentry",
+		"url": "https://sentry.io/welcome/",
+		"category": "🚀\nPerformance"
+	},
+	{
+		"name": "Slimify",
+		"url": "https://slimify.app/",
+		"category": "🚀\nPerformance"
+	},
+	{
+		"name": "Alfred",
+		"url": "https://www.alfredapp.com/",
+		"category": "😁\nProductivity"
+	},
+	{
+		"name": "Asana",
+		"url": "https://asana.com/",
+		"category": "😁\nProductivity"
+	},
+	{
+		"name": "Calcom",
+		"url": "https://cal.com/",
+		"category": "😁\nProductivity"
+	},
+	{
+		"name": "Design Maestro",
+		"url": "https://designmaestro.io/",
+		"category": "😁\nProductivity"
+	},
+	{
+		"name": "Jira",
+		"url": "https://www.atlassian.com/software/jira",
+		"category": "😁\nProductivity"
+	},
+	{
+		"name": "Linear",
+		"url": "https://linear.app/",
+		"category": "😁\nProductivity"
+	},
+	{
+		"name": "Notion",
+		"url": "https://www.notion.so/",
+		"category": "😁\nProductivity"
+	},
+	{
+		"name": "Raycast",
+		"url": "https://www.raycast.com/",
+		"category": "😁\nProductivity"
+	},
+	{
+		"name": "Trello",
+		"url": "https://trello.com/",
+		"category": "😁\nProductivity"
+	},
+	{
+		"name": "Awesome Software Architecture",
+		"url": "https://awesome-architecture.com/",
+		"category": "📚\nReading"
+	},
+	{
+		"name": "Book on Building Front-End Web Apps with Plain JavaScript",
+		"url": "https://web-engineering.info/JsFrontendApp-Book/",
+		"category": "📚\nReading"
+	},
+	{
+		"name": "Books | Flavio Copes",
+		"url": "https://flaviocopes.com/books/",
+		"category": "📚\nReading"
+	},
+	{
+		"name": "Eloquent JavaScript",
+		"url": "https://eloquentjavascript.net/",
+		"category": "📚\nReading"
+	},
+	{
+		"name": "Learning JavaScript Design Patterns",
+		"url": "https://patterns.addy.ie/",
+		"category": "📚\nReading"
+	},
+	{
+		"name": "Patterns.dev",
+		"url": "https://www.patterns.dev/",
+		"category": "📚\nReading"
+	},
+	{
+		"name": "Practical UI",
+		"url": "https://www.practical-ui.com/",
+		"category": "📚\nReading"
+	},
+	{
+		"name": "React-bits",
+		"url": "https://github.com/vasanthk/react-bits",
+		"category": "📚\nReading"
+	},
+	{
+		"name": "Refactoring UI",
+		"url": "https://www.refactoringui.com/",
+		"category": "📚\nReading"
+	},
+	{
+		"name": "AWS S3",
+		"url": "https://aws.amazon.com/s3/",
+		"category": "📦\nStorage"
+	},
+	{
+		"name": "Backblaze",
+		"url": "https://www.backblaze.com/",
+		"category": "📦\nStorage"
+	},
+	{
+		"name": "Cloudflare R2",
+		"url": "https://www.cloudflare.com/developer-platform/r2/",
+		"category": "📦\nStorage"
+	},
+	{
+		"name": "Cloudinary",
+		"url": "https://cloudinary.com/",
+		"category": "📦\nStorage"
+	},
+	{
+		"name": "Chromatic",
+		"url": "https://www.chromatic.com/",
+		"category": "🧪\nTesting"
+	},
+	{
+		"name": "Cypress",
+		"url": "https://www.cypress.io/",
+		"category": "🧪\nTesting"
+	},
+	{ "name": "HTTPie", "url": "https://httpie.io/", "category": "🧪\nTesting" },
+	{ "name": "Jest", "url": "https://jestjs.io/", "category": "🧪\nTesting" },
+	{ "name": "Mocha", "url": "https://mochajs.org/", "category": "🧪\nTesting" },
+	{
+		"name": "Pact Docs",
+		"url": "https://docs.pact.io/",
+		"category": "🧪\nTesting"
+	},
+	{
+		"name": "Playwright",
+		"url": "https://playwright.dev/",
+		"category": "🧪\nTesting"
+	},
+	{
+		"name": "Pytest",
+		"url": "https://docs.pytest.org/en/stable/",
+		"category": "🧪\nTesting"
+	},
+	{
+		"name": "React Testing Library",
+		"url": "https://testing-library.com/docs/react-testing-library/intro/",
+		"category": "🧪\nTesting"
+	},
+	{ "name": "Vitest", "url": "https://vitest.dev/", "category": "🧪\nTesting" },
+	{
+		"name": "1.1.1.1",
+		"url": "https://one.one.one.one/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "3D Book Image CSS Generator",
+		"url": "https://scastiel.dev/3dbook",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "AWS CloudFormation",
+		"url": "https://aws.amazon.com/cloudformation/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Airtable",
+		"url": "https://www.airtable.com/",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Apidog", "url": "https://apidog.com/", "category": "🛠️\nTool" },
+	{
+		"name": "Awesome-react",
+		"url": "https://github.com/enaqx/awesome-react",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Awesome-tiny-js",
+		"url": "https://github.com/thoughtspile/awesome-tiny-js",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Biome, toolchain of the web",
+		"url": "https://biomejs.dev/",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "BlurHash", "url": "https://blurha.sh/", "category": "🛠️\nTool" },
+	{ "name": "Blurred", "url": "https://blurred.dev/", "category": "🛠️\nTool" },
+	{
+		"name": "Bradymholt/cRonstrue",
+		"url": "https://github.com/bradymholt/cronstrue",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Bruno",
+		"url": "https://www.usebruno.com/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Bunchee",
+		"url": "https://github.com/huozhi/bunchee",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Caninclude",
+		"url": "https://caninclude.glitch.me/",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Cap", "url": "https://cap.so/", "category": "🛠️\nTool" },
+	{ "name": "Carbon", "url": "https://carbon.now.sh/", "category": "🛠️\nTool" },
+	{
+		"name": "Card Validator",
+		"url": "https://cards-dev.twitter.com/validator",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Cartero",
+		"url": "https://cartero.danirod.es/",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Chalk", "url": "https://chalk.ist/", "category": "🛠️\nTool" },
+	{
+		"name": "Chalk",
+		"url": "https://github.com/chalk/chalk",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Checklyhq",
+		"url": "https://www.checklyhq.com/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Cheerio",
+		"url": "https://cheerio.js.org/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Chrono",
+		"url": "https://github.com/wanasit/chrono",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "CleanShot X",
+		"url": "https://cleanshot.com/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "CloudConvert",
+		"url": "https://cloudconvert.com/gif-to-webm",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "CodeSandbox",
+		"url": "https://codesandbox.io/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Compress PNG",
+		"url": "https://compresspng.com/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Content Collections",
+		"url": "https://www.content-collections.dev/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Contentlayer",
+		"url": "https://contentlayer.dev/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Continue: AI Code Assistant",
+		"url": "https://www.continue.dev/",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Coolify", "url": "https://coolify.io/", "category": "🛠️\nTool" },
+	{
+		"name": "Cron-parser",
+		"url": "https://github.com/harrisiirak/cron-parser",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Cron-validator",
+		"url": "https://github.com/GuillaumeRochat/cron-validator",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "DNS Propagation Checker",
+		"url": "https://www.whatsmydns.net/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Datadog",
+		"url": "https://www.datadoghq.com/",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Date-fns", "url": "https://date-fns.org/", "category": "🛠️\nTool" },
+	{
+		"name": "DepTreeGitHub",
+		"url": "https://deptree.rschristian.dev/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Diagrams",
+		"url": "https://app.diagrams.net/",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Dub.co", "url": "https://dub.co/", "category": "🛠️\nTool" },
+	{ "name": "Durves", "url": "https://www.durves.com/", "category": "🛠️\nTool" },
+	{
+		"name": "Easyreadme",
+		"url": "https://easyreadme.app",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Editor - Convert SVG to valid JSX",
+		"url": "https://svg2jsx.com/",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Editor.js", "url": "https://editorjs.io/", "category": "🛠️\nTool" },
+	{ "name": "Eraser", "url": "https://app.eraser.io/", "category": "🛠️\nTool" },
+	{
+		"name": "Es Toolkit",
+		"url": "https://es-toolkit.slash.page/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Excel4node",
+		"url": "https://github.com/advisr-io/excel4node",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Exceljs",
+		"url": "https://github.com/exceljs/exceljs",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Expo", "url": "https://expo.dev/", "category": "🛠️\nTool" },
+	{ "name": "Farm", "url": "https://www.farmfe.org/", "category": "🛠️\nTool" },
+	{
+		"name": "Feature Flags",
+		"url": "https://www.split.io/product/feature-flags/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Fnm",
+		"url": "https://github.com/Schniz/fnm",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Fuse.js", "url": "https://fusejs.io/", "category": "🛠️\nTool" },
+	{
+		"name": "GitHub Profile Generator",
+		"url": "https://arturssmirnovs.github.io/github-profile-readme-generator/",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Gitness", "url": "https://gitness.com/", "category": "🛠️\nTool" },
+	{ "name": "Grep", "url": "https://grep.app/", "category": "🛠️\nTool" },
+	{
+		"name": "Hoppscotch",
+		"url": "https://hoppscotch.io/es/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Html2canvas",
+		"url": "https://html2canvas.hertzen.com/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Html2canvas-pro",
+		"url": "https://github.com/yorickshan/html2canvas-pro",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Infisical",
+		"url": "https://infisical.com/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Ink",
+		"url": "https://github.com/vadimdemedes/ink",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Inquirer",
+		"url": "https://www.npmjs.com/package/inquirer",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Insomnia",
+		"url": "https://insomnia.rest/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Interview Warmup",
+		"url": "https://grow.google/certificates/interview-warmup/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "JSON Crack",
+		"url": "https://jsoncrack.com/",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Kirimase", "url": "https://kirimase.dev/", "category": "🛠️\nTool" },
+	{
+		"name": "Ky",
+		"url": "https://github.com/sindresorhus/ky",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "LT Browser",
+		"url": "https://www.lambdatest.com/lt-browser",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "LaunchDarkly",
+		"url": "https://launchdarkly.com/",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Lerna", "url": "https://lerna.js.org/", "category": "🛠️\nTool" },
+	{
+		"name": "Libvips",
+		"url": "https://github.com/libvips/libvips",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Lite Youtube",
+		"url": "https://github.com/justinribeiro/lite-youtube",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Little Date",
+		"url": "https://github.com/vercel/little-date",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Liveblocks",
+		"url": "https://liveblocks.io/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Markdown Badges",
+		"url": "https://markdown-badges.vercel.app/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Mermaid",
+		"url": "https://mermaid.js.org/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Mock Service Worker",
+		"url": "https://mswjs.io/",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "NPKILL", "url": "https://npkill.js.org/", "category": "🛠️\nTool" },
+	{
+		"name": "Nanostores",
+		"url": "https://github.com/nanostores/nanostores",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "New Relic",
+		"url": "https://newrelic.com/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Next.js Onboarding Flow",
+		"url": "https://www.onborda.dev/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Node-xlsx",
+		"url": "https://github.com/mgcrea/node-xlsx",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Nord VPN", "url": "https://nordvpn.com/", "category": "🛠️\nTool" },
+	{
+		"name": "Notify-rust",
+		"url": "https://github.com/hoodie/notify-rust",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Notion Apps",
+		"url": "https://www.notionapps.com/",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Nuqs", "url": "https://nuqs.47ng.com/", "category": "🛠️\nTool" },
+	{
+		"name": "Nvm",
+		"url": "https://github.com/nvm-sh/nvm",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Nx", "url": "https://nx.dev/", "category": "🛠️\nTool" },
+	{
+		"name": "OKLCH Color Picker",
+		"url": "https://oklch.com/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Open-webui",
+		"url": "https://github.com/open-webui/open-webui",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "OpenGraph",
+		"url": "https://www.opengraph.xyz/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Ora",
+		"url": "https://github.com/sindresorhus/ora",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "OrbStack", "url": "https://orbstack.dev/", "category": "🛠️\nTool" },
+	{
+		"name": "Partykit",
+		"url": "https://www.partykit.io/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Photopea",
+		"url": "https://www.photopea.com/",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Picthing", "url": "https://pic.ping.gg/", "category": "🛠️\nTool" },
+	{ "name": "Plate", "url": "https://platejs.org/", "category": "🛠️\nTool" },
+	{ "name": "Podman", "url": "https://podman.io/", "category": "🛠️\nTool" },
+	{ "name": "Popsy", "url": "https://popsy.co/", "category": "🛠️\nTool" },
+	{
+		"name": "Postman",
+		"url": "https://www.postman.com/",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Potion", "url": "https://potion.so/", "category": "🛠️\nTool" },
+	{
+		"name": "ProfileMe",
+		"url": "https://www.profileme.dev/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Proton VPN",
+		"url": "https://protonvpn.com/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Quicktype",
+		"url": "https://app.quicktype.io/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "REST API Generator",
+		"url": "https://retool.com/api-generator",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "React Device Detect",
+		"url": "https://github.com/duskload/react-device-detect",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Redux", "url": "https://redux.js.org/", "category": "🛠️\nTool" },
+	{ "name": "Refi App", "url": "https://refiapp.io/", "category": "🛠️\nTool" },
+	{
+		"name": "Rendley SDK",
+		"url": "https://rendley.com/",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Replit", "url": "https://replit.com/", "category": "🛠️\nTool" },
+	{
+		"name": "Rimraf",
+		"url": "https://www.npmjs.com/package/rimraf",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "RunJS", "url": "https://runjs.app/", "category": "🛠️\nTool" },
+	{
+		"name": "SLA & Uptime calculator",
+		"url": "https://uptime.is/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "SVG Path Commands",
+		"url": "https://www.nan.fyi/svg-paths",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "SVG Path Editor",
+		"url": "https://yqnn.github.io/svg-path-editor/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "SVG Viewer",
+		"url": "https://www.svgviewer.dev/",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "SWR", "url": "https://swr.vercel.app/", "category": "🛠️\nTool" },
+	{
+		"name": "Screenity",
+		"url": "https://screenity.io/en/",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Scrimba", "url": "https://scrimba.com/", "category": "🛠️\nTool" },
+	{
+		"name": "Sharp",
+		"url": "https://github.com/lovell/sharp",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "SheetJS", "url": "https://sheetjs.com/", "category": "🛠️\nTool" },
+	{
+		"name": "Sherif",
+		"url": "https://github.com/QuiiBz/sherif",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Short Unique ID",
+		"url": "https://www.npmjs.com/package/short-unique-id",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Short uuid",
+		"url": "https://www.npmjs.com/package/short-uuid",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Skill Icons",
+		"url": "https://skillicons.dev/",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Slidev", "url": "https://sli.dev/", "category": "🛠️\nTool" },
+	{ "name": "Snappify", "url": "https://snappify.com/", "category": "🛠️\nTool" },
+	{
+		"name": "Specificity Calculator",
+		"url": "https://specificity.keegan.st/",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Squoosh", "url": "https://squoosh.app/", "category": "🛠️\nTool" },
+	{
+		"name": "StackBlitz",
+		"url": "https://stackblitz.com/",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Stripe", "url": "https://stripe.com/", "category": "🛠️\nTool" },
+	{ "name": "Swagger", "url": "https://swagger.io/", "category": "🛠️\nTool" },
+	{
+		"name": "Tailwind Nextjs Starter Blog",
+		"url": "https://github.com/timlrx/tailwind-nextjs-starter-blog",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "TanStack",
+		"url": "https://tanstack.com/query/v3",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Terraform",
+		"url": "https://www.terraform.io/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "The Good Line-Height",
+		"url": "https://www.thegoodlineheight.com/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "The JavaScript Oxidation Compiler",
+		"url": "https://oxc-project.github.io/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Thumbhash",
+		"url": "https://github.com/evanw/thumbhash",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Tinte",
+		"url": "https://tinte.railly.dev/",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Tinter", "url": "https://tinter.uxie.io/", "category": "🛠️\nTool" },
+	{ "name": "Tiptap", "url": "https://tiptap.dev/", "category": "🛠️\nTool" },
+	{ "name": "Tsup", "url": "https://tsup.egoist.dev/", "category": "🛠️\nTool" },
+	{ "name": "Turborepo", "url": "https://turbo.build/", "category": "🛠️\nTool" },
+	{
+		"name": "UTF-8 String Length",
+		"url": "https://mothereff.in/byte-counter",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Unkey", "url": "https://www.unkey.com/", "category": "🛠️\nTool" },
+	{
+		"name": "Unlighthouse",
+		"url": "https://unlighthouse.dev/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Upptime",
+		"url": "https://upptime.js.org/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "UseHooks",
+		"url": "https://usehooks-ts.com/",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Val Town", "url": "https://www.val.town/", "category": "🛠️\nTool" },
+	{ "name": "Valibot", "url": "https://valibot.dev/", "category": "🛠️\nTool" },
+	{
+		"name": "Vinxi",
+		"url": "https://vinxi.vercel.app/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Voldephobia",
+		"url": "https://voldephobia.rschristian.dev/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Wappalyzer",
+		"url": "https://www.wappalyzer.com/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Web Platform Status",
+		"url": "https://webstatus.dev/",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Wordpress",
+		"url": "https://wordpress.com",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "Wouter",
+		"url": "https://github.com/molefrog/wouter",
+		"category": "🛠️\nTool"
+	},
+	{ "name": "Zod", "url": "https://zod.dev/", "category": "🛠️\nTool" },
+	{
+		"name": "v0 by Vercel",
+		"url": "https://v0.dev/chat",
+		"category": "🛠️\nTool"
+	},
+	{
+		"name": "3D Transformer",
+		"url": "https://www.3dtransformer.com/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "AI Color Palette Generator",
+		"url": "https://aicolors.co/",
+		"category": "🖥️\nUI"
+	},
+	{ "name": "Ant Design", "url": "https://ant.design/", "category": "🖥️\nUI" },
+	{ "name": "Ariakit", "url": "https://ariakit.org/", "category": "🖥️\nUI" },
+	{
+		"name": "Artoons",
+		"url": "https://artoons.vercel.app",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Boring avatars",
+		"url": "https://boringavatars.com/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Bright",
+		"url": "https://bright.codehike.org/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "CSS Gradient Text",
+		"url": "https://www.cssgradienttext.com/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "CSS Grid Generator",
+		"url": "https://cssgridgenerator.io/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Cally",
+		"url": "https://wicky.nillia.ms/cally/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Chroma.js",
+		"url": "https://github.com/gka/chroma.js",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "ColorSpace",
+		"url": "https://mycolor.space/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Components Bridger",
+		"url": "https://components.bridger.to/feature",
+		"category": "🖥️\nUI"
+	},
+	{ "name": "Corvu", "url": "https://corvu.dev/", "category": "🖥️\nUI" },
+	{
+		"name": "Creating Bento Grid Layouts",
+		"url": "https://www.julienthibeaut.xyz/blog/create-bento-grid-layouts",
+		"category": "🖥️\nUI"
+	},
+	{ "name": "DayPicker", "url": "https://daypicker.dev/", "category": "🖥️\nUI" },
+	{
+		"name": "Design System Checklist",
+		"url": "https://www.designsystemchecklist.com/category/design-language",
+		"category": "🖥️\nUI"
+	},
+	{ "name": "Dnd kit", "url": "https://dndkit.com/", "category": "🖥️\nUI" },
+	{
+		"name": "Drag & Drop",
+		"url": "https://drag-and-drop.formkit.com/",
+		"category": "🖥️\nUI"
+	},
+	{ "name": "FFFuel", "url": "https://www.fffuel.co/", "category": "🖥️\nUI" },
+	{
+		"name": "Fancy Border Radius Generator",
+		"url": "https://9elements.github.io/fancy-border-radius/#30.30.61.30--",
+		"category": "🖥️\nUI"
+	},
+	{ "name": "Figma", "url": "https://www.figma.com/", "category": "🖥️\nUI" },
+	{
+		"name": "Filament",
+		"url": "https://margelo.github.io/react-native-filament/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Flowbite",
+		"url": "https://flowbite.com/docs/getting-started/introduction/",
+		"category": "🖥️\nUI"
+	},
+	{ "name": "Formsnap", "url": "https://formsnap.dev/", "category": "🖥️\nUI" },
+	{
+		"name": "Free SVG generators",
+		"url": "https://fffuel.co/",
+		"category": "🖥️\nUI"
+	},
+	{ "name": "Get Waves", "url": "https://getwaves.io/", "category": "🖥️\nUI" },
+	{
+		"name": "Glassmorphism Generator",
+		"url": "https://css.glass/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Glaze",
+		"url": "https://github.com/dnnsjsk/glaze",
+		"category": "🖥️\nUI"
+	},
+	{ "name": "Gluestack", "url": "https://gluestack.io/", "category": "🖥️\nUI" },
+	{
+		"name": "Gradientos",
+		"url": "https://www.gradientos.app/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Grainy Gradients",
+		"url": "https://grainy-gradients.vercel.app/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Hero Patterns",
+		"url": "https://heropatterns.com/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Hypercolor",
+		"url": "https://hypercolor.dev/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Image to Mesh Gradient",
+		"url": "https://photogradient.com/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "JS Confetti",
+		"url": "https://github.com/loonywizard/js-confetti",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Keyframes.app",
+		"url": "https://keyframes.app/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Lenis",
+		"url": "https://lenis.studiofreight.com/",
+		"category": "🖥️\nUI"
+	},
+	{ "name": "Logo AI", "url": "https://www.logoai.com/", "category": "🖥️\nUI" },
+	{
+		"name": "Lowlight",
+		"url": "https://github.com/wooorm/lowlight",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Lunar UI",
+		"url": "https://lunarui.dev/components",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Luxe",
+		"url": "https://luxe.guhrodrigues.com/",
+		"category": "🖥️\nUI"
+	},
+	{ "name": "MUI", "url": "https://mui.com/", "category": "🖥️\nUI" },
+	{ "name": "Mafs", "url": "https://mafs.dev/", "category": "🖥️\nUI" },
+	{ "name": "Magic UI", "url": "https://magicuikit.com/", "category": "🖥️\nUI" },
+	{
+		"name": "MagicPattern",
+		"url": "https://www.magicpattern.design/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Magnetic Wapper",
+		"url": "https://magnetic-wrapper.vercel.app/",
+		"category": "🖥️\nUI"
+	},
+	{ "name": "Mantine", "url": "https://mantine.dev/", "category": "🖥️\nUI" },
+	{
+		"name": "Master CSS",
+		"url": "https://css.master.co/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Matter.js",
+		"url": "https://brm.io/matter-js/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "NES.css",
+		"url": "https://nostalgic-css.github.io/NES.css/",
+		"category": "🖥️\nUI"
+	},
+	{ "name": "Napkins", "url": "https://www.napkins.dev/", "category": "🖥️\nUI" },
+	{
+		"name": "Open Props",
+		"url": "https://open-props.style/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "PaneForge",
+		"url": "https://www.paneforge.com/docs",
+		"category": "🖥️\nUI"
+	},
+	{ "name": "Penpot", "url": "https://penpot.app/", "category": "🖥️\nUI" },
+	{ "name": "Pico CSS", "url": "https://picocss.com/", "category": "🖥️\nUI" },
+	{ "name": "Picular", "url": "https://picular.co/", "category": "🖥️\nUI" },
+	{ "name": "Pika", "url": "https://pika.style/", "category": "🖥️\nUI" },
+	{
+		"name": "Preline UI",
+		"url": "https://preline.co/examples.html",
+		"category": "🖥️\nUI"
+	},
+	{ "name": "Prism", "url": "https://prismjs.com/", "category": "🖥️\nUI" },
+	{
+		"name": "RN Primitives",
+		"url": "https://rn-primitives.vercel.app/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "React Dropzone",
+		"url": "https://react-dropzone.js.org/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "React Google Maps",
+		"url": "https://visgl.github.io/react-google-maps/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "React Movable",
+		"url": "https://www.npmjs.com/package/react-movable",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "React RND",
+		"url": "https://github.com/bokuweb/react-rnd",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "React Responsive Pagination",
+		"url": "https://react-responsive-pagination.elantha.com/custom-styled-pagination/#installation",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "React Syntax Highlighter",
+		"url": "https://www.npmjs.com/package/react-syntax-highlighter",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "React Three Fiber",
+		"url": "https://docs.pmnd.rs/react-three-fiber/getting-started/introduction",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Rehype Pretty Code",
+		"url": "https://rehype-pretty.pages.dev/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Rehype Prism Plus",
+		"url": "https://www.npmjs.com/package/rehype-prism-plus",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Relative Time Element",
+		"url": "https://github.com/github/relative-time-element",
+		"category": "🖥️\nUI"
+	},
+	{ "name": "Scrollbar", "url": "https://scrollbar.app/", "category": "🖥️\nUI" },
+	{
+		"name": "Scrollex",
+		"url": "https://scrollex-docs.vercel.app/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Shadcn for Vue",
+		"url": "https://www.shadcn-vue.com/",
+		"category": "🖥️\nUI"
+	},
+	{ "name": "Shiki", "url": "https://shiki.style/", "category": "🖥️\nUI" },
+	{
+		"name": "Silicon CSS",
+		"url": "https://silicon-css.com/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Skeleton",
+		"url": "https://www.skeleton.dev/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Sooner Native",
+		"url": "https://gunnartorfis.github.io/sonner-native/",
+		"category": "🖥️\nUI"
+	},
+	{ "name": "Stitches", "url": "https://stitches.dev/", "category": "🖥️\nUI" },
+	{
+		"name": "Styled Components",
+		"url": "https://styled-components.com/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Sugar High",
+		"url": "https://sugar-high.vercel.app/",
+		"category": "🖥️\nUI"
+	},
+	{ "name": "SyntaxUI", "url": "https://syntaxui.com/", "category": "🖥️\nUI" },
+	{
+		"name": "Tailus UI Html",
+		"url": "https://html.tailus.io/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Tailwind CSS",
+		"url": "https://tailwindcss.com/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "TailwindCSS Buttons",
+		"url": "https://devdojo.com/tailwindcss/buttons",
+		"category": "🖥️\nUI"
+	},
+	{ "name": "Tamagui", "url": "https://tamagui.dev/", "category": "🖥️\nUI" },
+	{ "name": "Three.js", "url": "https://threejs.org/", "category": "🖥️\nUI" },
+	{ "name": "Tints", "url": "https://www.tints.dev", "category": "🖥️\nUI" },
+	{ "name": "Tldraw", "url": "https://www.tldraw.com/", "category": "🖥️\nUI" },
+	{ "name": "Toast", "url": "https://toast.pheralb.dev/", "category": "🖥️\nUI" },
+	{
+		"name": "Tremor Raw",
+		"url": "https://raw.tremor.so/docs/getting-started/installation",
+		"category": "🖥️\nUI"
+	},
+	{ "name": "Twind", "url": "https://twind.dev/", "category": "🖥️\nUI" },
+	{ "name": "Una UI", "url": "https://unaui.com/", "category": "🖥️\nUI" },
+	{
+		"name": "Vanilla Extract",
+		"url": "https://vanilla-extract.style/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Vanilla List",
+		"url": "https://vanillalist.top/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Water.css",
+		"url": "https://watercss.kognise.dev/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Wc Toast",
+		"url": "https://abdmmar.github.io/wc-toast/",
+		"category": "🖥️\nUI"
+	},
+	{
+		"name": "Windstatic",
+		"url": "https://windstatic.com/",
+		"category": "🖥️\nUI"
+	},
+	{ "name": "Zag", "url": "https://zagjs.com/", "category": "🖥️\nUI" }
+]

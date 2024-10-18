@@ -1,0 +1,105 @@
+---
+import ButtonUp from '@/components/ButtonUp.astro';
+import { categories } from '@/consts';
+import Layout from '@/layouts/Layout.astro';
+import { slugify } from '@/lib/utils';
+
+interface Props {
+	title: string;
+	description?: string;
+	image?: string;
+	subTitle?: string;
+}
+
+const { title, description, image, subTitle } = Astro.props;
+const current = Astro.url.pathname.split('/')[1];
+console.log('🚀 ~ current:', current);
+const categoriesFilter = categories.filter(({ length }) => length);
+---
+
+<Layout title={title} description={description} image={image} subTitle={subTitle}>
+	<ButtonUp />
+	<div class="grid content-categorie relative">
+		<aside class="sticky top-5 h-[83vh] mx-1 my-5 pb-5 py-2 overflow-y-visible overflow-x-hidden">
+			<nav class="flex gap-2 md:flex-col overflow-y-visible md:pb-2 pt-0 px-0.5 md:px-4">
+				{
+					categoriesFilter.map(({ name: category, icon: Icon, length }) => (
+						<a
+							class:list={[
+								{
+									'hover:bg-green-600  shadow-green-600': category === 'Tools',
+									'hover:bg-emerald-500': category === 'Blogs',
+									'hover:bg-orange-500': category === 'Design',
+									'hover:bg-red-500': category === 'API',
+									'hover:bg-blue-700': category === 'Libraries',
+									'hover:bg-violet-500': category === 'Security',
+									'hover:bg-indigo-500': category === 'Icons',
+									'hover:bg-pink-500': category === 'Illustrations',
+									'hover:bg-yellow-500': category === 'Photos',
+									'hover:bg-purple-400': category === 'Videos',
+									'hover:bg-lime-500': category === 'Backgrounds',
+									'hover:bg-amber-500': category === 'Websites',
+									'hover:bg-teal-500': category === 'Fonts',
+									'hover:bg-cyan-500': category === 'Learning Resources',
+									'hover:bg-gray-500': category === '3D',
+									'hover:bg-fuchsia-500': category === 'Games',
+									'hover:bg-sky-500': category === 'AI',
+									'hover:bg-zinc-500': category === 'Other',
+									'hover:bg-rose-500': category === 'Inspirations',
+									'hover:bg-slate-500': category === 'Colors',
+									'hover:bg-purple-700': category === 'Components',
+									'hover:bg-purple-900': category === 'Analytics',
+									'hover:bg-blue-500': category === 'Accessibility',
+									'hover:bg-pink-400': category === 'Animation',
+									'hover:bg-green-500': category === 'Authentication',
+									'hover:bg-red-400': category === 'CMS',
+									'hover:bg-indigo-600': category === 'Challenges',
+									'hover:bg-cyan-400': category === 'Charts',
+									'hover:bg-cyan-600': category === 'Course',
+									'hover:bg-purple-800': category === 'Database',
+									'hover:bg-purple-600': category === 'Storage',
+									'hover:bg-lime-400': category === 'Testing',
+									'hover:bg-orange-400': category === 'Newsletter',
+									'hover:bg-rose-400': category === 'Forms',
+									'hover:bg-amber-400': category === 'Performance',
+									'hover:bg-gray-400': category === 'Reading',
+									'hover:bg-violet-400': category === 'Domain',
+									'hover:bg-rose-700': category === 'Frameworks',
+									'hover:bg-zinc-800': category === 'Hosting',
+									'hover:bg-zinc-400 ': category === 'Extensions',
+									'hover:bg-slate-400': category === 'Documentation',
+									'hover:bg-slate-700': category === 'Productivity',
+									'bg-zinc-600': current === slugify(category),
+								},
+							]}
+							class={`rounded-xl text-2xl p-4 hover:scale-110 duration-200 px-10 hover:opacity-95 flex gap-x-2 text-white group/btn items-center`}
+							href={`/${slugify(category)}/1`}
+							transition:name={category}
+						>
+							<Icon />
+							{category}
+							<span class="text-sm group-hover/btn:bg-transparent font-bold items-center bg-zinc-700 px-2 py-1 rounded-3xl">
+								{length}
+							</span>
+						</a>
+					))
+				}
+			</nav>
+		</aside>
+
+		<main><slot /></main>
+	</div>
+</Layout>
+<style>
+	.content-categorie {
+		grid-column: 1fr;
+		grid-template-areas:
+			'. main main main'
+			'aside main main main'
+			'aside main main main';
+	}
+	aside {
+		scrollbar-width: none;
+		/* box-shadow: rgba(0, 0, 0, 0.35) 0px -50px 36px -28px inset; */
+	}
+</style>

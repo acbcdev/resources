@@ -1,0 +1,74 @@
+---
+import LinkSVG from '@/svg/LinkSVG.astro';
+import { Card, CardContent, CardDescription, CardFooter, CardTitle } from '@/components/ui/card';
+import { slugify } from '@/lib/utils';
+import { Image } from 'astro:assets';
+
+type Props = {
+	link: string;
+	name: string;
+	description: string;
+	ogImage: string;
+	ogDescription?: string;
+	image: string;
+	tags?: string[];
+};
+const { link, name, description, ogImage, image, ogDescription, tags } = Astro.props;
+---
+
+<Card
+	className="group/card overflow-hidden hover:border-green-500 duration-300 border-4 rounded-3xl"
+>
+	<a target="_blank" aria-label={`${name} link`} href={link}>
+		<Image
+			class="group-hover/card:[scale:1.02] w-full duration-200 text-center object-cover aspect-video z-0"
+			src={ogImage || image}
+			loading="lazy"
+			width={500}
+			height={300}
+			alt={ogDescription || description}
+		/>
+	</a>
+	<CardContent className="content-card mt-4 sm:px-3 justify-between">
+		<CardTitle className="hover:text-green-500 max-w-[90%] break-words hyphens-auto" lang="en"
+			>{name}</CardTitle
+		>
+		<a target="_blank" aria-label={`${name} link`} href={link}>
+			<LinkSVG
+				class="opacity-0 translate-y-20 -translate-x-20 cursor-default hover:cursor-pointer group-hover/card:opacity-100 group-hover/card:translate-x-0 group-hover/card:translate-y-0 hover:stroke-green-500 duration-200"
+			/>
+		</a>
+	</CardContent>
+	<CardFooter className="grid">
+		<CardDescription className="text-base text-zinc-300 mb-2"
+			>{ogDescription ?? description}</CardDescription
+		>
+		<div class="flex flex-wrap gap-x-2">
+			{
+				tags?.map((tag) => {
+					const fixTag = slugify(tag);
+					return (
+						<a
+							href={`/tags/${fixTag}/1`}
+							class="tag text-zinc-400 hover:underline hover:text-green-500"
+						>
+							#{tag}
+						</a>
+					);
+				})
+			}
+		</div>
+	</CardFooter>
+</Card>
+
+<style>
+	.content-card {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		/*		justify-content: space-around;*/
+		h3 {
+			font-size: 3rem;
+		}
+	}
+</style>

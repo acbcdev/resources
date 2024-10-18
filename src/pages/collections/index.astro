@@ -1,0 +1,45 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { collections } from '@/consts/collections';
+import { slugify } from '@/lib/utils';
+console.log(collections.length);
+---
+
+<Layout title="Collections" subTitle="Collections">
+	<section class="">
+		<div>
+			<ul class="grid place-content-center gap-4 mx-5 md:mx-10 lg:mx-20 my-10">
+				{
+					collections.map((i) => {
+						return (
+							<li class="flex flex-col lg:flex-row gap-4 rounded-3xl bg-zinc-800 z-10">
+								<img
+									transition:name={`${i?.name}-image`}
+									src={i?.img || 'https://placehold.co/250x150'}
+									width={600}
+									height={400}
+									class="z-0  w-full  lg:rounded-s-3xl "
+									alt={i?.description}
+								/>
+								<div class="grid place-content-center px-4  py-2 md:p-8">
+									<h2 class=" text-2xl md:text-6xl">
+										<a
+											transition:name={`${i?.name}-title`}
+											href={`/collections/${slugify(i?.name ?? '')}/`}
+										>
+											{i?.name}
+										</a>
+									</h2>
+									<p transition:name={`${i?.name}-description`}>
+										{i?.description ||
+											'Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, quos. Quae eum nam facere repellendus praesentium aperiam fugiat necessitatibus iure qui tempore? Provident consequuntur aut laudantium fugit quia cumque debitis?'}
+									</p>
+								</div>
+							</li>
+						);
+					})
+				}
+			</ul>
+		</div>
+	</section>
+</Layout>

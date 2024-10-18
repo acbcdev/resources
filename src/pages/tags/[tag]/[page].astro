@@ -1,0 +1,27 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { DATA } from '@/data/index';
+import { slugify } from '@/lib/utils';
+import LayoutCategories from '@/layouts/LayoutCategories.astro';
+import ListResources from '@/components/ListResources.astro';
+import Pagination from '@/components/Pagination.astro';
+
+export const getStaticPaths = (({ paginate }) => {
+	const allTags = [...new Set(DATA.flatMap((i) => i.tags).filter(Boolean))];
+	return allTags.flatMap((tag) => {
+		const filteredItems = DATA.filter((i) => i.tags.includes(tag));
+		const fixTag = slugify(tag);
+		return paginate(filteredItems, {
+			params: { tag: fixTag },
+			pageSize: 14,
+		});
+	});
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<LayoutCategories title="Tags">
+	<ListResources resources={page.data} />
+	<Pagination currentPage={page.currentPage} url={page.url} lastPage={page.lastPage} />
+</LayoutCategories>

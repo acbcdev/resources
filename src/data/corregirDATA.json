@@ -1,0 +1,676 @@
+[
+	{
+		"name": "Shapefest",
+		"description": "Shapefest is a platform that offers a wide range of design resources, including icons, illustrations, photos, videos, backgrounds, typography, 3D models, libraries, blogs, tools, inspirations, components, websites, learning resources, APIs, design projects, games, security tools, AI tools, and other resources. It's a valuable hub for designers, developers, and anyone looking for creative inspiration and tools.",
+		"image": "https://res.cloudinary.com/dhcobeldd/image/upload/v1725231140/SiEJpGUyz9Rsx6yUkUKuXs6weg.jpg",
+		"category": ["3D", "Illustrations"],
+		"link": "https://www.shapefest.com/",
+		"topic": "Design Resources",
+		"main_features": [
+			{
+				"feature": "Curated Collection",
+				"description": "Shapefest features a curated collection of high-quality design resources from various sources."
+			},
+			{
+				"feature": "Search and Filter",
+				"description": "You can easily search and filter resources based on category, tags, and other criteria."
+			},
+			{
+				"feature": "Inspiration",
+				"description": "Shapefest provides inspiration for your design projects with a wide range of examples and case studies."
+			},
+			{
+				"feature": "Community",
+				"description": "Shapefest has a community of designers and developers who share their work and collaborate on projects."
+			}
+		],
+		"tags": [
+			"design",
+			"resources",
+			"inspiration",
+			"tools",
+			"community",
+			"creative",
+			"web design",
+			"ui",
+			"ux",
+			"graphic design",
+			"illustration",
+			"photography",
+			"video",
+			"3d",
+			"ai",
+			"security"
+		],
+		"targetAudience": "Designers",
+		"pricing": "Free",
+		"og": {
+			"title": "Shapefest™ | A massive library of free 3D illustrations",
+			"url": "https://shapefest.com/",
+			"image": "https://framerusercontent.com/images/SiEJpGUyz9Rsx6yUkUKuXs6weg.jpg",
+			"type": "website",
+			"description": "A massive library of free 3D illustrations created by Joseph Angelo Todaro."
+		}
+	},
+	{
+		"name": "UI Logos",
+		"description": "UI Logos is a website that offers a curated collection of high-quality UI design resources, including icons, illustrations, photos, videos, backgrounds, typography, 3D models, libraries, blogs, tools, inspirations, components, websites, learning resources, APIs, design systems, games, security tools, AI tools, and other resources. It's a valuable resource for designers, developers, and anyone looking for inspiration and tools to enhance their UI design projects.",
+		"image": "https://res.cloudinary.com/dhcobeldd/image/upload/v1725231144/preview.jpg",
+		"category": ["Inspirations", "Design"],
+		"link": "https://www.uilogos.co/",
+		"topic": "UI Design Resources",
+		"main_features": [
+			{
+				"feature": "Curated Collection",
+				"description": "UI Logos features a carefully curated collection of high-quality UI design resources from various sources."
+			},
+			{
+				"feature": "Diverse Categories",
+				"description": "The website covers a wide range of categories, including icons, illustrations, photos, videos, and more, catering to diverse design needs."
+			},
+			{
+				"feature": "Easy Navigation",
+				"description": "UI Logos offers a user-friendly interface with clear navigation and search functionality, making it easy to find the resources you need."
+			},
+			{
+				"feature": "Regular Updates",
+				"description": "The website is regularly updated with new resources, ensuring a fresh and up-to-date collection."
+			}
+		],
+		"tags": ["UI Design"],
+		"targetAudience": "Designers",
+		"pricing": "Free",
+		"og": {
+			"title": "uilogos - lorem ipsum for logos | free logo placeholder",
+			"url": "https://uilogos.co/",
+			"image": "https://uilogos.co/preview.jpg",
+			"type": "website",
+			"site_name": "uilogos.co",
+			"description": "More than 25+ professionally designed logos and plugin to add dummy logos to your design and mockups."
+		}
+	},
+	{
+		"name": "Pattern Monster",
+		"description": "Pattern Monster is a free online resource that provides a vast library of high-quality patterns for designers and developers. It offers a wide range of patterns, including icons, illustrations, photos, videos, backgrounds, typography, 3D models, and more. The platform is designed to be user-friendly and allows users to easily search, filter, and download patterns for their projects.",
+		"image": "https://res.cloudinary.com/dhcobeldd/image/upload/v1725231168/TwitterBG2.png",
+		"category": [
+			"Photos",
+			"Videos",
+			"Backgrounds",
+			"Typography",
+			"3D",
+			"Libraries"
+		],
+		"link": "https://pattern.monster/",
+		"topic": "Design Resources",
+		"main_features": [
+			{
+				"feature": "Vast Library of Patterns",
+				"description": "Offers a wide variety of patterns across different categories, including icons, illustrations, photos, videos, backgrounds, typography, 3D models, and more."
+			},
+			{
+				"feature": "Free to Use",
+				"description": "All patterns are free to use for personal and commercial projects."
+			},
+			{
+				"feature": "Easy to Search and Filter",
+				"description": "Provides a user-friendly interface for searching and filtering patterns based on various criteria."
+			},
+			{
+				"feature": "High-Quality Patterns",
+				"description": "Offers high-quality patterns that are professionally designed and optimized for various uses."
+			},
+			{
+				"feature": "Regular Updates",
+				"description": "The library is constantly updated with new patterns, ensuring a fresh and diverse selection."
+			}
+		],
+		"tags": [
+			"design",
+			"patterns",
+			"icons",
+			"illustrations",
+			"photos",
+			"videos",
+			"backgrounds",
+			"typography",
+			"3D",
+			"free",
+			"resources",
+			"library"
+		],
+		"targetAudience": "Designers",
+		"pricing": "Free",
+		"og": {
+			"title": "Pattern Monster - SVG Pattern Generator",
+			"url": "https://pattern.monster",
+			"image": "https://giguom.com/pattern.monster/images//TwitterBG2.png",
+			"type": "website",
+			"site_name": "Pattern.Monster",
+			"description": "A simple online pattern generator to create repeatable SVG patterns. Perfect for website backgrounds, apparel, branding, packaging design and more."
+		}
+	},
+	{
+		"name": "Design Spells",
+		"description": "Design Spells is a comprehensive design resource platform offering a vast library of free and premium design assets, including icons, illustrations, photos, videos, backgrounds, typography, 3D models, and more. It also features curated design inspiration, learning resources, and tools to help designers of all levels enhance their creative workflow.",
+		"image": "https://res.cloudinary.com/dhcobeldd/image/upload/v1725231222/og.png",
+		"category": [
+			"Icons",
+			"Illustrations",
+			"Photos",
+			"Videos",
+			"Backgrounds",
+			"Typography",
+			"3D",
+			"Libraries",
+			"Inspirations",
+			"Tools",
+			"Learning Resources"
+		],
+		"link": "https://www.designspells.com/",
+		"topic": "Design Resources",
+		"main_features": [
+			{
+				"feature": "Free and Premium Assets",
+				"description": "Access a wide range of free and premium design assets, including icons, illustrations, photos, videos, backgrounds, typography, 3D models, and more."
+			},
+			{
+				"feature": "Curated Inspiration",
+				"description": "Explore a curated collection of design inspiration from various sources, including websites, blogs, and social media."
+			},
+			{
+				"feature": "Learning Resources",
+				"description": "Find tutorials, articles, and courses to enhance your design skills and knowledge."
+			},
+			{
+				"feature": "Design Tools",
+				"description": "Utilize helpful design tools and resources to streamline your workflow and improve your design process."
+			}
+		],
+		"tags": [
+			"design resources",
+			"free assets",
+			"premium assets",
+			"inspiration",
+			"learning",
+			"tools",
+			"icons",
+			"illustrations",
+			"photos",
+			"videos",
+			"backgrounds",
+			"typography",
+			"3D models"
+		],
+		"targetAudience": "Designers",
+		"pricing": "Freemium",
+		"og": {
+			"title": "Design Spells · Design details that feel like magic",
+			"url": "https://designspells.com/",
+			"image": "https://designspells.com/og.png",
+			"type": "website",
+			"site_name": "Design Spells · Design details that feel like magic",
+			"description": "Discover micro-interactions, easter eggs, and other seemingly extra design details that infuse life, personality, and fun back into the web."
+		}
+	},
+	{
+		"name": "HUDS+GUIS",
+		"description": "HUDS+GUIS is a curated collection of free and premium UI kits, templates, and resources for designers and developers. It features a wide range of design elements, including icons, illustrations, photos, videos, backgrounds, typography, 3D models, and more. The platform is designed to help users find the perfect resources to create stunning user interfaces for their projects.",
+		"image": "https://res.cloudinary.com/dhcobeldd/image/upload/v1725312529/Captura_desde_2024-09-02_16-28-34_egsq20.png",
+		"category": [
+			"Icons",
+			"Illustrations",
+			"Photos",
+			"Videos",
+			"Backgrounds",
+			"Typography",
+			"3D",
+			"Libraries",
+			"Components"
+		],
+		"link": "https://www.hudsandguis.com/",
+		"topic": "UI Design Resources",
+		"main_features": [
+			{
+				"feature": "Curated Collection",
+				"description": "HUDS+GUIS features a carefully curated collection of high-quality UI resources from various sources."
+			},
+			{
+				"feature": "Free and Premium Options",
+				"description": "The platform offers both free and premium resources, catering to different budgets and needs."
+			},
+			{
+				"feature": "Diverse Range of Resources",
+				"description": "HUDS+GUIS provides a wide variety of UI elements, including icons, illustrations, photos, videos, backgrounds, typography, 3D models, and more."
+			},
+			{
+				"feature": "Easy Search and Filtering",
+				"description": "The platform offers a user-friendly search and filtering system to help users quickly find the resources they need."
+			},
+			{
+				"feature": "Regular Updates",
+				"description": "HUDS+GUIS is regularly updated with new and trending UI resources."
+			}
+		],
+		"tags": [
+			"UI Design",
+			"UI Kits",
+			"Templates",
+			"Resources",
+			"Icons",
+			"Illustrations",
+			"Photos",
+			"Videos",
+			"Backgrounds",
+			"Typography",
+			"3D Models",
+			"Libraries",
+			"Components"
+		],
+		"targetAudience": "Designers",
+		"pricing": "Freemium",
+		"alternatives": [
+			"UI8",
+			"Creative Tim",
+			"Start Bootstrap",
+			"ThemeForest",
+			"Envato Elements"
+		],
+		"og": {
+			"title": "HUDS+GUIS",
+			"url": "https://www.hudsandguis.com",
+			"type": "website",
+			"site_name": "HUDS+GUIS",
+			"description": "HUDS and GUIS is an inspiration resource site featuring Future User Interfaces, Graphic User Interfaces, Heads Up Displays and UX/UI Design from areas such as film and games."
+		}
+	},
+	{
+		"name": "InspoVault",
+		"description": "InspoVault is a curated platform that provides a vast collection of design inspiration, resources, and tools for designers, developers, and creative professionals. It features a wide range of categories, including icons, illustrations, photos, videos, backgrounds, typography, 3D models, libraries, blogs, tools, inspirations, components, websites, learning resources, APIs, design systems, games, security tools, AI tools, and more. InspoVault helps users discover new trends, find inspiration for their projects, and stay up-to-date with the latest design innovations.",
+		"image": "https://res.cloudinary.com/dhcobeldd/image/upload/v1725231229/65743ab69f60d7965d6943ba_Inspo-Vault-Jonny-Screens.webp",
+		"category": ["Inspirations", "Design", "Tools", "Learning Resources"],
+		"link": "https://www.inspovault.com/",
+		"topic": "Design Inspiration and Resources",
+		"main_features": [
+			{
+				"feature": "Curated Inspiration",
+				"description": "InspoVault features a curated collection of design inspiration across various categories, helping users find relevant and high-quality resources."
+			},
+			{
+				"feature": "Resource Discovery",
+				"description": "The platform allows users to discover a wide range of design resources, including icons, illustrations, photos, videos, and more."
+			},
+			{
+				"feature": "Community Engagement",
+				"description": "InspoVault fosters a community of designers and creative professionals, enabling users to share their work, connect with others, and learn from each other."
+			},
+			{
+				"feature": "Learning Resources",
+				"description": "The platform provides access to tutorials, articles, and other learning resources to help users enhance their design skills."
+			}
+		],
+		"tags": [
+			"design inspiration",
+			"design resources",
+			"creative tools",
+			"design community",
+			"design learning"
+		],
+		"targetAudience": "Designers",
+		"pricing": "Free",
+		"og": {
+			"title": "InspoVault - Website Design Inspiration",
+			"image": "https://cdn.prod.website-files.com/651892531add88a3c3a156b4/65743ab69f60d7965d6943ba_Inspo-Vault-Jonny-Screens.webp"
+		}
+	},
+	{
+		"name": "Design Everywhere",
+		"description": "Design Everywhere is a comprehensive design platform that offers a wide range of tools and resources for designers, developers, and content creators. It provides access to a vast library of icons, illustrations, photos, videos, backgrounds, typography, 3D models, and more. The platform also features a blog with design inspiration, tutorials, and articles, as well as a community forum for collaboration and discussion.",
+		"image": "https://res.cloudinary.com/dhcobeldd/image/upload/v1725231230/1689842633-designeverywhere_home_thumbnail_1.webp",
+		"category": [
+			"Icons",
+			"Illustrations",
+			"Photos",
+			"Videos",
+			"Backgrounds",
+			"Typography",
+			"3D",
+			"Libraries",
+			"Blogs",
+			"Tools",
+			"Inspirations"
+		],
+		"link": "https://designeverywhere.co/",
+		"topic": "Design Resources",
+		"main_features": [
+			{
+				"feature": "Vast Library of Design Assets",
+				"description": "Access a wide range of icons, illustrations, photos, videos, backgrounds, typography, 3D models, and more."
+			},
+			{
+				"feature": "Design Inspiration and Tutorials",
+				"description": "Explore a blog with design inspiration, tutorials, and articles."
+			},
+			{
+				"feature": "Community Forum",
+				"description": "Connect with other designers and developers in a community forum for collaboration and discussion."
+			},
+			{
+				"feature": "Easy-to-Use Interface",
+				"description": "The platform is designed with a user-friendly interface that makes it easy to find and use the resources you need."
+			}
+		],
+		"tags": [
+			"design",
+			"resources",
+			"icons",
+			"illustrations",
+			"photos",
+			"videos",
+			"backgrounds",
+			"typography",
+			"3D",
+			"inspiration",
+			"tutorials",
+			"community",
+			"collaboration"
+		],
+		"targetAudience": "Designers",
+		"pricing": "Freemium",
+		"og": {
+			"title": "Design Everywhere",
+			"image": "https://www.datocms-assets.com/79148/1689842633-designeverywhere_home_thumbnail_1.webp",
+			"type": "website",
+			"site_name": "designeverywhere",
+			"description": "Design Everywhere is a digital platform showcasing real-life creative works of designers, both up-and-coming and established, from all around the world."
+		}
+	},
+	{
+		"name": "a-fresh",
+		"description": "a-fresh is a website that provides a curated collection of design resources, including icons, illustrations, photos, videos, backgrounds, typography, 3D models, libraries, blogs, tools, inspirations, components, websites, learning resources, APIs, design systems, games, security tools, AI tools, and other resources. It aims to help designers and developers find the best resources for their projects.",
+		"image": "https://res.cloudinary.com/dhcobeldd/image/upload/v1725231235/2oqE3tavhcyQjk2JUIuW7Vlv3E205jRqzTfxXm4x-published.jpg",
+		"category": [
+			"Design",
+			"Tools",
+			"Inspirations",
+			"Libraries",
+			"Learning Resources"
+		],
+		"link": "https://a-fresh.website/",
+		"topic": "Design Resources",
+		"main_features": [
+			{
+				"feature": "Curated Collection",
+				"description": "a-fresh provides a curated collection of design resources from various sources, ensuring quality and relevance."
+			},
+			{
+				"feature": "Categorization",
+				"description": "Resources are categorized into various categories, making it easy to find what you need."
+			},
+			{
+				"feature": "Search Functionality",
+				"description": "a-fresh offers a powerful search function to quickly find specific resources."
+			},
+			{
+				"feature": "Regular Updates",
+				"description": "The website is regularly updated with new resources, ensuring you have access to the latest and greatest."
+			}
+		],
+		"tags": [
+			"design resources",
+			"design tools",
+			"inspiration",
+			"libraries",
+			"learning resources",
+			"free resources",
+			"premium resources"
+		],
+		"targetAudience": "Designers",
+		"pricing": "Free",
+		"og": {
+			"title": "a-fresh | Website design inspiration library",
+			"image": "https://assets.ycodeapp.com/assets/app16319/Images/2oqE3tavhcyQjk2JUIuW7Vlv3E205jRqzTfxXm4x-published.jpg",
+			"description": "Unlock Your Design Inspiration: Explore a Gallery of Creative Ideas and Award-Winning Websites. Get inspired for your next web project with our curated collection of stunning examples and innovative designs. Discover the artistry and brilliance of award-winning sites, sparking your creativity to craft exceptional digital experiences. Explore now and elevate your web design game to new heights."
+		}
+	},
+	{
+		"name": "Sketchvalley",
+		"description": "Sketchvalley is a platform that offers a vast collection of free and premium design resources, including icons, illustrations, photos, videos, backgrounds, typography, 3D models, libraries, blogs, tools, inspirations, components, websites, learning resources, APIs, design templates, games, security tools, AI tools, and more. It's a one-stop shop for designers, developers, and content creators looking for high-quality assets to enhance their projects.",
+		"image": "https://res.cloudinary.com/dhcobeldd/image/upload/v1725292880/sketchvalley.png",
+		"category": ["Illustrations"],
+		"link": "https://sketchvalley.com/",
+		"topic": "Design Resources",
+		"main_features": [
+			{
+				"feature": "Vast Collection of Resources",
+				"description": "Sketchvalley offers a wide range of design resources, including icons, illustrations, photos, videos, and more, catering to various design needs."
+			},
+			{
+				"feature": "Free and Premium Options",
+				"description": "The platform provides both free and premium resources, allowing users to choose based on their budget and project requirements."
+			},
+			{
+				"feature": "Easy Search and Filtering",
+				"description": "Sketchvalley's intuitive search and filtering options make it easy to find the specific resources you need."
+			},
+			{
+				"feature": "High-Quality Assets",
+				"description": "The resources available on Sketchvalley are of high quality, ensuring professional-looking designs."
+			},
+			{
+				"feature": "Regular Updates",
+				"description": "Sketchvalley regularly adds new resources to its collection, keeping its content fresh and relevant."
+			}
+		],
+		"tags": [
+			"design resources",
+			"icons",
+			"illustrations",
+			"photos",
+			"videos",
+			"backgrounds",
+			"typography",
+			"3d models",
+			"libraries",
+
+			"tools",
+			"inspirations",
+			"components",
+			"websites",
+			"learning resources",
+			"api",
+			"design templates",
+			"games",
+			"security tools",
+			"ai tools",
+			"free resources",
+			"premium resources"
+		],
+		"targetAudience": "Designers",
+		"pricing": "Freemium",
+		"alternatives": [
+			"Freepik",
+			"Vecteezy",
+			"Envato Elements",
+			"Creative Market",
+			"Dribbble"
+		]
+	},
+	{
+		"name": "fffuel",
+		"description": "fffuel is a powerful AI-powered tool that helps you create stunning visuals for your website, social media, and marketing materials. It offers a wide range of features, including image generation, design templates, and a library of high-quality assets. With fffuel, you can easily create professional-looking visuals without any design experience.",
+		"image": "https://res.cloudinary.com/dhcobeldd/image/upload/v1725292841/fffuel.png",
+		"category": ["Tools", "AI", "Design"],
+		"link": "https://fffuel.co/",
+		"topic": "AI-powered visual creation",
+		"main_features": [
+			{
+				"feature": "Image Generation",
+				"description": "Generate unique and high-quality images based on your text prompts."
+			},
+			{
+				"feature": "Design Templates",
+				"description": "Access a library of pre-designed templates for various purposes, such as social media posts, website banners, and presentations."
+			},
+			{
+				"feature": "Asset Library",
+				"description": "Browse and use a vast collection of high-quality images, icons, and illustrations."
+			},
+			{
+				"feature": "Customization Options",
+				"description": "Customize your visuals with various editing tools, including filters, effects, and text overlays."
+			}
+		],
+		"tags": [
+			"AI",
+			"visual creation",
+			"design",
+			"marketing",
+			"social media",
+			"website",
+			"images",
+			"templates",
+			"assets"
+		],
+		"targetAudience": "Designers",
+		"pricing": "Freemium"
+	},
+	{
+		"name": "Quaternius",
+		"description": "Quaternius is a powerful AI-powered tool that helps you create stunning 3D models and animations. It uses a combination of advanced algorithms and machine learning to generate realistic and high-quality results. Whether you're a professional artist or just starting out, Quaternius can help you bring your creative visions to life.",
+		"image": "https://res.cloudinary.com/dhcobeldd/image/upload/v1725231191/metadata.jpg",
+		"category": ["3D", "AI", "Tools"],
+		"link": "https://quaternius.com/",
+		"topic": "3D Modeling and Animation",
+		"main_features": [
+			{
+				"feature": "AI-Powered 3D Modeling",
+				"description": "Generate realistic 3D models with ease using Quaternius's advanced AI algorithms."
+			},
+			{
+				"feature": "Animation Creation",
+				"description": "Bring your models to life with intuitive animation tools and AI-assisted animation generation."
+			},
+			{
+				"feature": "Customizable Materials and Textures",
+				"description": "Create unique and realistic materials and textures for your models."
+			},
+			{
+				"feature": "Collaboration Features",
+				"description": "Work together with others on projects and share your creations."
+			}
+		],
+		"tags": [
+			"3D modeling",
+			"animation",
+			"AI",
+			"machine learning",
+			"art",
+			"design",
+			"creative",
+			"tools",
+			"software"
+		],
+		"targetAudience": "All",
+		"pricing": "Freemium",
+		"alternatives": ["Blender", "Maya", "Cinema 4D", "ZBrush"],
+		"og": {
+			"title": "Quaternius • Free Game Assets",
+			"url": "https://quaternius.com",
+			"image": "https://quaternius.com/assets/images/fullres/metadata.jpg",
+			"type": "website",
+			"description": "A library of hundreds of free Low Poly 3D Models, using the CC0 License."
+		}
+	},
+	{
+		"name": "Godly",
+		"description": "Godly is a powerful AI-powered tool that helps you create stunning visuals for your website, social media, and marketing materials. It offers a wide range of features, including image generation, design templates, and a library of high-quality assets. With Godly, you can easily create professional-looking visuals without any design experience.",
+		"image": "https://res.cloudinary.com/dhcobeldd/image/upload/v1725231221/og.png",
+		"category": ["AI", "Design", "Tools"],
+		"link": "https://godly.website/",
+		"topic": "AI-powered visual creation",
+		"main_features": [
+			{
+				"feature": "Image Generation",
+				"description": "Generate unique and high-quality images from text prompts."
+			},
+			{
+				"feature": "Design Templates",
+				"description": "Access a library of pre-designed templates for various purposes, such as social media posts, website banners, and presentations."
+			},
+			{
+				"feature": "Asset Library",
+				"description": "Browse and use a vast collection of high-quality images, icons, and illustrations."
+			},
+			{
+				"feature": "Customization Options",
+				"description": "Customize your visuals with various editing tools, including filters, effects, and text overlays."
+			}
+		],
+		"tags": [
+			"AI art",
+			"visual creation",
+			"design tools",
+			"marketing visuals",
+			"website design"
+		],
+		"targetAudience": "Designers",
+		"pricing": "Freemium",
+		"alternatives": ["Canva", "Midjourney", "DALL-E 2"],
+		"og": {
+			"title": "Godly — Astronomically good web design inspiration",
+			"image": "https://godly.website/images/og.png",
+			"description": "Godly is a curation of the best web design inspiration, every day. Browse the best e-commerce websites, portfolio websites, animation websites and more."
+		}
+	},
+	{
+		"name": "Culrs",
+		"description": "Culrs is a powerful AI-powered tool that helps you create stunning visuals for your website, social media, and marketing materials. It offers a wide range of templates, styles, and customization options to make your designs stand out. With Culrs, you can easily create eye-catching graphics, logos, banners, and more, without any design experience.",
+		"image": "https://res.cloudinary.com/dhcobeldd/image/upload/v1725231164/preview-Image.jpg",
+		"category": ["Tools", "Design", "AI"],
+		"link": "https://culrs.com/",
+		"topic": "AI-powered visual design tool",
+		"main_features": [
+			{
+				"feature": "AI-powered design generation",
+				"description": "Culrs uses advanced AI algorithms to generate unique and visually appealing designs based on your input."
+			},
+			{
+				"feature": "Wide range of templates and styles",
+				"description": "Choose from a vast library of pre-designed templates and styles to get started quickly."
+			},
+			{
+				"feature": "Customization options",
+				"description": "Customize your designs with text, images, colors, and other elements to create a truly unique look."
+			},
+			{
+				"feature": "Easy-to-use interface",
+				"description": "Culrs is designed to be user-friendly, even for those with no design experience."
+			},
+			{
+				"feature": "Export in various formats",
+				"description": "Export your designs in high-resolution formats like PNG, JPG, and SVG."
+			}
+		],
+		"tags": [
+			"AI design",
+			"visual design",
+			"graphic design",
+			"logo design",
+			"banner design",
+			"marketing materials",
+			"website design",
+			"social media graphics"
+		],
+		"targetAudience": "Designers",
+		"pricing": "Freemium",
+		"og": {
+			"title": "Browse premium 500+ handcurated color palettes — Culrs",
+			"url": "https://culrs.com",
+			"image": "https://c1.tablecdn.com/culrs/preview-Image.jpg",
+			"type": "website",
+			"site_name": "Culrs",
+			"description": "Explore 500+ crafted and curated color palettes that can be used for various designs and applications."
+		}
+	}
+]

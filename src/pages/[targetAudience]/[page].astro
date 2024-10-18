@@ -1,0 +1,47 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { TARGETAUDIENCE } from '@/types/data';
+import { slugify } from '@/lib/utils';
+// import Layout from '@/layouts/Layout.astro';
+import ListResources from '@/components/ListResources.astro';
+import { DATA } from '@/data';
+import Layout from '@/layouts/Layout.astro';
+import Pagination from '@/components/Pagination.astro';
+export const getStaticPaths = (({ paginate }) => {
+	return TARGETAUDIENCE.flatMap((item) => {
+		const fixTag = slugify(item);
+		const filteredItems = DATA.filter((i) => i?.targetAudience?.includes(item));
+		return paginate(filteredItems, {
+			params: { targetAudience: fixTag },
+			props: { targetAudience: item },
+			pageSize: 14,
+		});
+	});
+}) satisfies GetStaticPaths;
+const { page, targetAudience } = Astro.props;
+
+// if (typeof targetAudience !== 'string') {
+// throw new Error('Target audience not found');
+// }
+// const resources = DATA.filter((item) => item?.targetAudience?.includes(targetAudience));
+// console.log('🚀 ~ targetAudience:', targetAudience);
+const { data, url } = page;
+---
+
+<Layout title={`Resources for ${targetAudience}`} subTitle={targetAudience}>
+	<nav class="flex gap-2 items-center justify-center my-4">
+		{
+			TARGETAUDIENCE.map((item) => (
+				<a
+					class="bg-background duration-200 text-2xl px-4 py-2 rounded-3xl hover:scale-110"
+					href={`/${slugify(item)}/1`}
+					transition:name={item}
+				>
+					{item}
+				</a>
+			))
+		}
+	</nav>
+	<ListResources resources={data} class="mx-40" />
+	<Pagination currentPage={page.currentPage} url={url} lastPage={page.lastPage} />
+</Layout>

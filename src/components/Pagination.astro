@@ -1,0 +1,79 @@
+---
+import {
+	Pagination as PaginationShadcn,
+	PaginationContent,
+	PaginationEllipsis,
+	PaginationItem,
+	PaginationLink,
+	PaginationNext,
+	PaginationPrevious,
+} from '@/components/ui/pagination';
+// import type { Tool } from '@/types/data';
+type urlProps = {
+	current: string;
+	prev: string | undefined;
+	next: string | undefined;
+	first: string | undefined;
+	last: string | undefined;
+};
+export interface Props {
+	currentPage: number;
+  lastPage: number;
+	url: urlProps;
+}
+const { url, currentPage ,lastPage} = Astro.props;
+
+---
+{
+
+}
+<PaginationShadcn className="my-10">
+	<PaginationContent>
+	{url.prev && 	<PaginationItem >
+			<PaginationPrevious  href={url.prev} />
+		</PaginationItem>}
+		{
+			url.prev !== url.first && (
+				<PaginationItem>
+					<PaginationLink href={url.first}>1</PaginationLink>
+				</PaginationItem>
+        	<PaginationItem>
+			<PaginationEllipsis />
+		</PaginationItem>
+      )
+		}
+
+    {
+      url.prev && (
+        <PaginationItem>
+          <PaginationLink href={url.prev}>{currentPage - 1}</PaginationLink>
+        </PaginationItem>
+      )
+    }
+		<PaginationItem>
+			<PaginationLink isActive>
+				{currentPage}
+			</PaginationLink>
+		</PaginationItem>
+    {
+      url.next && (
+        <PaginationItem>
+          <PaginationLink href={url.next}>{currentPage + 1}</PaginationLink>
+        </PaginationItem>
+      )
+    }
+		{
+			url.next !== url.last && (
+        <PaginationItem>
+			    <PaginationEllipsis />
+        </PaginationItem>
+				<PaginationItem>
+					<PaginationLink href={url.last}>{lastPage}</PaginationLink>
+				</PaginationItem>
+			)
+		}
+		{ url.next && <PaginationItem>
+			<PaginationNext href={url.next} />
+		</PaginationItem>}
+	</PaginationContent>
+</PaginationShadcn>

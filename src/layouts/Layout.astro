@@ -1,27 +1,39 @@
 ---
+import '../styles/globals.css';
+import { ViewTransitions } from 'astro:transitions';
+import SEO from '@/components/SEO.astro';
+
+import Header from '@/components/Header.astro';
+import Background from '@/components/Background.astro';
 interface Props {
 	title: string;
+	description?: string;
+	image?: string;
+	subTitle?: string;
+	accompanimentTitle?: string;
 }
 
-const { title } = Astro.props;
+const { title, description, image, subTitle, accompanimentTitle } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
 	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
+		<ViewTransitions />
+		<SEO title={title} description={description ?? 'Resources for web developers'} image={image} />
+		<slot name="head" />
 	</head>
 	<body>
+		<!-- <Stars transition:persist /> -->
+		<Background />
+		<Header subTitle={subTitle} accompanimentTitle={accompanimentTitle} />
 		<slot />
 	</body>
 </html>
 <style is:global>
 	:root {
+		overflow-x: hidden;
+		color-scheme: dark;
 		--accent: 136, 58, 234;
 		--accent-light: 224, 204, 250;
 		--accent-dark: 49, 10, 101;
@@ -32,9 +44,88 @@ const { title } = Astro.props;
 			white 60%
 		);
 	}
+	.container {
+		/* background-image: linear-gradient(#051327, #000); */
+		/* inset: 0; */
+		z-index: -1;
+		position: fixed;
+	}
+
+	.space {
+		--size: 2px;
+		--space-layer: ;
+		width: var(--size);
+		height: var(--size);
+		background: white;
+		box-shadow: var(--space-layer);
+		position: absolute;
+		top: 0;
+		left: 0;
+		opacity: 0.75;
+	}
+	.gr:is(:hover) .space {
+		animation: mover 1s linear infinite;
+	}
+	.space {
+		animation: move var(--duration) linear infinite;
+	}
+
+	@keyframes move {
+		from {
+			transform: translateY(0);
+		}
+		to {
+			transform: translateY(-100vh);
+		}
+	}
 	html {
 		font-family: system-ui, sans-serif;
-		background: #13151a;
+	}
+
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+	}
+
+	* {
+		margin: 0;
+	}
+
+	body {
+		line-height: 1.5;
+		-webkit-font-smoothing: antialiased;
+	}
+
+	img,
+	picture,
+	video,
+	canvas,
+	svg {
+		display: block;
+		/* max-width: 100%; */
+	}
+
+	input,
+	button,
+	textarea,
+	select {
+		font: inherit;
+	}
+
+	p,
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		overflow-wrap: break-word;
+	}
+
+	#root,
+	#__next {
+		isolation: isolate;
 	}
 	code {
 		font-family:
