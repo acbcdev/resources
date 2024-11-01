@@ -27,4 +27,4 @@ pnpm-debug.log*
 /blob-report/
 /playwright/.cache/
 /images/
-scripts/
+
