@@ -8,10 +8,12 @@ interface Props {
 const { subTitle, accompanimentTitle } = Astro.props;
 ---
 
-<header class="header flex my-10 mx-5 md:mx-20 justify-between items-center">
-	<h1 class="text-3xl md:text-7xl font-bold text-start">
+<header
+	class="absolute z-50 top-0 right-0 left-0 flex my-10 overscroll-y-scroll md:mx-20 justify-between items-center"
+>
+	<h1 class="text-2xl md:text-4xl font-bold text-start">
 		<a href="/"
-			>Resources <span class="text-xs md:text-5xl font-light md:font-normal"
+			>Resources <span class="text-xs md:text-xl font-light md:font-normal"
 				>{accompanimentTitle}</span
 			></a
 		>
@@ -23,7 +25,7 @@ const { subTitle, accompanimentTitle } = Astro.props;
 			</h2>
 		)
 	}
-	<a href="https://github.com/ACBC-DEV/Resources" class="m-0 p-0 ml-0"
+	<a href="https://github.com/acbcdev/Resources" class="m-0 p-0 ml-0"
 		><GithubSVG class="w-10 h-10 ml-5 hover:opacity-80 duration-150" /></a
 	>
 </header>

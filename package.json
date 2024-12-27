@@ -33,10 +33,14 @@
 		"zod": "^3.23.8"
 	},
 	"devDependencies": {
+		"@ai-sdk/anthropic": "^0.0.53",
 		"@ai-sdk/google": "^0.0.55",
+		"@ai-sdk/groq": "^0.0.3",
+		"@ai-sdk/mistral": "^0.0.46",
 		"@types/bun": "^1.1.12",
 		"@vitest/ui": "^2.1.1",
 		"ai": "^3.4.27",
+		"cheerio": "^1.0.0",
 		"cloudinary": "^2.4.0",
 		"dotenv": "^16.4.5",
 		"json-2-csv": "^5.5.5",

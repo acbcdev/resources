@@ -4,6 +4,7 @@ import { categories } from '@/consts';
 import { DATA } from '@/data/index';
 import { slugify, toHundreds } from '@/lib/utils';
 import { TARGETAUDIENCE } from '@/types/data';
+import { Button } from '@/components/ui/button';
 console.log(DATA.length);
 const numOfResources = toHundreds(DATA.length);
 const filterCate = categories.filter((category) => category.length);
@@ -13,86 +14,4 @@ const filterCate = categories.filter((category) => category.length);
 <Layout
 	title={`Resources ${numOfResources}+ | Tools | Libraries | Illustrations | And More`}
 	accompanimentTitle={`${numOfResources}+`}
->
-	<main class="w-full">
-		<section class="grid place-content-center my-10">
-			<h3 class="text-3xl font-bold text-center">Categories</h3>
-			<nav class="flex flex-wrap gap-4 mx-52 mt-5 items-center justify-center">
-				{
-					filterCate.map(({ name: category, icon: Icon }) => (
-						<a
-							class:list={[
-								{
-									'bg-green-600  shadow-green-600': category === 'Tools',
-									'bg-emerald-500': category === 'Blogs',
-									'bg-orange-500': category === 'Design',
-									'bg-red-500': category === 'API',
-									'bg-blue-700': category === 'Libraries',
-									'bg-violet-500': category === 'Security',
-									'bg-indigo-500': category === 'Icons',
-									'bg-pink-500': category === 'Illustrations',
-									'bg-yellow-500': category === 'Photos',
-									'bg-purple-400': category === 'Videos',
-									'bg-lime-500': category === 'Backgrounds',
-									'bg-amber-500': category === 'Websites',
-									'bg-teal-500': category === 'Fonts',
-									'bg-cyan-500': category === 'Learning Resources',
-									'bg-gray-500': category === '3D',
-									'bg-fuchsia-500': category === 'Games',
-									'bg-sky-500': category === 'AI',
-									'bg-zinc-500': category === 'Other',
-									'bg-rose-500': category === 'Inspirations',
-									'bg-slate-500': category === 'Colors',
-									'bg-purple-700': category === 'Components',
-									'bg-purple-900': category === 'Analytics',
-									'bg-blue-500': category === 'Accessibility',
-									'bg-pink-400': category === 'Animation',
-									'bg-green-500': category === 'Authentication',
-									'bg-red-400': category === 'CMS',
-									'bg-indigo-600': category === 'Challenges',
-									'bg-cyan-400': category === 'Charts',
-									'bg-cyan-600': category === 'Course',
-									'bg-purple-800': category === 'Database',
-									'bg-purple-600': category === 'Storage',
-									'bg-lime-400': category === 'Testing',
-									'bg-orange-400': category === 'Newsletter',
-									'bg-rose-400': category === 'Forms',
-									'bg-amber-400': category === 'Performance',
-									'bg-gray-400': category === 'Reading',
-									'bg-violet-400': category === 'Domain',
-									'bg-rose-700': category === 'Frameworks',
-									'bg-zinc-800': category === 'Hosting',
-									'bg-zinc-400 ': category === 'Extensions',
-									'bg-slate-400': category === 'Documentation',
-									'bg-slate-700': category === 'Productivity',
-								},
-							]}
-							class={`rounded-xl text-2xl p-4 hover:scale-110 duration-200 px-10 hover:opacity-95 flex gap-x-2 text-white justify-center items-center`}
-							href={`/${slugify(category)}/1`}
-							transition:name={category}
-						>
-							<Icon />
-							{category}
-						</a>
-					))
-				}
-			</nav>
-		</section>
-		<section class="mx-40 grid place-content-center my-10">
-			<h3 class="text-3xl font-bold text-center">Target audience</h3>
-			<nav class="flex gap-2 items-center justify-center my-4">
-				{
-					TARGETAUDIENCE.map((item) => (
-						<a
-							class="bg-secondary duration-200 text-2xl px-4 py-2 rounded-3xl hover:scale-110"
-							href={`/${slugify(item)}/1`}
-							transition:name={item}
-						>
-							{item}
-						</a>
-					))
-				}
-			</nav>
-		</section>
-	</main>
-</Layout>
+/>

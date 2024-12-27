@@ -1,5 +1,5 @@
 import { chromium } from 'playwright'
-import joined from '@/data/joined.json'
+import newdata from '@/data/new.json'
 import backup from '@/data/backuoOG.json'
 async function getOg(url: string) {
   const browser = await chromium.launch({
@@ -48,7 +48,7 @@ const rta: { og: unknown, url: string }[] = [...backup]
 const links = rta.map(i => i.url)
 let counter = 0
 let counterOg = 0
-for (const url of joined) {
+for (const url of newdata) {
   if (links.includes(url)) continue
   console.log(url)
 
@@ -61,9 +61,9 @@ for (const url of joined) {
   console.log(`<----${counter}---->`)
   console.log(`<----with og ${counterOg}---->`)
 
-  console.log(`${rta.length} /${joined.length}`)
+  console.log(`${rta.length} /${newdata.length}`)
   await Bun.write('./src/data/backuoOG.json', JSON.stringify(rta, null, 2))
 }
 
-await Bun.write('./src/data/og.json', JSON.stringify(rta, null, 2))
+await Bun.write('./src/data/newOg.json', JSON.stringify(rta, null, 2))
 

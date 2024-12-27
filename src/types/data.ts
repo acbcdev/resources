@@ -103,12 +103,7 @@ const categoriesNames = CATEGORIES.map(({ name }) => name);
 export const CategorySchema = z.enum(categoriesNames as [string, ...string[]]);
 
 export const TARGETAUDIENCE = [
-	"Beginner developers",
-	"Designers",
-	"Developers",
-	"Content Creators",
-	"Educators",
-	"All",
+	'Beginner developers', 'Designers', 'Developers', 'Content Creators', 'Educators', 'All', 'Artists', 'Scientists', "Students", "Security Researchers"
 ] as const;
 export const TargetAudienceSchema = z.enum(TARGETAUDIENCE);
 
@@ -119,6 +114,8 @@ export const OgSchema = z.object({
 	type: z.string().optional(),
 	site_name: z.string().optional(),
 	description: z.string().optional(),
+	icon: z.string().optional(),
+	video: z.string().optional(),
 });
 
 const colletions = collectionNames;
@@ -129,20 +126,20 @@ export const ToolSchema = z.object({
 	description: z.string(),
 	image: z.string().url().optional(),
 	category: z.union([CategorySchema, z.array(CategorySchema)]),
-	link: z.string().url(),
+	url: z.string().url(),
 	topic: z.string(),
-	main_features: z.array(FeatureSchema),
+	main_features: z.array(FeatureSchema).optional(),
 	tags: z
 		.array(z.string())
 		.transform((tags) => tags.map((tag) => slugify(tag))),
 	targetAudience: z
 		.union([TargetAudienceSchema, z.array(TargetAudienceSchema)])
 		.optional(),
-	pricing: z.enum(["Free", "Freemium", "Paid"]).optional(),
+	pricing: z.enum(['Free', 'Freemium', 'Paid', "Premium", 'Opensource']).optional(),
 	alternatives: z.array(z.string()).optional(),
 	og: OgSchema.optional(),
-	createdAt: z.number(),
-	updateAt: z.number(),
+	createdAt: z.string(),
+	updatedAt: z.string(),
 	collections: z
 		.union([collectionsSchema, z.array(collectionsSchema)])
 		.optional(),
