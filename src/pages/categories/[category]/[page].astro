@@ -1,6 +1,5 @@
 ---
 import type { GetStaticPaths } from 'astro';
-// import DATA from '@/data/fixedLink.json';
 import { DATA } from '@/data/index';
 import { slugify } from '@/lib/utils';
 import LayoutCategories from '@/layouts/LayoutCategories.astro';
@@ -25,23 +24,4 @@ const { page, category } = Astro.props;
 	<ListResources resources={page.data} />
 	<Pagination currentPage={page.currentPage} url={page.url} lastPage={page.lastPage} />
 </LayoutCategories>
-
-<style is:global>
-	.scroll-fadeIn > * {
-		animation: fadeInCard linear both;
-		animation-timeline: view();
-		animation-range: entry 0 cover 20%;
-	}
-	@keyframes fadeInCard {
-		from {
-			opacity: 0;
-			scale: 0.37;
-			/* translate: 0 10px; */
-		}
-		to {
-			opacity: 1;
-			scale: 1;
-			translate: 0;
-		}
-	}
-</style>
+s

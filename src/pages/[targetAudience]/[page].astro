@@ -19,12 +19,6 @@ export const getStaticPaths = (({ paginate }) => {
 	});
 }) satisfies GetStaticPaths;
 const { page, targetAudience } = Astro.props;
-
-// if (typeof targetAudience !== 'string') {
-// throw new Error('Target audience not found');
-// }
-// const resources = DATA.filter((item) => item?.targetAudience?.includes(targetAudience));
-// console.log('🚀 ~ targetAudience:', targetAudience);
 const { data, url } = page;
 ---
 
