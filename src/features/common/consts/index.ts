@@ -1,4 +1,4 @@
-import { CATEGORIES, type Tool } from "@/types/data";
+import { CATEGORIES, type Tool } from "@/features/types/data";
 import { DATA } from "@/features/common/data";
 
 export const categories = CATEGORIES.map(({ name, icon }) => {

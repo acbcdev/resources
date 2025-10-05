@@ -1,4 +1,4 @@
-import type { PropsGlobalEventListener } from "@/types/dom";
+import type { PropsGlobalEventListener } from "@/features/types/dom";
 
 export const $ = <T extends HTMLElement>(
 	selector: string,
