@@ -1,4 +1,3 @@
-import tailwindcss from "@tailwindcss/vite";
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
