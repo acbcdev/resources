@@ -1,12 +1,12 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import { TARGETAUDIENCE } from '@/types/data';
-import { slugify } from '@/lib/utils';
-// import Layout from '@/layouts/Layout.astro';
-import ListResources from '@/components/ListResources.astro';
-import { DATA } from '@/data';
-import Layout from '@/layouts/Layout.astro';
-import Pagination from '@/components/Pagination.astro';
+import { slugify } from '@/features/common/lib/utils';
+// import Layout from '@/features/common/layouts/Layout.astro';
+import ListResources from '@/features/resources/components/ListResources.astro';
+import { DATA } from '@/features/common/data';
+import Layout from '@/features/common/layouts/Layout.astro';
+import Pagination from '@/features/common/components/Pagination.astro';
 export const getStaticPaths = (({ paginate }) => {
 	return TARGETAUDIENCE.flatMap((item) => {
 		const fixTag = slugify(item);

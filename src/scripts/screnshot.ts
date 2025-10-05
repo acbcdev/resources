@@ -1,6 +1,6 @@
 import { chromium } from "playwright";
-import DATA from "@/data/data.json";
-import backup from "@/data/backup.json";
+import DATA from "@/features/common/data/data.json";
+import backup from "@/features/common/data/backup.json";
 async function getScreenshot(url: string) {
   const browser = await chromium.launch({
     headless: true,

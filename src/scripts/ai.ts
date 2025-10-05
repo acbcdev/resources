@@ -2,8 +2,8 @@ import { generateObject } from 'ai'
 import { google } from '@ai-sdk/google'
 import { groq } from '@ai-sdk/groq'
 import { mistral } from '@ai-sdk/mistral'
-import Backupdata from '@/data/backupInfo.json'
-import data from '@/data/joinedOG.json'
+import Backupdata from '@/features/common/data/backupInfo.json'
+import data from '@/features/common/data/joinedOG.json'
 import { z } from 'zod'
 import * as cheerio from 'cheerio';
 const logWithColor = (message: string, color: string) => {

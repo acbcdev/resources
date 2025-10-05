@@ -1,10 +1,10 @@
 ---
 import type { GetStaticPaths } from 'astro';
-import { DATA } from '@/data/index';
-import { slugify } from '@/lib/utils';
-import LayoutCategories from '@/layouts/LayoutCategories.astro';
-import Pagination from '@/components/Pagination.astro';
-import ListResources from '@/components/ListResources.astro';
+import { DATA } from '@/features/common/data/index';
+import { slugify } from '@/features/common/lib/utils';
+import LayoutCategories from '@/features/common/layouts/LayoutCategories.astro';
+import Pagination from '@/features/common/components/Pagination.astro';
+import ListResources from '@/features/resources/components/ListResources.astro';
 export const getStaticPaths = (({ paginate }) => {
 	const AllCategories = [...new Set(DATA.flatMap((item) => item.category))];
 	return AllCategories.flatMap((category) => {

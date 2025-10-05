@@ -1,4 +1,4 @@
-import newJson from "@/data/new.json";
+import newJson from "@/features/common/data/new.json";
 
 const newData = newJson.map((item) => item.href);
 

@@ -1,5 +1,5 @@
 import { CATEGORIES, type Tool } from "@/types/data";
-import { DATA } from "@/data";
+import { DATA } from "@/features/common/data";
 
 export const categories = CATEGORIES.map(({ name, icon }) => {
 	const length = DATA.filter((d) => d.category.includes(name)).length;

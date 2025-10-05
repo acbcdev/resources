@@ -1,6 +1,6 @@
 import { chromium } from "playwright";
-import newdata from "@/data/new.json";
-import backup from "@/data/backuoOG.json";
+import newdata from "@/features/common/data/new.json";
+import backup from "@/features/common/data/backuoOG.json";
 async function getOg(url: string) {
 	const browser = await chromium.launch({
 		headless: true,

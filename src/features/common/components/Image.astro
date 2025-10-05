@@ -21,7 +21,7 @@ const { alt, src, ...props } = Astro.props;
 </div>
 
 <script>
-	import { $$, $ } from '@/lib/dom';
+	import { $$, $ } from '@/features/common/lib/dom';
 	document.addEventListener('astro:page-load', () => {
 		const $$imgsContainers = $$('.image-container') as NodeListOf<HTMLDivElement>;
 

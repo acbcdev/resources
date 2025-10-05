@@ -1,5 +1,5 @@
 ---
-import { Button } from '@/components/ui/button';
+import { Button } from '@/features/common/components/ui/button';
 ---
 
 <div id="button-up" class="fixed bottom-5 right-5 z-10 opacity-0 duration-500">
@@ -27,7 +27,7 @@ import { Button } from '@/components/ui/button';
 </div>
 
 <script>
-	import { $ } from '@/lib/dom';
+	import { $ } from '@/features/common/lib/dom';
 	document.addEventListener('astro:page-load', () => {
 		let timeout = 0; // Identificador para clearTimeout
 		const $button = $('#scroll-to-top') as HTMLButtonElement;

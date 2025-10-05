@@ -1,4 +1,4 @@
-import { DATA } from "@/data";
+import { DATA } from "@/features/common/data";
 
 export const collectionNames = [
 	"Devs Beginner",

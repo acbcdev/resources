@@ -1,10 +1,11 @@
 ---
-import Layout from '@/layouts/Layout.astro';
-import { categories } from '@/consts';
-import { DATA } from '@/data/index';
-import { slugify, toHundreds } from '@/lib/utils';
+import { Button } from '@/features/common/components/ui/button';
+import { categories } from '@/features/common/consts';
+import { DATA } from '@/features/common/data/index';
+import Layout from '@/features/common/layouts/Layout.astro';
+import { slugify, toHundreds } from '@/features/common/lib/utils';
 import { TARGETAUDIENCE } from '@/types/data';
-import { Button } from '@/components/ui/button';
+
 console.log(DATA.length);
 const numOfResources = toHundreds(DATA.length);
 const filterCate = categories.filter((category) => category.length);

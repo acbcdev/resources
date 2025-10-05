@@ -1,5 +1,5 @@
-import { slugify } from "@/lib/utils";
-import { collectionNames } from "@/consts/collections";
+import { slugify } from "@/features/common/lib/utils";
+import { collectionNames } from "@/features/common/consts/collections";
 import { z } from "zod";
 import {
 	Bot,

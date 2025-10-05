@@ -1,13 +1,14 @@
 ---
 import {
-	Pagination as PaginationShadcn,
 	PaginationContent,
 	PaginationEllipsis,
 	PaginationItem,
 	PaginationLink,
 	PaginationNext,
 	PaginationPrevious,
-} from '@/components/ui/pagination';
+	Pagination as PaginationShadcn,
+} from "@/features/common/components/ui/pagination";
+
 // import type { Tool } from '@/types/data';
 type urlProps = {
 	current: string;
@@ -18,11 +19,10 @@ type urlProps = {
 };
 export interface Props {
 	currentPage: number;
-  lastPage: number;
+	lastPage: number;
 	url: urlProps;
 }
-const { url, currentPage ,lastPage} = Astro.props;
-
+const { url, currentPage, lastPage } = Astro.props;
 ---
 {
 
