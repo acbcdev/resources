@@ -1,5 +1,6 @@
 ---
 import { categories } from '@/features/common/consts';
+
 const current = Astro.url.pathname.split('/')[1];
 console.log('🚀 ~ current:', current);
 const categoriesFilter = categories.filter(({ length }) => length);
