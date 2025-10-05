@@ -1,8 +1,14 @@
 ---
-import LinkSVG from '@/features/common/svg/LinkSVG.astro';
-import { Card, CardContent, CardDescription, CardFooter, CardTitle } from '@/features/common/components/ui/card';
-import { slugify } from '@/features/common/lib/utils';
 import { Image } from 'astro:assets';
+import { ExternalLink } from 'lucide-react';
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardTitle,
+} from '@/features/common/components/ui/card';
+import { slugify } from '@/features/common/lib/utils';
 
 type Props = {
 	link: string;
@@ -34,9 +40,7 @@ const { link, name, description, ogImage, image, ogDescription, tags } = Astro.p
 			>{name}</CardTitle
 		>
 		<a target="_blank" aria-label={`${name} link`} href={link}>
-			<LinkSVG
-				class="opacity-0 translate-y-20 -translate-x-20 cursor-default hover:cursor-pointer group-hover/card:opacity-100 group-hover/card:translate-x-0 group-hover/card:translate-y-0 hover:stroke-green-500 duration-200"
-			/>
+			<ExternalLink />
 		</a>
 	</CardContent>
 	<CardFooter className="grid">
