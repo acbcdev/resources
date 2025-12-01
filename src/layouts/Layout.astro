@@ -2,6 +2,8 @@
 import '@/styles/globals.css';
 import { ClientRouter } from 'astro:transitions';
 import SEO from '@/features/seo/SEO.astro';
+import Sidebar from '@/features/navigation/sidebar/Sidebar.astro';
+import Header from '@/features/navigation/header/Header.astro';
 
 interface Props {
 	title: string;
@@ -21,10 +23,12 @@ const { title, description, image, subTitle, accompanimentTitle } = Astro.props;
 		<SEO title={title} description={description ?? 'Resources for web developers'} image={image} />
 		<slot name="head" />
 	</head>
-	<body>
-		<!-- <Sidebar /> -->
-		<!-- <Header /> -->
-		<slot />
+	<body class="layout-with-sidebar">
+		<Sidebar />
+		<Header />
+		<main class="main-content">
+			<slot />
+		</main>
 	</body>
 </html>
 <style is:global>
@@ -146,5 +150,61 @@ const { title, description, image, subTitle, accompanimentTitle } = Astro.props;
 			Bitstream Vera Sans Mono,
 			Courier New,
 			monospace;
+	}
+
+	/* Layout with sidebar */
+	body.layout-with-sidebar {
+		display: grid;
+		grid-template-columns: 250px 1fr;
+		grid-template-rows: auto 1fr;
+		grid-template-areas:
+			'sidebar header'
+			'sidebar main';
+		min-height: 100vh;
+	}
+
+	[data-sidebar] {
+		grid-area: sidebar;
+	}
+
+	.header {
+		grid-area: header;
+	}
+
+	.main-content {
+		grid-area: main;
+		padding: 2rem 1rem;
+		overflow-y: auto;
+	}
+
+	/* Mobile responsive */
+	@media (max-width: 1023px) {
+		body.layout-with-sidebar {
+			grid-template-columns: 1fr;
+			grid-template-rows: auto 1fr;
+			grid-template-areas:
+				'header'
+				'main';
+		}
+
+		[data-sidebar] {
+			grid-area: unset;
+		}
+
+		.header {
+			grid-area: header;
+		}
+
+		.main-content {
+			grid-area: main;
+			padding: 1.5rem 1rem;
+		}
+
+		.hamburger-button {
+			position: fixed;
+			top: 1rem;
+			left: 1rem;
+			z-index: 101;
+		}
 	}
 </style>

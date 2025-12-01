@@ -1,0 +1,317 @@
+---
+/**
+ * HeroCarousel Component
+ * Large carousel showcasing featured content on homepage
+ * Auto-plays with 5-second interval
+ * Includes navigation arrows and responsive design
+ */
+
+import { Carousel } from '@/features/ui/carousel';
+import CarouselContent from '@/features/ui/carousel/CarouselContent.astro';
+import CarouselItem from '@/features/ui/carousel/CarouselItem.astro';
+import CarouselNext from '@/features/ui/carousel/CarouselNext.astro';
+import CarouselPrevious from '@/features/ui/carousel/CarouselPrevious.astro';
+
+interface Props {
+	items: Array<{
+		id: string;
+		type: 'resource' | 'collection';
+		name: string;
+		description: string;
+		url: string;
+		og?: { image?: string; description?: string };
+	}>;
+}
+
+const { items } = Astro.props;
+
+if (!items || items.length === 0) {
+	throw new Error('HeroCarousel requires at least one item');
+}
+---
+
+<section class="hero-carousel-section">
+	<Carousel
+		opts={{
+			loop: true,
+			align: 'start',
+			skipSnaps: false,
+			dragFree: false,
+		}}
+		class="w-full"
+	>
+		<CarouselContent>
+			{
+				items.map((item) => (
+					<CarouselItem>
+						<div class="hero-slide">
+							<img
+								src={item.og?.image || 'https://placehold.co/1200x400'}
+								alt={item.name}
+								class="hero-image"
+								loading={item === items[0] ? 'eager' : 'lazy'}
+							/>
+							<div class="hero-overlay">
+								<div class="hero-content">
+									<h2 class="hero-title">{item.name}</h2>
+									<p class="hero-description">
+										{item.description}
+									</p>
+									{item.type === 'collection' ? (
+										<a href={item.url} class="cta-button">
+											View Collection
+										</a>
+									) : (
+										<a
+											href={item.url}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="cta-button"
+										>
+											Visit Resource
+										</a>
+									)}
+								</div>
+							</div>
+						</div>
+					</CarouselItem>
+				))
+			}
+		</CarouselContent>
+		<CarouselPrevious />
+		<CarouselNext />
+	</Carousel>
+</section>
+
+<style>
+	.hero-carousel-section {
+		width: 100%;
+		margin-bottom: 4rem;
+		padding: 0 1rem;
+		max-width: 100%;
+	}
+
+	.hero-slide {
+		position: relative;
+		aspect-ratio: 3;
+		overflow: hidden;
+		border-radius: 1.5rem;
+		height: 400px;
+		display: flex;
+		align-items: stretch;
+	}
+
+	.hero-image {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.3s ease;
+	}
+
+	.hero-slide:hover .hero-image {
+		transform: scale(1.05);
+	}
+
+	.hero-overlay {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			180deg,
+			transparent 0%,
+			rgba(0, 0, 0, 0.3) 50%,
+			rgba(0, 0, 0, 0.9) 100%
+		);
+		display: flex;
+		align-items: flex-end;
+		padding: 2rem;
+		z-index: 10;
+	}
+
+	.hero-content {
+		width: 100%;
+		color: white;
+	}
+
+	.hero-title {
+		font-size: 2.5rem;
+		font-weight: bold;
+		margin-bottom: 0.75rem;
+		line-height: 1.2;
+	}
+
+	.hero-description {
+		font-size: 1.1rem;
+		margin-bottom: 1.5rem;
+		max-width: 700px;
+		color: rgba(255, 255, 255, 0.95);
+		line-height: 1.5;
+	}
+
+	.cta-button {
+		display: inline-flex;
+		align-items: center;
+		padding: 0.75rem 1.5rem;
+		background: rgb(var(--accent));
+		color: white;
+		text-decoration: none;
+		border-radius: 0.5rem;
+		font-weight: 600;
+		font-size: 1rem;
+		transition: all 0.3s ease;
+		border: 2px solid rgb(var(--accent));
+		cursor: pointer;
+	}
+
+	.cta-button:hover {
+		background: rgba(var(--accent), 0.8);
+		box-shadow: 0 0 20px rgba(var(--accent), 0.5);
+		transform: translateY(-2px);
+	}
+
+	/* Navigation buttons styling */
+	:global(.hero-carousel-section [data-slot='carousel-previous'],
+	.hero-carousel-section [data-slot='carousel-next']) {
+		background: rgba(var(--accent), 0.2);
+		border: 2px solid rgba(var(--accent), 0.5);
+		color: white;
+		width: 40px;
+		height: 40px;
+		border-radius: 0.5rem;
+		transition: all 0.3s ease;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	:global(.hero-carousel-section [data-slot='carousel-previous']:hover,
+	.hero-carousel-section [data-slot='carousel-next']:hover) {
+		background: rgb(var(--accent));
+		border-color: rgb(var(--accent));
+		box-shadow: 0 0 15px rgba(var(--accent), 0.6);
+	}
+
+	/* Mobile responsive */
+	@media (max-width: 768px) {
+		.hero-slide {
+			aspect-ratio: 16 / 9;
+			height: auto;
+		}
+
+		.hero-overlay {
+			padding: 1.5rem;
+		}
+
+		.hero-title {
+			font-size: 1.75rem;
+			margin-bottom: 0.5rem;
+		}
+
+		.hero-description {
+			font-size: 0.95rem;
+			margin-bottom: 1rem;
+		}
+
+		.cta-button {
+			padding: 0.6rem 1.2rem;
+			font-size: 0.9rem;
+		}
+
+		:global(.hero-carousel-section [data-slot='carousel-previous'],
+		.hero-carousel-section [data-slot='carousel-next']) {
+			width: 32px;
+			height: 32px;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.hero-carousel-section {
+			margin-bottom: 2rem;
+			padding: 0 0.5rem;
+		}
+
+		.hero-slide {
+			aspect-ratio: 4 / 3;
+			border-radius: 1rem;
+		}
+
+		.hero-overlay {
+			padding: 1rem;
+		}
+
+		.hero-title {
+			font-size: 1.25rem;
+			margin-bottom: 0.25rem;
+		}
+
+		.hero-description {
+			font-size: 0.85rem;
+			margin-bottom: 0.75rem;
+			max-width: none;
+		}
+
+		.cta-button {
+			padding: 0.5rem 1rem;
+			font-size: 0.85rem;
+		}
+	}
+</style>
+
+<script>
+	/**
+	 * Auto-play carousel with 5-second interval
+	 * Pause on hover, resume on mouse leave
+	 */
+	function initCarouselAutoPlay() {
+		const carousels = document.querySelectorAll(
+			'.hero-carousel-section .starwind-carousel',
+		) as NodeListOf<HTMLElement>;
+
+		carousels.forEach((carousel) => {
+			let autoPlayInterval: ReturnType<typeof setInterval> | null = null;
+
+			function startAutoPlay() {
+				if (autoPlayInterval) clearInterval(autoPlayInterval);
+
+				autoPlayInterval = setInterval(() => {
+					const nextButton = carousel.querySelector(
+						'[data-slot="carousel-next"]',
+					) as HTMLButtonElement;
+					if (nextButton) {
+						nextButton.click();
+					}
+				}, 5000); // 5 seconds
+			}
+
+			function stopAutoPlay() {
+				if (autoPlayInterval) clearInterval(autoPlayInterval);
+			}
+
+			// Start autoplay on load
+			setTimeout(startAutoPlay, 500);
+
+			// Pause on hover
+			carousel.addEventListener('mouseenter', stopAutoPlay);
+			carousel.addEventListener('mouseleave', startAutoPlay);
+
+			// Pause on button click
+			const buttons = carousel.querySelectorAll(
+				'[data-slot="carousel-previous"], [data-slot="carousel-next"]',
+			);
+			buttons.forEach((button) => {
+				button.addEventListener('click', () => {
+					stopAutoPlay();
+					setTimeout(startAutoPlay, 7000);
+				});
+			});
+		});
+	}
+
+	// Initialize on page load and after Astro transitions
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initCarouselAutoPlay);
+	} else {
+		initCarouselAutoPlay();
+	}
+
+	document.addEventListener('astro:after-swap', initCarouselAutoPlay);
+</script>

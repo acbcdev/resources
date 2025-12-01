@@ -1,6 +1,6 @@
 ---
 import type { GetStaticPaths } from 'astro';
-import { DATA } from '@/features/common/data/index';
+import { DATA } from '@/data/index';
 import { slugify } from '@/features/common/lib/utils';
 import LayoutCategories from '@/layouts/LayoutCategories.astro';
 import {
@@ -32,23 +32,32 @@ const { page, category } = Astro.props;
 	<ListResources resources={page.data} />
 	<Pagination>
 		<PaginationContent>
-			{page.url.prev && (
-				<PaginationItem>
-					<PaginationPrevious href={page.url.prev} />
-				</PaginationItem>
-			)}
-			{Array.from({ length: page.lastPage }, (_, i) => i + 1).map((pageNum) => (
-				<PaginationItem>
-					<PaginationLink href={`/categories/${category}/${pageNum}`} isActive={pageNum === page.currentPage}>
-						{pageNum}
-					</PaginationLink>
-				</PaginationItem>
-			))}
-			{page.url.next && (
-				<PaginationItem>
-					<PaginationNext href={page.url.next} />
-				</PaginationItem>
-			)}
+			{
+				page.url.prev && (
+					<PaginationItem>
+						<PaginationPrevious href={page.url.prev} />
+					</PaginationItem>
+				)
+			}
+			{
+				Array.from({ length: page.lastPage }, (_, i) => i + 1).map((pageNum) => (
+					<PaginationItem>
+						<PaginationLink
+							href={`/categories/${category}/${pageNum}`}
+							isActive={pageNum === page.currentPage}
+						>
+							{pageNum}
+						</PaginationLink>
+					</PaginationItem>
+				))
+			}
+			{
+				page.url.next && (
+					<PaginationItem>
+						<PaginationNext href={page.url.next} />
+					</PaginationItem>
+				)
+			}
 		</PaginationContent>
 	</Pagination>
 </LayoutCategories>

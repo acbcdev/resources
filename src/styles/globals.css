@@ -142,4 +142,94 @@
 		transition-timing-function: var(--default-transition-timing-function);
 		transition-duration: var(--default-transition-duration);
 	}
+
+	/* Screen reader only utility */
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border-width: 0;
+	}
+
+	/* Focus visible for accessibility */
+	:focus-visible {
+		outline: 2px solid rgb(var(--accent));
+		outline-offset: 2px;
+	}
+
+	/* Smooth scroll behavior */
+	@supports (scroll-behavior: smooth) {
+		html {
+			scroll-behavior: smooth;
+		}
+	}
+
+	/* Reduce animations for users who prefer reduced motion */
+	@media (prefers-reduced-motion: reduce) {
+		*,
+		*::before,
+		*::after {
+			animation-duration: 0.01ms !important;
+			animation-iteration-count: 1 !important;
+			transition-duration: 0.01ms !important;
+			scroll-behavior: auto !important;
+		}
+	}
+
+	/* Image lazy loading optimization */
+	img[loading='lazy'] {
+		content-visibility: auto;
+	}
+
+	/* Prevent layout shift with images */
+	img {
+		max-width: 100%;
+		height: auto;
+	}
+
+	/* Better link styling */
+	a {
+		text-decoration-skip-ink: auto;
+	}
+
+	/* Mobile-specific improvements */
+	@media (max-width: 640px) {
+		/* Ensure touch targets are at least 44x44px */
+		button,
+		a,
+		[role='button'] {
+			min-height: 44px;
+			min-width: 44px;
+		}
+
+		/* Improve form inputs on mobile */
+		input,
+		textarea,
+		select {
+			font-size: 16px; /* Prevents zoom on focus */
+		}
+	}
+
+	/* Print styles */
+	@media print {
+		body {
+			background: white;
+			color: black;
+		}
+
+		a {
+			text-decoration: underline;
+		}
+
+		header,
+		nav,
+		.no-print {
+			display: none !important;
+		}
+	}
 }

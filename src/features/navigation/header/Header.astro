@@ -1,0 +1,140 @@
+---
+/**
+ * Header component
+ * Sticky header with search input and GitHub link
+ * Uses React SearchInput component for interactive search
+ */
+
+import SearchInput from '@/features/search/SearchInput';
+import GithubSVG from '@/features/common/svg/GithubSVG.astro';
+---
+
+<header class="header">
+	<div class="header-content">
+		<SearchInput client:load />
+
+		<a
+			href="https://github.com"
+			target="_blank"
+			rel="noopener noreferrer"
+			aria-label="GitHub"
+			class="github-link"
+		>
+			<GithubSVG />
+		</a>
+	</div>
+</header>
+
+<style>
+	.header {
+		position: sticky;
+		top: 0;
+		z-index: 40;
+		background: linear-gradient(
+			180deg,
+			rgba(0, 0, 0, 0.95) 0%,
+			rgba(0, 0, 0, 0.85) 100%
+		);
+		border-bottom: 1px solid rgba(var(--accent), 0.2);
+		backdrop-filter: blur(10px);
+		padding: 1rem 1.5rem;
+	}
+
+	.header-content {
+		max-width: 100%;
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		margin-left: 250px;
+	}
+
+	.search-container {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		background: rgba(255, 255, 255, 0.05);
+		border: 1px solid rgba(var(--accent), 0.2);
+		border-radius: 0.5rem;
+		padding: 0.5rem 1rem;
+		transition: all 0.3s ease;
+		max-width: 500px;
+	}
+
+	.search-container:hover,
+	.search-container:focus-within {
+		background: rgba(255, 255, 255, 0.08);
+		border-color: rgb(var(--accent));
+		box-shadow: 0 0 15px rgba(var(--accent), 0.2);
+	}
+
+	.search-icon {
+		color: rgba(var(--accent), 0.6);
+		flex-shrink: 0;
+		margin-right: 0.5rem;
+	}
+
+	.search-input {
+		flex: 1;
+		background: none;
+		border: none;
+		color: rgba(255, 255, 255, 0.9);
+		font-size: 0.95rem;
+		outline: none;
+	}
+
+	.search-input::placeholder {
+		color: rgba(255, 255, 255, 0.4);
+	}
+
+	.github-link {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		padding: 0.5rem;
+		background: rgba(255, 255, 255, 0.05);
+		border: 1px solid rgba(var(--accent), 0.2);
+		border-radius: 0.5rem;
+		color: rgba(255, 255, 255, 0.7);
+		text-decoration: none;
+		transition: all 0.3s ease;
+	}
+
+	.github-link:hover {
+		background: rgba(var(--accent), 0.1);
+		border-color: rgb(var(--accent));
+		color: rgb(var(--accent));
+		box-shadow: 0 0 15px rgba(var(--accent), 0.2);
+	}
+
+	/* Mobile responsive */
+	@media (max-width: 1023px) {
+		.header-content {
+			margin-left: 0;
+		}
+
+		.search-container {
+			max-width: calc(100vw - 150px);
+		}
+	}
+
+	@media (max-width: 640px) {
+		.header {
+			padding: 0.75rem 1rem;
+		}
+
+		.search-container {
+			max-width: calc(100vw - 100px);
+		}
+
+		.search-input {
+			font-size: 0.85rem;
+		}
+
+		.github-link {
+			width: 36px;
+			height: 36px;
+		}
+	}
+</style>

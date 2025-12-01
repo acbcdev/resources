@@ -1,18 +1,41 @@
 ---
-import { Button } from '@/features/ui/button';
-import { categories } from '@/features/common/consts';
-import { DATA } from '@/features/common/data/index';
+import { DATA } from '@/data/index';
 import Layout from '@/layouts/Layout.astro';
-import { slugify, toHundreds } from '@/features/common/lib/utils';
-import { TARGETAUDIENCE } from '@/features/audiences/types/audience';
+import { toHundreds } from '@/features/common/lib/utils';
+import HeroCarousel from '@/features/homepage/HeroCarousel.astro';
+import NewsGrid from '@/features/homepage/NewsGrid.astro';
+import {
+	getCarouselData,
+	getNewResources,
+	getFeaturedResources,
+	getFeaturedCollections,
+} from '@/features/homepage/lib/getFeaturedContent';
 
-console.log(DATA.length);
 const numOfResources = toHundreds(DATA.length);
-const filterCate = categories.filter((category) => category.length);
+
+// Get carousel data
+const carouselItems = getCarouselData();
+
+// Get news grid data - mixed content
+const newResources = getNewResources(6);
+const featuredCollections = getFeaturedCollections(3);
+const featuredResources = getFeaturedResources(3);
+
+// Combine news items
+const newsItems = [
+	...newResources.map((d) => ({ type: 'resource' as const, data: d })),
+	...featuredCollections.map((d) => ({ type: 'collection' as const, data: d })),
+	...featuredResources.map((d) => ({ type: 'resource' as const, data: d })),
+];
+
+// Shuffle for variety
+const shuffledNews = newsItems.sort(() => Math.random() - 0.5).slice(0, 12);
 ---
 
-<!-- TODO Add METADATA -->
 <Layout
 	title={`Resources ${numOfResources}+ | Tools | Libraries | Illustrations | And More`}
-	accompanimentTitle={`${numOfResources}+`}
-/>
+	description="Discover and explore curated resources including tools, libraries, design assets, and learning materials for web development."
+>
+	<HeroCarousel items={carouselItems} />
+	<NewsGrid items={shuffledNews} />
+</Layout>

@@ -1,0 +1,36 @@
+---
+/**
+ * Logo component for the sidebar
+ * Displays the site branding at the top of the sidebar
+ */
+---
+
+<a href="/" class="logo-container">
+	<span class="logo-text">LOGO</span>
+</a>
+
+<style>
+	.logo-container {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 1.5rem 1rem;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		text-decoration: none;
+		transition: all 0.3s ease;
+	}
+
+	.logo-text {
+		font-size: 1.5rem;
+		font-weight: bold;
+		background: var(--accent-gradient);
+		background-clip: text;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		letter-spacing: 0.05em;
+	}
+
+	.logo-container:hover .logo-text {
+		text-shadow: 0 0 20px rgba(var(--accent), 0.5);
+	}
+</style>

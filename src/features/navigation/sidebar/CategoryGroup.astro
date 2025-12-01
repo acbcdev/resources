@@ -1,0 +1,158 @@
+---
+/**
+ * CategoryGroup component
+ * Accordion-style category group with nested links
+ */
+
+import SidebarLink from './SidebarLink.astro';
+import { slugify } from '@/features/common/lib/utils';
+
+interface Props {
+	title: string;
+	categories: string[];
+}
+
+const { title, categories } = Astro.props;
+---
+
+<div class="category-group">
+	<button
+		class="group-header"
+		data-group={slugify(title)}
+		aria-expanded="false"
+		aria-controls={`group-${slugify(title)}`}
+	>
+		<span class="group-title">{title}</span>
+		<svg
+			class="chevron-icon"
+			width="18"
+			height="18"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+		>
+			<polyline points="6 9 12 15 18 9"></polyline>
+		</svg>
+	</button>
+
+	<div class="group-content" id={`group-${slugify(title)}`} hidden>
+		<nav class="categories-list">
+			{categories.map((category) => (
+				<SidebarLink href={`/categories/${slugify(category)}/1`} label={category} />
+			))}
+		</nav>
+	</div>
+</div>
+
+<style>
+	.category-group {
+		margin-bottom: 0.5rem;
+	}
+
+	.group-header {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0.75rem 1rem;
+		background: none;
+		border: none;
+		color: rgba(255, 255, 255, 0.8);
+		cursor: pointer;
+		font-size: 0.95rem;
+		font-weight: 600;
+		transition: all 0.2s ease;
+		text-align: left;
+	}
+
+	.group-header:hover {
+		color: rgb(255, 255, 255);
+		background-color: rgba(var(--accent), 0.1);
+	}
+
+	.group-title {
+		flex: 1;
+	}
+
+	.chevron-icon {
+		flex-shrink: 0;
+		transition: transform 0.3s ease;
+		color: rgb(var(--accent));
+	}
+
+	.group-header[aria-expanded='true'] .chevron-icon {
+		transform: rotate(180deg);
+	}
+
+	.group-content {
+		overflow: hidden;
+		max-height: 0;
+		transition: max-height 0.3s ease, opacity 0.3s ease;
+		opacity: 0;
+	}
+
+	.group-content:not([hidden]) {
+		max-height: 500px;
+		opacity: 1;
+		display: block;
+	}
+
+	.categories-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		background-color: rgba(0, 0, 0, 0.2);
+	}
+</style>
+
+<script>
+	// Initialize accordion functionality
+	function initializeAccordion() {
+		const headers = document.querySelectorAll('.group-header');
+
+		headers.forEach((header) => {
+			// Restore state from localStorage
+			const groupName = header.getAttribute('data-group');
+			const isOpen = localStorage.getItem(`sidebar-group-${groupName}`) === 'true';
+
+			const content = header.nextElementSibling as HTMLElement;
+			if (content && isOpen) {
+				content.removeAttribute('hidden');
+				header.setAttribute('aria-expanded', 'true');
+			}
+
+			// Add click handler
+			header.addEventListener('click', () => {
+				const isCurrentlyOpen = header.getAttribute('aria-expanded') === 'true';
+				const newState = !isCurrentlyOpen;
+
+				header.setAttribute('aria-expanded', String(newState));
+
+				if (content) {
+					if (newState) {
+						content.removeAttribute('hidden');
+					} else {
+						content.setAttribute('hidden', '');
+					}
+				}
+
+				// Save state to localStorage
+				if (groupName) {
+					localStorage.setItem(`sidebar-group-${groupName}`, String(newState));
+				}
+			});
+		});
+	}
+
+	// Initialize on load and after Astro transitions
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initializeAccordion);
+	} else {
+		initializeAccordion();
+	}
+
+	document.addEventListener('astro:after-swap', initializeAccordion);
+</script>

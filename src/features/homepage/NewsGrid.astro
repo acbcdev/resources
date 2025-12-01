@@ -1,0 +1,153 @@
+---
+/**
+ * NewsGrid Component
+ * Mixed content display for homepage
+ * Shows new resources, featured resources, and collections in a responsive grid
+ */
+
+import CardItem from '@/features/resources/cards/CardItem.astro';
+import CollectionCard from './CollectionCard.astro';
+import { Button } from '@/features/ui/button';
+import { slugify } from '@/features/common/lib/utils';
+
+interface NewsItem {
+	type: 'resource' | 'collection';
+	data: any;
+}
+
+interface Props {
+	items: NewsItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<section class="news-grid-section">
+	<h2 class="section-title">Latest & Featured</h2>
+	<p class="section-subtitle">
+		Discover new resources and curated collections
+	</p>
+
+	<div class="news-grid">
+		{
+			items.map((item) => {
+				if (item.type === 'collection') {
+					return (
+						<CollectionCard
+							name={item.data.name}
+							description={item.data.description}
+							url={`/collections/${slugify(item.data.name)}/`}
+							image={item.data.img}
+							itemCount={
+								item.data.data
+									? item.data.data.length
+									: 0
+							}
+						/>
+					);
+				} else {
+					return (
+						<CardItem
+							name={item.data.name}
+							description={item.data.description}
+							link={item.data.url}
+							image={item.data.image || ''}
+							ogImage={
+								item.data.og?.image ||
+								'https://placehold.co/600x400'
+							}
+							ogDescription={item.data.og?.description}
+							tags={item.data.tags}
+						/>
+					);
+				}
+			})
+		}
+	</div>
+
+	<div class="view-more-section">
+		<Button href="/categories/all/1" size="lg">
+			View All Resources
+		</Button>
+	</div>
+</section>
+
+<style>
+	.news-grid-section {
+		max-width: 1400px;
+		margin: 0 auto;
+		padding: 3rem 1rem;
+	}
+
+	.section-title {
+		font-size: 2.5rem;
+		font-weight: bold;
+		margin-bottom: 0.5rem;
+		text-align: center;
+		background: var(--accent-gradient);
+		background-clip: text;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+
+	.section-subtitle {
+		text-align: center;
+		color: rgba(255, 255, 255, 0.6);
+		font-size: 1.1rem;
+		margin-bottom: 3rem;
+	}
+
+	.news-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 2rem;
+		margin-bottom: 3rem;
+	}
+
+	@media (max-width: 1024px) {
+		.news-grid {
+			grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+			gap: 1.5rem;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.news-grid-section {
+			padding: 2rem 1rem;
+		}
+
+		.section-title {
+			font-size: 2rem;
+		}
+
+		.section-subtitle {
+			margin-bottom: 2rem;
+		}
+
+		.news-grid {
+			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+			gap: 1.25rem;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.news-grid-section {
+			padding: 1.5rem 0.75rem;
+		}
+
+		.section-title {
+			font-size: 1.75rem;
+		}
+
+		.news-grid {
+			grid-template-columns: 1fr;
+			gap: 1rem;
+		}
+	}
+
+	.view-more-section {
+		display: flex;
+		justify-content: center;
+		padding-top: 2rem;
+	}
+</style>

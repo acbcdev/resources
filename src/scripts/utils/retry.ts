@@ -1,0 +1,216 @@
+import { SCRIPTS_CONFIG } from '../config/scripts.config';
+import { logger } from './logger';
+
+/**
+ * Calculate delay with exponential backoff
+ * delay = initialDelay * (2 ^ attempt), capped at maxDelay
+ */
+function calculateBackoffDelay(attempt: number, initialDelay: number, maxDelay: number): number {
+	const exponentialDelay = initialDelay * Math.pow(2, attempt);
+	return Math.min(exponentialDelay, maxDelay);
+}
+
+/**
+ * Sleep for specified milliseconds
+ */
+function sleep(ms: number): Promise<void> {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+interface RetryOptions {
+	maxAttempts?: number;
+	initialDelay?: number;
+	maxDelay?: number;
+	onRetry?: (attempt: number, error: Error) => void;
+}
+
+/**
+ * Retry async operations with exponential backoff
+ */
+export async function withRetry<T>(
+	fn: () => Promise<T>,
+	description: string,
+	options?: RetryOptions
+): Promise<T> {
+	const {
+		maxAttempts = SCRIPTS_CONFIG.retry.maxAttempts,
+		initialDelay = SCRIPTS_CONFIG.retry.initialDelay,
+		maxDelay = SCRIPTS_CONFIG.retry.maxDelay,
+		onRetry,
+	} = options || {};
+
+	let lastError: Error | null = null;
+
+	for (let attempt = 0; attempt < maxAttempts; attempt++) {
+		try {
+			return await fn();
+		} catch (error) {
+			lastError = error instanceof Error ? error : new Error(String(error));
+
+			if (attempt < maxAttempts - 1) {
+				const delay = calculateBackoffDelay(attempt, initialDelay, maxDelay);
+				logger.warning(
+					`${description} failed (attempt ${attempt + 1}/${maxAttempts}): ${lastError.message}`
+				);
+				logger.debug(`Retrying in ${delay}ms...`);
+
+				if (onRetry) {
+					onRetry(attempt + 1, lastError);
+				}
+
+				await sleep(delay);
+			} else {
+				logger.error(`${description} failed after ${maxAttempts} attempts`, lastError);
+			}
+		}
+	}
+
+	throw lastError || new Error(`${description} failed`);
+}
+
+/**
+ * Retry with custom backoff strategy
+ */
+export async function withCustomRetry<T>(
+	fn: () => Promise<T>,
+	description: string,
+	options: {
+		maxAttempts: number;
+		delayFn: (attempt: number) => number;
+		onRetry?: (attempt: number, error: Error) => void;
+		shouldRetry?: (error: Error) => boolean;
+	}
+): Promise<T> {
+	const { maxAttempts, delayFn, onRetry, shouldRetry } = options;
+
+	let lastError: Error | null = null;
+
+	for (let attempt = 0; attempt < maxAttempts; attempt++) {
+		try {
+			return await fn();
+		} catch (error) {
+			lastError = error instanceof Error ? error : new Error(String(error));
+
+			// Check if we should retry this error
+			if (shouldRetry && !shouldRetry(lastError)) {
+				throw lastError;
+			}
+
+			if (attempt < maxAttempts - 1) {
+				const delay = delayFn(attempt);
+				logger.warning(
+					`${description} failed (attempt ${attempt + 1}/${maxAttempts}): ${lastError.message}`
+				);
+				logger.debug(`Retrying in ${delay}ms...`);
+
+				if (onRetry) {
+					onRetry(attempt + 1, lastError);
+				}
+
+				await sleep(delay);
+			}
+		}
+	}
+
+	throw lastError || new Error(`${description} failed after ${maxAttempts} attempts`);
+}
+
+/**
+ * Retry with linear backoff (delay = initialDelay * attempt)
+ */
+export async function withLinearRetry<T>(
+	fn: () => Promise<T>,
+	description: string,
+	options?: {
+		maxAttempts?: number;
+		delay?: number;
+		onRetry?: (attempt: number, error: Error) => void;
+	}
+): Promise<T> {
+	const maxAttempts = options?.maxAttempts ?? SCRIPTS_CONFIG.retry.maxAttempts;
+	const delay = options?.delay ?? SCRIPTS_CONFIG.retry.initialDelay;
+
+	return withCustomRetry(fn, description, {
+		maxAttempts,
+		delayFn: (attempt) => delay * (attempt + 1),
+		onRetry: options?.onRetry,
+	});
+}
+
+/**
+ * Batch execute operations with retry and error collection
+ */
+export async function batchExecuteWithRetry<T, R>(
+	items: T[],
+	fn: (item: T) => Promise<R>,
+	options?: {
+		maxAttempts?: number;
+		initialDelay?: number;
+		maxDelay?: number;
+		onProgress?: (current: number, total: number) => void;
+		onError?: (item: T, error: Error) => void;
+	}
+): Promise<{ successful: R[]; failed: Array<{ item: T; error: Error }> }> {
+	const successful: R[] = [];
+	const failed: Array<{ item: T; error: Error }> = [];
+
+	for (let i = 0; i < items.length; i++) {
+		const item = items[i];
+
+		try {
+			const result = await withRetry(
+				() => fn(item),
+				`Processing item ${i + 1}/${items.length}`,
+				options
+			);
+			successful.push(result);
+		} catch (error) {
+			const err = error instanceof Error ? error : new Error(String(error));
+			failed.push({ item, error: err });
+
+			if (options?.onError) {
+				options.onError(item, err);
+			}
+		}
+
+		if (options?.onProgress) {
+			options.onProgress(i + 1, items.length);
+		}
+	}
+
+	return { successful, failed };
+}
+
+/**
+ * Retry with timeout
+ */
+export async function withRetryAndTimeout<T>(
+	fn: () => Promise<T>,
+	description: string,
+	timeoutMs: number,
+	retryOptions?: RetryOptions
+): Promise<T> {
+	return withRetry(
+		async () => {
+			return Promise.race([
+				fn(),
+				new Promise<T>((_, reject) =>
+					setTimeout(
+						() => reject(new Error(`${description} timed out after ${timeoutMs}ms`)),
+						timeoutMs
+					)
+				),
+			]);
+		},
+		description,
+		retryOptions
+	);
+}
+
+export default {
+	withRetry,
+	withCustomRetry,
+	withLinearRetry,
+	batchExecuteWithRetry,
+	withRetryAndTimeout,
+};

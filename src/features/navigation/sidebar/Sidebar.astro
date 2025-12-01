@@ -1,0 +1,263 @@
+---
+/**
+ * Sidebar component
+ * Main navigation sidebar with logo, quick links, and categorized groups
+ * Desktop: Fixed sidebar (250px)
+ * Mobile: Off-canvas overlay with backdrop
+ */
+
+import Logo from './Logo.astro';
+import SidebarLink from './SidebarLink.astro';
+import CategoryGroup from './CategoryGroup.astro';
+import { CATEGORY_GROUPS } from './categoryGroups';
+
+const groupEntries = Object.entries(CATEGORY_GROUPS) as Array<
+	[string, readonly string[]]
+>;
+---
+
+<!-- Hamburger button (mobile only) -->
+<button
+	data-hamburger
+	aria-label="Toggle sidebar"
+	aria-expanded="false"
+	class="hamburger-button"
+>
+	<svg class="menu-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+		<line x1="3" y1="6" x2="21" y2="6"></line>
+		<line x1="3" y1="12" x2="21" y2="12"></line>
+		<line x1="3" y1="18" x2="21" y2="18"></line>
+	</svg>
+	<svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+		<line x1="18" y1="6" x2="6" y2="18"></line>
+		<line x1="6" y1="6" x2="18" y2="18"></line>
+	</svg>
+</button>
+
+<!-- Sidebar overlay backdrop (mobile only) -->
+<div data-sidebar-overlay class="sidebar-overlay"></div>
+
+<!-- Sidebar navigation -->
+<aside data-sidebar class="sidebar" role="navigation" aria-label="Main navigation">
+	<nav class="sidebar-inner">
+		<Logo />
+
+		<div class="quick-links">
+			<SidebarLink href="/" label="All" />
+			<SidebarLink href="/new/1" label="New" />
+		</div>
+
+		<div class="categories-section">
+			{
+				groupEntries.map(([groupName, categories]) => (
+					<CategoryGroup title={groupName} categories={categories as string[]} />
+				))
+			}
+		</div>
+	</nav>
+</aside>
+
+<style>
+	/* Hamburger button */
+	.hamburger-button {
+		display: none;
+		position: fixed;
+		top: 1rem;
+		left: 1rem;
+		z-index: 101;
+		background: rgba(var(--accent), 0.9);
+		border: none;
+		color: white;
+		padding: 0.5rem;
+		border-radius: 0.5rem;
+		cursor: pointer;
+		transition: all 0.3s ease;
+	}
+
+	.hamburger-button:hover {
+		background: rgb(var(--accent));
+		box-shadow: 0 0 20px rgba(var(--accent), 0.5);
+	}
+
+	.close-icon {
+		display: none;
+	}
+
+	.hamburger-button.active .menu-icon {
+		display: none;
+	}
+
+	.hamburger-button.active .close-icon {
+		display: block;
+	}
+
+	/* Sidebar overlay */
+	.sidebar-overlay {
+		display: none;
+		position: fixed;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.5);
+		z-index: 99;
+		opacity: 0;
+		transition: opacity 0.3s ease;
+	}
+
+	.sidebar-overlay.active {
+		opacity: 1;
+	}
+
+	/* Sidebar */
+	.sidebar {
+		position: fixed;
+		left: 0;
+		top: 0;
+		height: 100vh;
+		width: 250px;
+		background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(20, 10, 40, 0.6) 100%);
+		border-right: 1px solid rgba(var(--accent), 0.2);
+		z-index: 100;
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
+
+	.sidebar-inner {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		padding-bottom: 2rem;
+	}
+
+	.quick-links {
+		padding: 1rem 0;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+	.categories-section {
+		flex: 1;
+		overflow-y: auto;
+		padding-top: 1rem;
+	}
+
+	/* Scrollbar styling */
+	.categories-section::-webkit-scrollbar {
+		width: 6px;
+	}
+
+	.categories-section::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	.categories-section::-webkit-scrollbar-thumb {
+		background: rgba(var(--accent), 0.3);
+		border-radius: 3px;
+	}
+
+	.categories-section::-webkit-scrollbar-thumb:hover {
+		background: rgba(var(--accent), 0.5);
+	}
+
+	/* Mobile styles */
+	@media (max-width: 1023px) {
+		.hamburger-button {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.sidebar {
+			left: -100%;
+			transition: left 0.3s ease;
+			width: 280px;
+			height: 100vh;
+			border-right: none;
+			box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+		}
+
+		.sidebar.active {
+			left: 0;
+		}
+
+		.sidebar-overlay {
+			display: block;
+		}
+
+		.sidebar-overlay.active {
+			display: block;
+		}
+	}
+
+	/* Smooth scrolling */
+	@supports (scroll-behavior: smooth) {
+		.categories-section {
+			scroll-behavior: smooth;
+		}
+	}
+</style>
+
+<script>
+	/**
+	 * Initialize sidebar toggle functionality for mobile
+	 */
+	function initSidebarToggle() {
+		const hamburger = document.querySelector('[data-hamburger]') as HTMLButtonElement;
+		const sidebar = document.querySelector('[data-sidebar]') as HTMLElement;
+		const overlay = document.querySelector('[data-sidebar-overlay]') as HTMLElement;
+
+		if (!hamburger || !sidebar || !overlay) return;
+
+		function openSidebar() {
+			sidebar.classList.add('active');
+			hamburger.classList.add('active');
+			hamburger.setAttribute('aria-expanded', 'true');
+			overlay.classList.add('active');
+			document.body.style.overflow = 'hidden';
+			localStorage.setItem('sidebar-open', 'true');
+		}
+
+		function closeSidebar() {
+			sidebar.classList.remove('active');
+			hamburger.classList.remove('active');
+			hamburger.setAttribute('aria-expanded', 'false');
+			overlay.classList.remove('active');
+			document.body.style.overflow = '';
+			localStorage.setItem('sidebar-open', 'false');
+		}
+
+		// Toggle on hamburger click
+		hamburger.addEventListener('click', () => {
+			if (sidebar.classList.contains('active')) {
+				closeSidebar();
+			} else {
+				openSidebar();
+			}
+		});
+
+		// Close on overlay click
+		overlay.addEventListener('click', closeSidebar);
+
+		// Close on Escape key
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape' && sidebar.classList.contains('active')) {
+				closeSidebar();
+			}
+		});
+
+		// Close on mobile link click
+		sidebar.addEventListener('click', (e) => {
+			if ((e.target as HTMLElement).tagName === 'A') {
+				if (window.innerWidth < 1024) {
+					closeSidebar();
+				}
+			}
+		});
+	}
+
+	// Initialize on load and after Astro transitions
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initSidebarToggle);
+	} else {
+		initSidebarToggle();
+	}
+
+	document.addEventListener('astro:after-swap', initSidebarToggle);
+</script>
