@@ -1,10 +1,10 @@
 ---
 import type { GetStaticPaths } from 'astro';
-import Layout from '@/features/common/layouts/Layout.astro';
+import Layout from '@/layouts/Layout.astro';
 import { collections } from '@/features/common/consts/collections';
 import { slugify } from '@/features/common/lib/utils';
-import ListResources from '@/features/resources/components/ListResources.astro';
-import CardItem from '@/features/resources/components/CardItem.astro';
+import ListResources from '@/features/resources/lists/ListResources.astro';
+import CardItem from '@/features/resources/cards/CardItem.astro';
 
 export const getStaticPaths = (() => {
 	return collections.map((i) => {

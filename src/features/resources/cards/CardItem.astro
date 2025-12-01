@@ -1,0 +1,78 @@
+---
+import { Image } from 'astro:assets';
+import { ExternalLink } from 'lucide-react';
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardTitle,
+} from '@/features/ui/card';
+import { slugify } from '@/features/common/lib/utils';
+
+type Props = {
+	link: string;
+	name: string;
+	description: string;
+	ogImage: string;
+	ogDescription?: string;
+	image: string;
+	tags?: string[];
+};
+const { link, name, description, ogImage, image, ogDescription, tags } = Astro.props;
+---
+
+<Card
+	className="group/card overflow-hidden hover:border-green-500 duration-300 border-4 rounded-3xl"
+>
+	<a target="_blank" aria-label={`${name} link`} href={link}>
+		<Image
+			class="group-hover/card:[scale:1.02] w-full duration-200 text-center object-cover aspect-video z-0"
+			src={ogImage || image}
+			loading="lazy"
+			width={500}
+			height={300}
+			alt={ogDescription || description}
+		/>
+	</a>
+	<CardContent className="content-card mt-4 sm:px-3 justify-between">
+		<CardTitle className="hover:text-green-500 max-w-[90%] break-words hyphens-auto" lang="en"
+			>{name}</CardTitle
+		>
+		<a target="_blank" aria-label={`${name} link`} href={link}>
+			<ExternalLink />
+		</a>
+	</CardContent>
+	<CardFooter className="grid">
+		<CardDescription className="text-base text-zinc-300 mb-2"
+			>{ogDescription ?? description}</CardDescription
+		>
+		<div class="flex flex-wrap gap-x-2">
+			{
+				tags?.map((tag) => {
+					const fixTag = slugify(tag);
+					return (
+						<a
+							href={`/tags/${fixTag}/1`}
+							class="tag text-zinc-400 hover:underline hover:text-green-500"
+						>
+							#{tag}
+						</a>
+					);
+				})
+			}
+		</div>
+	</CardFooter>
+</Card>
+
+<style>
+	.content-card {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		/*		justify-content: space-around;*/
+		h3 {
+			font-size: 3rem;
+		}
+	}
+</style>
