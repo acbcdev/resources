@@ -1,12 +1,19 @@
 ---
 import type { GetStaticPaths } from 'astro';
-import { TARGETAUDIENCE } from '@/types/data';
+import { TARGETAUDIENCE } from '@/features/audiences/types/audience';
 import { slugify } from '@/features/common/lib/utils';
-// import Layout from '@/features/common/layouts/Layout.astro';
-import ListResources from '@/features/resources/components/ListResources.astro';
+import ListResources from '@/features/resources/lists/ListResources.astro';
 import { DATA } from '@/features/common/data';
-import Layout from '@/features/common/layouts/Layout.astro';
-import Pagination from '@/features/common/components/Pagination.astro';
+import Layout from '@/layouts/Layout.astro';
+import {
+	Pagination,
+	PaginationContent,
+	PaginationEllipsis,
+	PaginationItem,
+	PaginationLink,
+	PaginationNext,
+	PaginationPrevious,
+} from '@/features/ui/pagination';
 export const getStaticPaths = (({ paginate }) => {
 	return TARGETAUDIENCE.flatMap((item) => {
 		const fixTag = slugify(item);
@@ -37,5 +44,25 @@ const { data, url } = page;
 		}
 	</nav>
 	<ListResources resources={data} class="mx-40" />
-	<Pagination currentPage={page.currentPage} url={url} lastPage={page.lastPage} />
+	<Pagination>
+		<PaginationContent>
+			{url.prev && (
+				<PaginationItem>
+					<PaginationPrevious href={url.prev} />
+				</PaginationItem>
+			)}
+			{Array.from({ length: page.lastPage }, (_, i) => i + 1).map((pageNum) => (
+				<PaginationItem>
+					<PaginationLink href={`/${slugify(targetAudience)}/${pageNum}`} isActive={pageNum === page.currentPage}>
+						{pageNum}
+					</PaginationLink>
+				</PaginationItem>
+			))}
+			{url.next && (
+				<PaginationItem>
+					<PaginationNext href={url.next} />
+				</PaginationItem>
+			)}
+		</PaginationContent>
+	</Pagination>
 </Layout>

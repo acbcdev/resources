@@ -2,9 +2,17 @@
 import type { GetStaticPaths } from 'astro';
 import { DATA } from '@/features/common/data/index';
 import { slugify } from '@/features/common/lib/utils';
-import LayoutCategories from '@/features/common/layouts/LayoutCategories.astro';
-import ListResources from '@/features/resources/components/ListResources.astro';
-import Pagination from '@/features/common/components/Pagination.astro';
+import LayoutCategories from '@/layouts/LayoutCategories.astro';
+import ListResources from '@/features/resources/lists/ListResources.astro';
+import {
+	Pagination,
+	PaginationContent,
+	PaginationEllipsis,
+	PaginationItem,
+	PaginationLink,
+	PaginationNext,
+	PaginationPrevious,
+} from '@/features/ui/pagination';
 
 export const getStaticPaths = (({ paginate }) => {
 	const allTags = [...new Set(DATA.flatMap((i) => i.tags).filter(Boolean))];
@@ -23,5 +31,25 @@ const { page } = Astro.props;
 
 <LayoutCategories title="Tags">
 	<ListResources resources={page.data} />
-	<Pagination currentPage={page.currentPage} url={page.url} lastPage={page.lastPage} />
+	<Pagination>
+		<PaginationContent>
+			{page.url.prev && (
+				<PaginationItem>
+					<PaginationPrevious href={page.url.prev} />
+				</PaginationItem>
+			)}
+			{Array.from({ length: page.lastPage }, (_, i) => i + 1).map((pageNum) => (
+				<PaginationItem>
+					<PaginationLink href={`/tags/${page.url.current?.split('/')[2] || ''}/${pageNum}`} isActive={pageNum === page.currentPage}>
+						{pageNum}
+					</PaginationLink>
+				</PaginationItem>
+			))}
+			{page.url.next && (
+				<PaginationItem>
+					<PaginationNext href={page.url.next} />
+				</PaginationItem>
+			)}
+		</PaginationContent>
+	</Pagination>
 </LayoutCategories>
