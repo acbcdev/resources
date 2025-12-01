@@ -1,10 +1,10 @@
 ---
-import { Button } from '@/features/common/components/ui/button';
+import { Button } from '@/features/ui/button';
 import { categories } from '@/features/common/consts';
 import { DATA } from '@/features/common/data/index';
-import Layout from '@/features/common/layouts/Layout.astro';
+import Layout from '@/layouts/Layout.astro';
 import { slugify, toHundreds } from '@/features/common/lib/utils';
-import { TARGETAUDIENCE } from '@/types/data';
+import { TARGETAUDIENCE } from '@/features/audiences/types/audience';
 
 console.log(DATA.length);
 const numOfResources = toHundreds(DATA.length);
