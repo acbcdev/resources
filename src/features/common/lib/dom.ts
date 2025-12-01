@@ -1,4 +1,4 @@
-import type { PropsGlobalEventListener } from "@/features/types/dom";
+import type { PropsGlobalEventListener } from "@/features/common/types/dom";
 
 export const $ = <T extends HTMLElement>(
 	selector: string,
@@ -13,7 +13,7 @@ export const globalEventListener = (
 	event: keyof HTMLElementEventMap,
 	{ selector, callback, context = document }: PropsGlobalEventListener,
 ) => {
-	context.addEventListener(event, (e) => {
+	context.addEventListener(event, (e: Event) => {
 		const target = e.target as Element;
 		if (target.matches(selector)) callback(e);
 	});
