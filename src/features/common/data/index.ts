@@ -1,4 +1,4 @@
-import type { Tool } from '@/types/data';
+import type { Tool } from '@/features/resources/types/resource';
 
 export const DATA: Tool[] = [
   {
