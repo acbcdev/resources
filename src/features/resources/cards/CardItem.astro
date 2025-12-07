@@ -16,10 +16,11 @@ type Props = {
 	description: string;
 	ogImage: string;
 	ogDescription?: string;
-	image: string;
+	image?: string;
+	icon?: string;
 	tags?: string[];
 };
-const { link, name, description, ogImage, image, ogDescription, tags } = Astro.props;
+const { link, name, description, ogImage, image, icon, ogDescription, tags } = Astro.props;
 ---
 
 <Card
@@ -28,7 +29,7 @@ const { link, name, description, ogImage, image, ogDescription, tags } = Astro.p
 	<a target="_blank" aria-label={`${name} link`} href={link}>
 		<Image
 			class="group-hover/card:[scale:1.02] w-full duration-200 text-center object-cover aspect-video z-0"
-			src={ogImage || image}
+			src={ogImage || image || icon}
 			loading="lazy"
 			width={500}
 			height={300}
