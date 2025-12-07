@@ -62,10 +62,7 @@ export function getCategoryHighlights(): Tool[] {
 
 	return majorCategories
 		.map((category) => {
-			const matching = DATA.filter((r) => {
-				const cats = Array.isArray(r.category) ? r.category : [r.category];
-				return cats.includes(category);
-			})
+			const matching = DATA.filter((r) => r.category.includes(category))
 				.filter(hasCompleteMetadata)
 				.sort(
 					(a, b) =>
