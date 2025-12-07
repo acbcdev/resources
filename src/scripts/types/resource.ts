@@ -34,7 +34,7 @@ export type ResourceWithOG = z.infer<typeof ResourceWithOGSchema>;
 export const AIMetadataSchema = z.object({
 	name: z.string(),
 	description: z.string(),
-	category: CategorySchema,
+	category: z.array(CategorySchema),
 	topic: z.string().optional(),
 	main_features: z.array(z.object({
 		feature: z.string(),
@@ -42,7 +42,7 @@ export const AIMetadataSchema = z.object({
 	})).optional(),
 	tags: z.array(z.string()).optional(),
 	targetAudience: z.array(z.string()).optional(),
-	pricing: z.enum(['Free', 'Paid', 'Freemium', 'Open Source']).optional(),
+	pricing: z.enum(['Free', 'Paid', 'Freemium', 'Opensource', 'Premium']).optional(),
 }).strict();
 
 export type AIMetadata = z.infer<typeof AIMetadataSchema>;
@@ -53,7 +53,7 @@ export type AIMetadata = z.infer<typeof AIMetadataSchema>;
 export const ResourceWithAISchema = ResourceWithOGSchema.extend({
 	name: z.string(),
 	description: z.string(),
-	category: CategorySchema,
+	category: z.array(CategorySchema),
 	topic: z.string().optional(),
 	main_features: z.array(z.object({
 		feature: z.string(),
@@ -61,7 +61,7 @@ export const ResourceWithAISchema = ResourceWithOGSchema.extend({
 	})).optional(),
 	tags: z.array(z.string()).optional(),
 	targetAudience: z.array(z.string()).optional(),
-	pricing: z.enum(['Free', 'Paid', 'Freemium', 'Open Source']).optional(),
+	pricing: z.enum(['Free', 'Paid', 'Freemium', 'Opensource', 'Premium']).optional(),
 	enriched_at: z.string().datetime().optional(),
 }).strict();
 
