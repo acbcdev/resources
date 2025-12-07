@@ -60,7 +60,7 @@ const { title, categories } = Astro.props;
 		padding: 0.75rem 1rem;
 		background: none;
 		border: none;
-		color: rgba(255, 255, 255, 0.8);
+		color: var(--foreground);
 		cursor: pointer;
 		font-size: 0.95rem;
 		font-weight: 600;
@@ -69,8 +69,8 @@ const { title, categories } = Astro.props;
 	}
 
 	.group-header:hover {
-		color: rgb(255, 255, 255);
-		background-color: rgba(var(--accent), 0.1);
+		color: var(--foreground);
+		background-color: var(--muted);
 	}
 
 	.group-title {
@@ -80,7 +80,7 @@ const { title, categories } = Astro.props;
 	.chevron-icon {
 		flex-shrink: 0;
 		transition: transform 0.3s ease;
-		color: rgb(var(--accent));
+		color: var(--muted-foreground);
 	}
 
 	.group-header[aria-expanded='true'] .chevron-icon {
@@ -104,7 +104,7 @@ const { title, categories } = Astro.props;
 		list-style: none;
 		padding: 0;
 		margin: 0;
-		background-color: rgba(0, 0, 0, 0.2);
+		background-color: var(--muted);
 	}
 </style>
 
