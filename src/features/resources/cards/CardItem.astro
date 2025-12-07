@@ -23,7 +23,7 @@ const { link, name, description, ogImage, image, ogDescription, tags } = Astro.p
 ---
 
 <Card
-	className="group/card overflow-hidden hover:border-green-500 duration-300 border-4 rounded-3xl"
+	className="group/card overflow-hidden hover:border-border duration-300 border-4 rounded-3xl"
 >
 	<a target="_blank" aria-label={`${name} link`} href={link}>
 		<Image
@@ -36,7 +36,7 @@ const { link, name, description, ogImage, image, ogDescription, tags } = Astro.p
 		/>
 	</a>
 	<CardContent className="content-card mt-4 sm:px-3 justify-between">
-		<CardTitle className="hover:text-green-500 max-w-[90%] break-words hyphens-auto" lang="en"
+		<CardTitle className="hover:text-foreground max-w-[90%] break-words hyphens-auto" lang="en"
 			>{name}</CardTitle
 		>
 		<a target="_blank" aria-label={`${name} link`} href={link}>
@@ -54,7 +54,7 @@ const { link, name, description, ogImage, image, ogDescription, tags } = Astro.p
 					return (
 						<a
 							href={`/tags/${fixTag}/1`}
-							class="tag text-zinc-400 hover:underline hover:text-green-500"
+							class="tag text-zinc-400 hover:underline hover:text-foreground"
 						>
 							#{tag}
 						</a>
