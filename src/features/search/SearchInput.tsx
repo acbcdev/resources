@@ -189,8 +189,8 @@ export default function SearchInput() {
 				.search-wrapper {
 					display: flex;
 					align-items: center;
-					background: rgba(255, 255, 255, 0.05);
-					border: 1px solid rgba(var(--accent), 0.2);
+					background: var(--muted);
+					border: 1px solid var(--border);
 					border-radius: 0.5rem;
 					padding: 0.5rem 1rem;
 					transition: all 0.3s ease;
@@ -198,19 +198,17 @@ export default function SearchInput() {
 
 				.search-wrapper:hover,
 				.search-input:focus ~ .search-wrapper {
-					background: rgba(255, 255, 255, 0.08);
-					border-color: rgb(var(--accent));
-					box-shadow: 0 0 15px rgba(var(--accent), 0.2);
+					border-color: var(--outline);
+					box-shadow: 0 0 0 1px var(--outline);
 				}
 
 				.search-input:focus ~ .search-wrapper {
-					background: rgba(255, 255, 255, 0.08);
-					border-color: rgb(var(--accent));
-					box-shadow: 0 0 15px rgba(var(--accent), 0.2);
+					border-color: var(--outline);
+					box-shadow: 0 0 0 1px var(--outline);
 				}
 
 				.search-icon {
-					color: rgba(var(--accent), 0.6);
+					color: var(--muted-foreground);
 					flex-shrink: 0;
 					margin-right: 0.5rem;
 				}
@@ -219,14 +217,14 @@ export default function SearchInput() {
 					flex: 1;
 					background: none;
 					border: none;
-					color: rgba(255, 255, 255, 0.9);
+					color: var(--foreground);
 					font-size: 0.95rem;
 					outline: none;
 					font-family: inherit;
 				}
 
 				.search-input::placeholder {
-					color: rgba(255, 255, 255, 0.4);
+					color: var(--muted-foreground);
 				}
 
 				.search-dropdown {
@@ -235,8 +233,8 @@ export default function SearchInput() {
 					left: 0;
 					right: 0;
 					margin-top: 0.5rem;
-					background: rgba(0, 0, 0, 0.95);
-					border: 1px solid rgba(var(--accent), 0.3);
+					background: var(--background);
+					border: 1px solid var(--border);
 					border-radius: 0.5rem;
 					overflow: hidden;
 					box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
@@ -249,17 +247,17 @@ export default function SearchInput() {
 				.search-result {
 					display: block;
 					padding: 0.75rem 1rem;
-					color: rgba(255, 255, 255, 0.8);
+					color: var(--muted-foreground);
 					text-decoration: none;
-					border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+					border-bottom: 1px solid var(--border);
 					transition: all 0.2s ease;
 					cursor: pointer;
 				}
 
 				.search-result:hover,
 				.search-result.active {
-					background: rgba(var(--accent), 0.1);
-					color: rgb(var(--accent));
+					background: var(--muted);
+					color: var(--foreground);
 				}
 
 				.search-result:last-child {
@@ -273,13 +271,13 @@ export default function SearchInput() {
 
 				.result-category {
 					font-size: 0.8rem;
-					color: rgba(255, 255, 255, 0.5);
+					color: var(--muted-foreground);
 				}
 
 				.search-no-results {
 					padding: 1rem;
 					text-align: center;
-					color: rgba(255, 255, 255, 0.5);
+					color: var(--muted-foreground);
 					font-size: 0.9rem;
 				}
 
