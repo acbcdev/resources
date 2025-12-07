@@ -41,7 +41,7 @@ function buildSearchIndex(): SearchIndexItem[] {
 		id: index,
 		name: resource.name,
 		url: resource.url,
-		category: Array.isArray(resource.category) ? resource.category : [resource.category],
+		category: resource.category,
 		tags: (resource.tags || []).slice(0, 5), // Limit to 5 tags
 		description: (resource.description || '').slice(0, 150), // Truncate to 150 chars
 	}));
