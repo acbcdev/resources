@@ -38,7 +38,7 @@ const groupEntries = Object.entries(CATEGORY_GROUPS) as Array<
 <div data-sidebar-overlay class="sidebar-overlay"></div>
 
 <!-- Sidebar navigation -->
-<aside data-sidebar class="sidebar" role="navigation" aria-label="Main navigation">
+<aside data-sidebar class="sidebar lg:col-start-1 lg:row-span-2" role="navigation" aria-label="Main navigation">
 	<nav class="sidebar-inner">
 		<Logo />
 
@@ -65,9 +65,9 @@ const groupEntries = Object.entries(CATEGORY_GROUPS) as Array<
 		top: 1rem;
 		left: 1rem;
 		z-index: 101;
-		background: rgba(var(--accent), 0.9);
-		border: none;
-		color: white;
+		background: var(--muted);
+		border: 1px solid var(--border);
+		color: var(--foreground);
 		padding: 0.5rem;
 		border-radius: 0.5rem;
 		cursor: pointer;
@@ -75,8 +75,8 @@ const groupEntries = Object.entries(CATEGORY_GROUPS) as Array<
 	}
 
 	.hamburger-button:hover {
-		background: rgb(var(--accent));
-		box-shadow: 0 0 20px rgba(var(--accent), 0.5);
+		background: var(--accent);
+		border-color: var(--border);
 	}
 
 	.close-icon {
@@ -113,8 +113,8 @@ const groupEntries = Object.entries(CATEGORY_GROUPS) as Array<
 		top: 0;
 		height: 100vh;
 		width: 250px;
-		background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(20, 10, 40, 0.6) 100%);
-		border-right: 1px solid rgba(var(--accent), 0.2);
+		background: var(--background);
+		border-right: 1px solid var(--border);
 		z-index: 100;
 		overflow-y: auto;
 		overflow-x: hidden;
@@ -129,7 +129,7 @@ const groupEntries = Object.entries(CATEGORY_GROUPS) as Array<
 
 	.quick-links {
 		padding: 1rem 0;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		border-bottom: 1px solid var(--border);
 	}
 
 	.categories-section {
@@ -148,12 +148,13 @@ const groupEntries = Object.entries(CATEGORY_GROUPS) as Array<
 	}
 
 	.categories-section::-webkit-scrollbar-thumb {
-		background: rgba(var(--accent), 0.3);
+		background: var(--muted-foreground);
 		border-radius: 3px;
+		opacity: 0.3;
 	}
 
 	.categories-section::-webkit-scrollbar-thumb:hover {
-		background: rgba(var(--accent), 0.5);
+		opacity: 0.5;
 	}
 
 	/* Mobile styles */
