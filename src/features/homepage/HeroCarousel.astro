@@ -30,7 +30,7 @@ if (!items || items.length === 0) {
 }
 ---
 
-<section class="hero-carousel-section">
+<section class="w-full mb-16 px-4 lg:px-6 max-w-full">
 	<Carousel
 		opts={{
 			loop: true,
@@ -54,20 +54,13 @@ if (!items || items.length === 0) {
 							<div class="hero-overlay">
 								<div class="hero-content">
 									<h2 class="hero-title">{item.name}</h2>
-									<p class="hero-description">
-										{item.description}
-									</p>
+									<p class="hero-description">{item.description}</p>
 									{item.type === 'collection' ? (
 										<a href={item.url} class="cta-button">
 											View Collection
 										</a>
 									) : (
-										<a
-											href={item.url}
-											target="_blank"
-											rel="noopener noreferrer"
-											class="cta-button"
-										>
+										<a href={item.url} target="_blank" rel="noopener noreferrer" class="cta-button">
 											Visit Resource
 										</a>
 									)}
@@ -93,10 +86,11 @@ if (!items || items.length === 0) {
 
 	.hero-slide {
 		position: relative;
-		aspect-ratio: 3;
+		aspect-ratio: 3 / 1;
 		overflow: hidden;
 		border-radius: 1.5rem;
-		height: 400px;
+		min-height: 300px;
+		max-height: 400px;
 		display: flex;
 		align-items: stretch;
 	}
@@ -152,29 +146,31 @@ if (!items || items.length === 0) {
 		display: inline-flex;
 		align-items: center;
 		padding: 0.75rem 1.5rem;
-		background: rgb(var(--accent));
-		color: white;
+		background: var(--primary);
+		color: var(--primary-foreground);
 		text-decoration: none;
 		border-radius: 0.5rem;
 		font-weight: 600;
 		font-size: 1rem;
 		transition: all 0.3s ease;
-		border: 2px solid rgb(var(--accent));
+		border: 2px solid var(--primary);
 		cursor: pointer;
 	}
 
 	.cta-button:hover {
-		background: rgba(var(--accent), 0.8);
-		box-shadow: 0 0 20px rgba(var(--accent), 0.5);
+		opacity: 0.9;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 		transform: translateY(-2px);
 	}
 
 	/* Navigation buttons styling */
-	:global(.hero-carousel-section [data-slot='carousel-previous'],
-	.hero-carousel-section [data-slot='carousel-next']) {
-		background: rgba(var(--accent), 0.2);
-		border: 2px solid rgba(var(--accent), 0.5);
-		color: white;
+	:global(
+		.hero-carousel-section [data-slot='carousel-previous'],
+		.hero-carousel-section [data-slot='carousel-next']
+	) {
+		background: var(--muted);
+		border: 2px solid var(--border);
+		color: var(--foreground);
 		width: 40px;
 		height: 40px;
 		border-radius: 0.5rem;
@@ -183,11 +179,13 @@ if (!items || items.length === 0) {
 		transform: translateY(-50%);
 	}
 
-	:global(.hero-carousel-section [data-slot='carousel-previous']:hover,
-	.hero-carousel-section [data-slot='carousel-next']:hover) {
-		background: rgb(var(--accent));
-		border-color: rgb(var(--accent));
-		box-shadow: 0 0 15px rgba(var(--accent), 0.6);
+	:global(
+		.hero-carousel-section [data-slot='carousel-previous']:hover,
+		.hero-carousel-section [data-slot='carousel-next']:hover
+	) {
+		background: var(--accent);
+		border-color: var(--border);
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 	}
 
 	/* Mobile responsive */
@@ -216,8 +214,10 @@ if (!items || items.length === 0) {
 			font-size: 0.9rem;
 		}
 
-		:global(.hero-carousel-section [data-slot='carousel-previous'],
-		.hero-carousel-section [data-slot='carousel-next']) {
+		:global(
+			.hero-carousel-section [data-slot='carousel-previous'],
+			.hero-carousel-section [data-slot='carousel-next']
+		) {
 			width: 32px;
 			height: 32px;
 		}
