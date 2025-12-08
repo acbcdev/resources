@@ -1,10 +1,10 @@
 /**
  * Sidebar category groupings for main navigation
- * Groups the 42 categories into 7 organized sections
+ * Groups the 51 categories into 10 organized sections
  */
 
 export const CATEGORY_GROUPS = {
-	AI: ['AI', 'Analytics'],
+	AI: ['AI'],
 	Design: [
 		'Design',
 		'Colors',
@@ -15,6 +15,7 @@ export const CATEGORY_GROUPS = {
 		'Inspirations',
 		'Photos',
 		'Videos',
+		'3D',
 	],
 	Libraries: ['Libraries', 'Components', 'Frameworks'],
 	Services: ['API', 'Hosting', 'Database', 'Storage', 'Authentication', 'CMS'],
@@ -35,8 +36,12 @@ export const CATEGORY_GROUPS = {
 		'Charts',
 		'Animation',
 		'Accessibility',
+		'Extensions',
 	],
-	Others: ['Games', '3D', 'Security', 'Domain', 'Extensions', 'Newsletter', 'Other'],
+	Marketing: ['Newsletter', 'Analytics', 'SEO', 'Email'],
+	Startups: ['Domain', 'Security', 'Legal', 'Funding', 'Business Tools'],
+	Ecommerce: ['Payments', 'Shipping', 'Checkout', 'Inventory'],
+	Others: ['Games', 'Websites', 'Other'],
 } as const;
 
 export type CategoryGroup = keyof typeof CATEGORY_GROUPS;
