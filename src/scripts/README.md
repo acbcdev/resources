@@ -27,7 +27,7 @@ new.json (URLs)
 
 ### Output Locations
 
-- **Script outputs**: `src/features/common/data/scripts-output/`
+- **Script outputs**: `src/features/data/scripts-output/`
 - **Screenshots**: `public/screenshots/`
 
 ## Prerequisites
@@ -53,6 +53,7 @@ GROQ_API_KEY=your_groq_api_key
 ```
 
 Get API keys from:
+
 - [Google AI Studio](https://ai.google.dev)
 - [Mistral Console](https://console.mistral.ai)
 - [Groq Console](https://console.groq.com)
@@ -104,13 +105,16 @@ After reviewing the output from step 4:
 **Purpose**: Extract website metadata using the Open Graph protocol
 
 **Input**:
+
 - `src/features/common/data/new.json` - Array of URL strings to process
 
 **Output**:
+
 - `src/features/common/data/scripts-output/ogData.json` - Resources with OG metadata
 - `src/features/common/data/scripts-output/backupOG.json` - Incremental backup
 
 **What it does**:
+
 1. Launches a single shared Chromium browser instance (for performance)
 2. Navigates to each URL
 3. Extracts OG metadata (title, description, image, icon, etc.)
@@ -118,10 +122,12 @@ After reviewing the output from step 4:
 5. Saves incrementally to enable resume on failure
 
 **Performance**:
+
 - ~3-5 seconds per URL (network dependent)
 - Reuses browser instance for 10-100x speedup
 
 **Resume Capability**:
+
 - Automatically skips URLs already in backupOG.json
 - Can restart after network failures
 
@@ -132,13 +138,16 @@ After reviewing the output from step 4:
 **Purpose**: Generate structured metadata using AI
 
 **Input**:
+
 - `src/features/common/data/scripts-output/ogData.json` - Resources with OG metadata
 
 **Output**:
+
 - `src/features/common/data/scripts-output/aiEnriched.json` - Resources with AI metadata
 - `src/features/common/data/scripts-output/backupAI.json` - Incremental backup
 
 **What it does**:
+
 1. Fetches website content (text only, first 1500 chars)
 2. Uses AI (randomly selected from Google/Mistral/Groq) to analyze content
 3. Generates:
@@ -154,15 +163,18 @@ After reviewing the output from step 4:
 5. Saves incrementally to enable resume
 
 **AI Model Selection**:
+
 - Randomly selected to distribute load
 - Configurable in `scripts.config.ts` (weights: 40% Google, 30% Mistral, 30% Groq)
 - Falls back to defaults if generation fails
 
 **Performance**:
+
 - ~5-10 seconds per resource (API dependent)
 - Parallel API calls improve throughput
 
 **Resume Capability**:
+
 - Automatically skips resources already in backupAI.json
 - Uses default values if AI generation fails
 
@@ -173,14 +185,17 @@ After reviewing the output from step 4:
 **Purpose**: Capture screenshots as fallback images
 
 **Input**:
+
 - `src/features/common/data/scripts-output/aiEnriched.json` - AI-enriched resources
 
 **Output**:
+
 - `src/features/common/data/scripts-output/withScreenshots.json` - Resources with images
 - `src/features/common/data/scripts-output/backupScreenshots.json` - Incremental backup
 - `public/screenshots/*.jpg` - Screenshot files
 
 **What it does**:
+
 1. Checks if resource has OG image (uses if available)
 2. If no OG image, captures Playwright screenshot
 3. Saves screenshots with safe filenames based on domain + URL hash
@@ -188,17 +203,20 @@ After reviewing the output from step 4:
 5. Marks image source (OG vs screenshot)
 
 **Screenshot Details**:
+
 - Format: JPEG (quality: 80%)
 - Size: 1280x720 viewport
 - Files saved to public directory for web serving
 - Safe filenames prevent conflicts (using SHA256 hash)
 
 **Performance**:
+
 - ~3-5 seconds per screenshot (browser dependent)
 - Reuses browser instance for performance
 - Skips screenshots for resources with OG images
 
 **Resume Capability**:
+
 - Automatically skips resources already in backupScreenshots.json
 - Gracefully handles sites that block Playwright
 
@@ -209,14 +227,17 @@ After reviewing the output from step 4:
 **Purpose**: Prepare final data for manual review and merge
 
 **Input**:
+
 - `src/features/common/data/scripts-output/withScreenshots.json` - Final processed resources
 - `src/features/common/data/data.json` - Existing resources
 
 **Output**:
+
 - STDOUT: JSON preview for manual review
 - Temporary file: `src/features/common/data/scripts-output/merged-preview-*.json`
 
 **What it does**:
+
 1. Loads processed resources from step 3
 2. Loads existing data.json for duplicate detection
 3. Normalizes URLs for comparison (ignores query params, trailing slashes)
@@ -227,12 +248,14 @@ After reviewing the output from step 4:
 8. **Does NOT auto-write to data.json** (safety measure)
 
 **Why Manual Review?**:
+
 - Prevents accidental data corruption
 - Allows human verification of AI-generated data
 - Detects edge cases and duplicate handling issues
 
 **Merge Instructions**:
 The script will output:
+
 ```
 1. Review the new resources shown above
 2. Copy the new resources
@@ -245,6 +268,7 @@ The script will output:
 All settings are in `src/scripts/config/scripts.config.ts`:
 
 ### Browser Settings
+
 ```typescript
 browser: {
   headless: true,              // Run browser without UI
@@ -254,6 +278,7 @@ browser: {
 ```
 
 ### Network Settings
+
 ```typescript
 network: {
   fetchTimeout: 10000,         // Network request timeout
@@ -263,6 +288,7 @@ network: {
 ```
 
 ### AI Settings
+
 ```typescript
 ai: {
   temperature: 0.7,            // Creativity (0-1)
@@ -281,6 +307,7 @@ ai: {
 ```
 
 ### Screenshot Settings
+
 ```typescript
 screenshot: {
   enabled: true,
@@ -291,6 +318,7 @@ screenshot: {
 ```
 
 ### Processing Settings
+
 ```typescript
 processing: {
   batchSize: 10,              // Progress update frequency
@@ -302,12 +330,15 @@ processing: {
 ## Troubleshooting
 
 ### "Chromium not found"
+
 ```bash
 bunx playwright install chromium
 ```
 
 ### "API key not found"
+
 Set environment variables:
+
 ```bash
 export GOOGLE_API_KEY=...
 export MISTRAL_API_KEY=...
@@ -315,6 +346,7 @@ export GROQ_API_KEY=...
 ```
 
 Or create `.env` file:
+
 ```
 GOOGLE_API_KEY=your_key
 MISTRAL_API_KEY=your_key
@@ -322,23 +354,28 @@ GROQ_API_KEY=your_key
 ```
 
 ### Script stuck on a URL
+
 - Check network connectivity
 - Try increasing timeout in `scripts.config.ts`
 - Some sites block Playwright (script will skip them)
 
 ### AI generation failing
+
 - Check API key validity
 - Check API quota/limits
 - Verify network connectivity
 - Script falls back to defaults if AI fails
 
 ### Low quality screenshots
+
 - Adjust `screenshot.quality` in config (0-100)
 - Some sites don't render well in headless browsers
 - This is expected for heavily JavaScript-dependent sites
 
 ### Resuming after interruption
+
 All scripts support resume:
+
 1. Fix the issue (network, API key, etc.)
 2. Run the same script again
 3. It will skip already-processed URLs and continue
@@ -346,6 +383,7 @@ All scripts support resume:
 ## Data Structure
 
 ### ogData.json
+
 ```json
 [
   {
@@ -362,18 +400,19 @@ All scripts support resume:
 ```
 
 ### aiEnriched.json
+
 ```json
 [
   {
     "url": "https://example.com",
-    "og": { /* ... */ },
+    "og": {
+      /* ... */
+    },
     "name": "Example",
     "description": "Description",
     "category": "Tools",
     "topic": "Development",
-    "main_features": [
-      { "feature": "Feature 1", "description": "..." }
-    ],
+    "main_features": [{ "feature": "Feature 1", "description": "..." }],
     "tags": ["tag1", "tag2"],
     "targetAudience": ["Developers"],
     "pricing": "Free",
@@ -383,11 +422,14 @@ All scripts support resume:
 ```
 
 ### withScreenshots.json
+
 ```json
 [
   {
     "url": "https://example.com",
-    "og": { /* ... */ },
+    "og": {
+      /* ... */
+    },
     "name": "Example",
     "category": "Tools",
     /* ... all AI fields ... */
@@ -401,6 +443,7 @@ All scripts support resume:
 ## Advanced Usage
 
 ### Process a Single URL
+
 ```bash
 # Edit new.json with single URL
 echo '["https://example.com"]' > src/features/common/data/new.json
@@ -413,7 +456,9 @@ bun run src/scripts/4-merge-data.ts
 ```
 
 ### Custom AI Model Selection
+
 Edit `scripts.config.ts`:
+
 ```typescript
 modelWeights: {
   google: 1.0,   // Always use Google
@@ -423,18 +468,22 @@ modelWeights: {
 ```
 
 ### Disable Screenshots
+
 Edit `scripts.config.ts`:
+
 ```typescript
 screenshot: {
-  enabled: false
+  enabled: false;
 }
 ```
 
 ### Increase Timeout for Slow Sites
+
 Edit `scripts.config.ts`:
+
 ```typescript
 browser: {
-  timeout: 20000  // 20 seconds
+  timeout: 20000; // 20 seconds
 }
 ```
 
@@ -457,18 +506,22 @@ browser: {
 ## Debugging
 
 ### Enable debug output
+
 ```bash
 DEBUG=true bun run src/scripts/1-extract-og.ts
 ```
 
 ### Check intermediate files
+
 ```bash
 ls -lh src/features/common/data/scripts-output/
 jq '.[] | {url, og}' src/features/common/data/scripts-output/ogData.json | head
 ```
 
 ### Inspect a failing resource
+
 Search for URL in backup files:
+
 ```bash
 jq '.[] | select(.url == "https://...")' src/features/common/data/scripts-output/backupOG.json
 ```
@@ -476,6 +529,7 @@ jq '.[] | select(.url == "https://...")' src/features/common/data/scripts-output
 ## Support
 
 For issues:
+
 1. Check troubleshooting section above
 2. Enable debug mode for detailed logs
 3. Check file sizes and counts: `ls -lh src/features/common/data/scripts-output/`
