@@ -17,13 +17,13 @@
  */
 
 import { createHash } from 'crypto';
-import { Page } from 'playwright';
+import type { Page } from 'playwright';
 import { SCRIPTS_CONFIG } from './config/scripts.config';
 import { logger } from './utils/logger';
 import { browserPool, closeBrowserOnExit } from './utils/browser';
 import { fileIO } from './utils/file-io';
 import { withRetry, batchExecuteWithRetry } from './utils/retry';
-import { ResourceWithAI, ResourceWithScreenshot } from './types/resource';
+import type { ResourceWithAI, ResourceWithScreenshot } from './types/resource';
 
 /**
  * Generate a safe filename from URL
@@ -70,7 +70,7 @@ async function captureScreenshot(page: Page, url: string): Promise<string | null
 		return `${SCRIPTS_CONFIG.paths.screenshots.publicPath}/${filename}`;
 	} catch (error) {
 		logger.debug(
-			`Screenshot failed for ${url}: ${error instanceof Error ? error.message : String(error)}`
+			`Screenshot failed for ${url}: ${error instanceof Error ? error.message : String(error)}`,
 		);
 		return null;
 	}
@@ -80,7 +80,7 @@ async function captureScreenshot(page: Page, url: string): Promise<string | null
  * Process a single resource (add screenshot if needed)
  */
 async function processResourceForScreenshot(
-	resource: ResourceWithAI
+	resource: ResourceWithAI,
 ): Promise<ResourceWithScreenshot> {
 	// If resource already has an image, use it
 	const existingImage = (resource as any).image || resource.og.image;
@@ -117,7 +117,7 @@ async function processResourceForScreenshot(
 			} as ResourceWithScreenshot;
 		},
 		`Capture screenshot for ${resource.url}`,
-		{ maxAttempts: 2 }
+		{ maxAttempts: 2 },
 	);
 }
 
@@ -130,7 +130,8 @@ async function main() {
 	try {
 		// Validate configuration
 		logger.info('Validating configuration...');
-		await fileIO.ensureDir(SCRIPTS_CONFIG.paths.output);
+		// Ensure parent directory exists for output files
+		await fileIO.ensureParentDir(SCRIPTS_CONFIG.paths.output.withScreenshots);
 		await fileIO.ensureDir(SCRIPTS_CONFIG.paths.screenshots.directory);
 
 		// Initialize browser
@@ -140,7 +141,7 @@ async function main() {
 		// Load enriched data from step 2
 		logger.info('Loading enriched data from step 2...');
 		const enrichedData = await fileIO.readJSONArray<ResourceWithAI>(
-			SCRIPTS_CONFIG.paths.output.aiEnriched
+			SCRIPTS_CONFIG.paths.output.aiEnriched,
 		);
 
 		if (enrichedData.length === 0) {
@@ -153,14 +154,14 @@ async function main() {
 		// Load existing screenshot data to skip processed resources
 		logger.info('Loading existing screenshot data...');
 		const existingWithScreenshots = await fileIO.readJSONArray<ResourceWithScreenshot>(
-			SCRIPTS_CONFIG.paths.output.withScreenshots
+			SCRIPTS_CONFIG.paths.output.withScreenshots,
 		);
-		const processedUrls = new Set(existingWithScreenshots.map(r => r.url));
+		const processedUrls = new Set(existingWithScreenshots.map((r) => r.url));
 
 		// Filter to un-processed resources
-		const resourcesToProcess = enrichedData.filter(r => !processedUrls.has(r.url));
+		const resourcesToProcess = enrichedData.filter((r) => !processedUrls.has(r.url));
 		logger.info(
-			`${resourcesToProcess.length} resources to process (${processedUrls.size} already done)`
+			`${resourcesToProcess.length} resources to process (${processedUrls.size} already done)`,
 		);
 
 		if (resourcesToProcess.length === 0) {
@@ -178,7 +179,7 @@ async function main() {
 				// Save incrementally
 				await fileIO.appendToJSONArray(
 					SCRIPTS_CONFIG.paths.output.backupScreenshots,
-					withScreenshot
+					withScreenshot,
 				);
 				return withScreenshot;
 			},
@@ -187,7 +188,7 @@ async function main() {
 				onProgress: (current, total) => {
 					logger.progress(current, total, 'Processing');
 				},
-			}
+			},
 		);
 
 		// Combine existing with new processed data
@@ -198,16 +199,18 @@ async function main() {
 		await fileIO.writeJSON(SCRIPTS_CONFIG.paths.output.withScreenshots, allWithScreenshots);
 
 		// Count screenshots
-		const withImages = results.successful.filter(r => r.image).length;
-		const withOG = results.successful.filter(r => r.image_source === 'og').length;
-		const withScreenshots = results.successful.filter(r => r.image_source === 'screenshot').length;
+		const withImages = results.successful.filter((r) => r.image).length;
+		const withOG = results.successful.filter((r) => r.image_source === 'og').length;
+		const withScreenshots = results.successful.filter(
+			(r) => r.image_source === 'screenshot',
+		).length;
 
 		// Log results
 		logger.section('Summary');
 		logger.table({
 			'Total resources': enrichedData.length,
 			'Successfully processed': results.successful.length,
-			'Failed': results.failed.length,
+			Failed: results.failed.length,
 			'With images': withImages,
 			'From OG metadata': withOG,
 			'From screenshots': withScreenshots,
@@ -228,7 +231,7 @@ async function main() {
 		const fileInfo = await fileIO.getFileInfo(SCRIPTS_CONFIG.paths.output.withScreenshots);
 		if (fileInfo) {
 			logger.success(
-				`Output saved: ${SCRIPTS_CONFIG.paths.output.withScreenshots} (${fileInfo.sizeFormatted})`
+				`Output saved: ${SCRIPTS_CONFIG.paths.output.withScreenshots} (${fileInfo.sizeFormatted})`,
 			);
 		}
 
@@ -243,7 +246,7 @@ async function main() {
 }
 
 // Run main function
-main().catch(error => {
+main().catch((error) => {
 	logger.error('Unhandled error', error);
 	process.exit(1);
 });
