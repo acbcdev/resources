@@ -24,7 +24,7 @@ import { SCRIPTS_CONFIG, getRandomAIModel, getModelName } from './config/scripts
 import { logger } from './utils/logger';
 import { fileIO } from './utils/file-io';
 import { withRetry, batchExecuteWithRetry } from './utils/retry';
-import { ResourceWithOG, ResourceWithAI } from './types/resource';
+import type { ResourceWithOG, ResourceWithAI } from './types/resource';
 import { CATEGORIES } from '@/features/categories/types/category';
 
 /**
@@ -33,12 +33,19 @@ import { CATEGORIES } from '@/features/categories/types/category';
 const AIGeneratedSchema = z.object({
 	name: z.string().describe('The name/title of the resource'),
 	description: z.string().describe('A brief description of what the resource does'),
-	category: z.enum(CATEGORIES.map(c => c.name) as [string, ...string[]]).describe('Primary category'),
+	category: z
+		.enum(CATEGORIES.map((c) => c.name) as [string, ...string[]])
+		.describe('Primary category'),
 	topic: z.string().optional().describe('Secondary topic or subject'),
-	main_features: z.array(z.object({
-		feature: z.string(),
-		description: z.string(),
-	})).optional().describe('3-5 main features of the resource'),
+	main_features: z
+		.array(
+			z.object({
+				feature: z.string(),
+				description: z.string(),
+			}),
+		)
+		.optional()
+		.describe('3-5 main features of the resource'),
 	tags: z.array(z.string()).optional().describe('5-10 relevant tags'),
 	targetAudience: z.array(z.string()).optional().describe('Who this resource is for'),
 	pricing: z.enum(['Free', 'Paid', 'Freemium', 'Open Source']).optional().describe('Pricing model'),
@@ -76,10 +83,7 @@ async function fetchWebsiteContent(url: string): Promise<string> {
 		let text = $('body').text() || $('html').text() || '';
 
 		// Clean up whitespace
-		text = text
-			.replace(/\s+/g, ' ')
-			.trim()
-			.substring(0, SCRIPTS_CONFIG.ai.maxContentLength);
+		text = text.replace(/\s+/g, ' ').trim().substring(0, SCRIPTS_CONFIG.ai.maxContentLength);
 
 		return text;
 	} catch (error) {
@@ -109,7 +113,9 @@ function getAIModel() {
 /**
  * Generate AI metadata for a resource
  */
-async function generateAIMetadata(resource: ResourceWithOG): Promise<z.infer<typeof AIGeneratedSchema>> {
+async function generateAIMetadata(
+	resource: ResourceWithOG,
+): Promise<z.infer<typeof AIGeneratedSchema>> {
 	return withRetry(
 		async () => {
 			// Fetch website content
@@ -141,7 +147,7 @@ ${content}
 Extract the following information:
 - name: The actual name/title of the resource
 - description: A brief 1-2 sentence description
-- category: One of: ${CATEGORIES.map(c => c.name).join(', ')}
+- category: One of: ${CATEGORIES.map((c) => c.name).join(', ')}
 - topic: Secondary subject/topic if applicable
 - main_features: 3-5 key features/capabilities
 - tags: 5-10 relevant tags/keywords
@@ -156,7 +162,7 @@ Be accurate and concise.`,
 			return result.object;
 		},
 		`Generate AI metadata for ${resource.url}`,
-		{ maxAttempts: 2 }
+		{ maxAttempts: 2 },
 	);
 }
 
@@ -174,7 +180,7 @@ async function enrichResourceWithAI(resource: ResourceWithOG): Promise<ResourceW
 		} as ResourceWithAI;
 	} catch (error) {
 		logger.warning(
-			`Failed to enrich ${resource.url}: ${error instanceof Error ? error.message : String(error)}`
+			`Failed to enrich ${resource.url}: ${error instanceof Error ? error.message : String(error)}`,
 		);
 
 		// Return resource with minimal data if AI fails
@@ -201,9 +207,7 @@ async function main() {
 
 		// Load OG data from step 1
 		logger.info('Loading OG data from step 1...');
-		const ogData = await fileIO.readJSONArray<ResourceWithOG>(
-			SCRIPTS_CONFIG.paths.output.ogData
-		);
+		const ogData = await fileIO.readJSONArray<ResourceWithOG>(SCRIPTS_CONFIG.paths.output.ogData);
 
 		if (ogData.length === 0) {
 			logger.error('No OG data found. Please run 1-extract-og.ts first.');
@@ -215,14 +219,14 @@ async function main() {
 		// Load existing enriched data to skip processed resources
 		logger.info('Loading existing enriched data...');
 		const existingEnriched = await fileIO.readJSONArray<ResourceWithAI>(
-			SCRIPTS_CONFIG.paths.output.aiEnriched
+			SCRIPTS_CONFIG.paths.output.aiEnriched,
 		);
-		const enrichedUrls = new Set(existingEnriched.map(r => r.url));
+		const enrichedUrls = new Set(existingEnriched.map((r) => r.url));
 
 		// Filter to un-enriched resources
-		const resourcesToEnrich = ogData.filter(r => !enrichedUrls.has(r.url));
+		const resourcesToEnrich = ogData.filter((r) => !enrichedUrls.has(r.url));
 		logger.info(
-			`${resourcesToEnrich.length} resources to enrich (${enrichedUrls.size} already done)`
+			`${resourcesToEnrich.length} resources to enrich (${enrichedUrls.size} already done)`,
 		);
 
 		if (resourcesToEnrich.length === 0) {
@@ -245,7 +249,7 @@ async function main() {
 				onProgress: (current, total) => {
 					logger.progress(current, total, 'Enriching');
 				},
-			}
+			},
 		);
 
 		// Combine existing with new enriched data
@@ -278,7 +282,7 @@ async function main() {
 		const fileInfo = await fileIO.getFileInfo(SCRIPTS_CONFIG.paths.output.aiEnriched);
 		if (fileInfo) {
 			logger.success(
-				`Output saved: ${SCRIPTS_CONFIG.paths.output.aiEnriched} (${fileInfo.sizeFormatted})`
+				`Output saved: ${SCRIPTS_CONFIG.paths.output.aiEnriched} (${fileInfo.sizeFormatted})`,
 			);
 		}
 
@@ -291,7 +295,7 @@ async function main() {
 }
 
 // Run main function
-main().catch(error => {
+main().catch((error) => {
 	logger.error('Unhandled error', error);
 	process.exit(1);
 });
