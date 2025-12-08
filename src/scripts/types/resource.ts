@@ -72,7 +72,7 @@ export type ResourceWithAI = z.infer<typeof ResourceWithAISchema>;
  */
 export const ResourceWithScreenshotSchema = ResourceWithAISchema.extend({
 	image: z.string().url().optional(),
-	image_source: z.enum(['og', 'screenshot']).optional(),
+	image_source: z.enum(['og', 'screenshot', 'none']).optional(),
 	screenshot_at: z.string().datetime().optional(),
 }).strict();
 
