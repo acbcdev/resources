@@ -34,8 +34,8 @@ const AIGeneratedSchema = z.object({
 	name: z.string().describe('The name/title of the resource'),
 	description: z.string().describe('A brief description of what the resource does'),
 	category: z
-		.enum(CATEGORIES.map((c) => c.name) as [string, ...string[]])
-		.describe('Primary category'),
+		.array(z.enum(CATEGORIES.map((c) => c.name) as [string, ...string[]]))
+		.describe('Array of relevant categories'),
 	topic: z.string().optional().describe('Secondary topic or subject'),
 	main_features: z
 		.array(
@@ -48,7 +48,7 @@ const AIGeneratedSchema = z.object({
 		.describe('3-5 main features of the resource'),
 	tags: z.array(z.string()).optional().describe('5-10 relevant tags'),
 	targetAudience: z.array(z.string()).optional().describe('Who this resource is for'),
-	pricing: z.enum(['Free', 'Paid', 'Freemium', 'Open Source']).optional().describe('Pricing model'),
+	pricing: z.enum(['Free', 'Paid', 'Freemium', 'Opensource', 'Premium']).optional().describe('Pricing model'),
 });
 
 /**
@@ -147,16 +147,16 @@ ${content}
 Extract the following information:
 - name: The actual name/title of the resource
 - description: A brief 1-2 sentence description
-- category: One of: ${CATEGORIES.map((c) => c.name).join(', ')}
+- category: Array of 1-3 relevant categories from: ${CATEGORIES.map((c) => c.name).join(', ')}
 - topic: Secondary subject/topic if applicable
 - main_features: 3-5 key features/capabilities
 - tags: 5-10 relevant tags/keywords
 - targetAudience: Who should use this (e.g., Developers, Designers, etc.)
-- pricing: Free, Paid, Freemium, or Open Source
+- pricing: Free, Paid, Freemium, Opensource, or Premium
 
 Be accurate and concise.`,
 				temperature: SCRIPTS_CONFIG.ai.temperature,
-				maxTokens: SCRIPTS_CONFIG.ai.maxTokens,
+				// maxTokens: SCRIPTS_CONFIG.ai.maxTokens,
 			});
 
 			return result.object;
@@ -188,7 +188,7 @@ async function enrichResourceWithAI(resource: ResourceWithOG): Promise<ResourceW
 			...resource,
 			name: resource.og.title || resource.url,
 			description: resource.og.description || 'Resource',
-			category: 'Tools', // Default category
+			category: ['Tools'], // Default category as array
 			enriched_at: new Date().toISOString(),
 		} as ResourceWithAI;
 	}
@@ -203,7 +203,8 @@ async function main() {
 	try {
 		// Validate configuration
 		logger.info('Validating configuration...');
-		await fileIO.ensureDir(SCRIPTS_CONFIG.paths.output);
+		// Ensure parent directory exists for output files
+		await fileIO.ensureParentDir(SCRIPTS_CONFIG.paths.output.aiEnriched);
 
 		// Load OG data from step 1
 		logger.info('Loading OG data from step 1...');
