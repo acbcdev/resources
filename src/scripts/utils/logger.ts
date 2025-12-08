@@ -12,11 +12,11 @@ interface LogOptions {
  */
 export class Logger {
 	private context: string;
-	private debug: boolean;
+	private debugEnabled: boolean;
 
 	constructor(context: string = 'script') {
 		this.context = context;
-		this.debug = SCRIPTS_CONFIG.logging.debug;
+		this.debugEnabled = SCRIPTS_CONFIG.logging.debug;
 	}
 
 	private getTimestamp(): string {
@@ -89,7 +89,7 @@ export class Logger {
 		if (error) {
 			if (error instanceof Error) {
 				console.error(this.colorize(`  → ${error.message}`, 'dim'));
-				if (this.debug && error.stack) {
+				if (this.debugEnabled && error.stack) {
 					console.error(error.stack);
 				}
 			} else {
@@ -99,7 +99,7 @@ export class Logger {
 	}
 
 	debug(message: string, options?: LogOptions): void {
-		if (!this.debug) return;
+		if (!this.debugEnabled) return;
 		const formatted = this.formatMessage(message, options);
 		console.log(this.colorize(formatted, 'dim'));
 	}
@@ -153,7 +153,7 @@ export class Logger {
 	 */
 	withContext(context: string): Logger {
 		const logger = new Logger(context);
-		logger.debug = this.debug;
+		logger.debugEnabled = this.debugEnabled;
 		return logger;
 	}
 }
