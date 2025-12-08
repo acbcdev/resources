@@ -18,7 +18,7 @@
 import { SCRIPTS_CONFIG } from './config/scripts.config';
 import { logger } from './utils/logger';
 import { fileIO } from './utils/file-io';
-import { ResourceWithScreenshot, MergedResource } from './types/resource';
+import type { ResourceWithScreenshot, MergedResource } from './types/resource';
 
 interface ExistingResource {
 	url: string;
@@ -37,9 +37,7 @@ function isSameURL(url1: string, url2: string): boolean {
 
 		// Compare protocol, hostname, and pathname
 		return (
-			u1.protocol === u2.protocol &&
-			u1.hostname === u2.hostname &&
-			u1.pathname === u2.pathname
+			u1.protocol === u2.protocol && u1.hostname === u2.hostname && u1.pathname === u2.pathname
 		);
 	} catch {
 		// Fallback to string comparison
@@ -57,7 +55,7 @@ async function main() {
 		// Load processed resources from step 3
 		logger.info('Loading processed resources from step 3...');
 		const processedResources = await fileIO.readJSONArray<ResourceWithScreenshot>(
-			SCRIPTS_CONFIG.paths.output.withScreenshots
+			SCRIPTS_CONFIG.paths.output.withScreenshots,
 		);
 
 		if (processedResources.length === 0) {
@@ -70,19 +68,19 @@ async function main() {
 		// Load existing data
 		logger.info('Loading existing data.json...');
 		const existingData = await fileIO.readJSONArray<ExistingResource>(
-			SCRIPTS_CONFIG.paths.input.existingData
+			SCRIPTS_CONFIG.paths.input.existingData,
 		);
 
 		logger.success(`Loaded ${existingData.length} existing resources`);
 
 		// Detect duplicates and new resources
-		const existingUrls = new Map(existingData.map(r => [r.url, r]));
+		const existingUrls = new Map(existingData.map((r) => [r.url, r]));
 		const duplicates: ResourceWithScreenshot[] = [];
 		const newResources: MergedResource[] = [];
 
 		for (const resource of processedResources) {
-			const existingEntry = Array.from(existingUrls.values()).find(existing =>
-				isSameURL(existing.url, resource.url)
+			const existingEntry = Array.from(existingUrls.values()).find((existing) =>
+				isSameURL(existing.url, resource.url),
 			);
 
 			if (existingEntry) {
@@ -166,7 +164,7 @@ async function main() {
 }
 
 // Run main function
-main().catch(error => {
+main().catch((error) => {
 	logger.error('Unhandled error', error);
 	process.exit(1);
 });
