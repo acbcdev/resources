@@ -1,5 +1,6 @@
 import {
 	Accessibility,
+	Banknote,
 	BarChart,
 	Blocks,
 	Book,
@@ -7,10 +8,12 @@ import {
 	Bot,
 	Box,
 	Boxes,
+	Briefcase,
 	Brush,
 	Camera,
 	Clipboard,
 	Clock,
+	CreditCard,
 	Database,
 	Edit,
 	File,
@@ -33,11 +36,16 @@ import {
 	Link,
 	Lock,
 	Mail,
+	Package,
 	Palette,
 	PocketKnife,
 	Book as ReadingIcon,
+	Scale,
+	Search,
 	Server,
+	ShoppingCart,
 	Trophy,
+	Truck,
 	Type,
 	Video,
 	Zap,
@@ -87,6 +95,18 @@ export const CATEGORIES = [
 	{ name: 'Testing', icon: FlaskConical }, // Tools for testing, e.g., Playwright
 	{ name: '3D', icon: Boxes }, // Tools for 3D or 3D-like SVGs, e.g., Spline, Atropos
 	{ name: 'Other', icon: HelpCircle }, // For tools that don't fit into any other category
+	// Marketing categories
+	{ name: 'SEO', icon: Search }, // Search engine optimization tools
+	{ name: 'Email', icon: Mail }, // Email marketing, campaigns, automation
+	// Startups categories
+	{ name: 'Legal', icon: Scale }, // Legal/compliance tools for startups
+	{ name: 'Funding', icon: Banknote }, // Investment, funding, pitch deck tools
+	{ name: 'Business Tools', icon: Briefcase }, // General business productivity tools
+	// E-commerce categories
+	{ name: 'Payments', icon: CreditCard }, // Payment processing, invoicing, billing
+	{ name: 'Shipping', icon: Truck }, // Shipping, logistics, fulfillment
+	{ name: 'Checkout', icon: ShoppingCart }, // Cart and checkout tools
+	{ name: 'Inventory', icon: Package }, // Inventory management tools
 ] as const;
 
 export type Category = typeof CATEGORIES;
