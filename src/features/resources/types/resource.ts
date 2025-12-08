@@ -2,10 +2,7 @@ import { z } from 'zod';
 import { collectionNames } from '@/features/common/consts/collections';
 import { slugify } from '@/features/common/lib/utils';
 import { CategorySchema } from '@/features/categories/types/category';
-import {
-	TargetAudienceSchema,
-	type TargetAudience,
-} from '@/features/audiences/types/audience';
+import { TargetAudienceSchema, type TargetAudience } from '@/features/audiences/types/audience';
 
 // ============================================================================
 // Helper Schemas
@@ -53,9 +50,9 @@ export const ToolSchema = z
 		name: z.string().min(1),
 		slug: z.string().optional(),
 		description: z.string().min(1),
-		url: z.string().url(),
-		image: z.string().url().optional(),
-		icon: z.string().url().optional(),
+		url: z.url(),
+		image: z.url().optional(),
+		icon: z.url().optional(),
 
 		// Categorization (strict enum arrays)
 		category: z.array(CategorySchema),
