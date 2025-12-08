@@ -14,13 +14,13 @@
  * - Saves incrementally to backup for resume capability
  */
 
-import { Page } from 'playwright';
+import { type Page } from 'playwright';
 import { SCRIPTS_CONFIG } from './config/scripts.config';
 import { logger } from './utils/logger';
 import { browserPool, closeBrowserOnExit } from './utils/browser';
 import { fileIO } from './utils/file-io';
 import { withRetry, batchExecuteWithRetry } from './utils/retry';
-import { ResourceWithOG, ResourceWithOGSchema } from './types/resource';
+import type { ResourceWithOG } from './types/resource';
 
 interface OGExtractionResult {
 	title?: string;
@@ -113,7 +113,7 @@ async function extractOGForURL(url: string): Promise<ResourceWithOG> {
 			};
 		},
 		`Extract OG for ${url}`,
-		{ maxAttempts: 3 }
+		{ maxAttempts: 3 },
 	);
 }
 
@@ -126,7 +126,8 @@ async function main() {
 	try {
 		// Validate configuration
 		logger.info('Validating configuration...');
-		await fileIO.ensureDir(SCRIPTS_CONFIG.paths.output);
+		// Ensure parent directory exists for output files
+		await fileIO.ensureParentDir(SCRIPTS_CONFIG.paths.output.ogData);
 
 		// Initialize browser
 		logger.info('Initializing browser...');
@@ -140,12 +141,12 @@ async function main() {
 		// Load existing backup to skip processed URLs
 		logger.info('Loading existing backup...');
 		const existingData = await fileIO.readJSONArray<ResourceWithOG>(
-			SCRIPTS_CONFIG.paths.output.backupOG
+			SCRIPTS_CONFIG.paths.output.backupOG,
 		);
-		const existingUrls = new Set(existingData.map(r => r.url));
+		const existingUrls = new Set(existingData.map((r) => r.url));
 
 		// Filter to unprocessed URLs
-		const urlsToProcess = allUrls.filter(url => !existingUrls.has(url));
+		const urlsToProcess = allUrls.filter((url) => !existingUrls.has(url));
 		logger.info(`${urlsToProcess.length} new URLs to process (${existingUrls.size} already done)`);
 
 		if (urlsToProcess.length === 0) {
@@ -169,7 +170,7 @@ async function main() {
 				onProgress: (current, total) => {
 					logger.progress(current, total, 'Processing');
 				},
-			}
+			},
 		);
 
 		// Combine existing data with new data
@@ -184,7 +185,7 @@ async function main() {
 		logger.table({
 			'Total URLs': allUrls.length,
 			'Successfully processed': results.successful.length,
-			'Failed': results.failed.length,
+			Failed: results.failed.length,
 			'Already processed': existingUrls.size,
 		});
 
@@ -202,7 +203,7 @@ async function main() {
 		const fileInfo = await fileIO.getFileInfo(SCRIPTS_CONFIG.paths.output.ogData);
 		if (fileInfo) {
 			logger.success(
-				`Output saved: ${SCRIPTS_CONFIG.paths.output.ogData} (${fileInfo.sizeFormatted}, ${fileInfo.count} items)`
+				`Output saved: ${SCRIPTS_CONFIG.paths.output.ogData} (${fileInfo.sizeFormatted}, ${fileInfo.count} items)`,
 			);
 		}
 
@@ -217,7 +218,7 @@ async function main() {
 }
 
 // Run main function
-main().catch(error => {
+main().catch((error) => {
 	logger.error('Unhandled error', error);
 	process.exit(1);
 });
