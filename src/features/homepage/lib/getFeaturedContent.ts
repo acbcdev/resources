@@ -5,7 +5,7 @@
  */
 
 import { DATA } from '@/data';
-import newUrls from '@/data/new.json';
+// import newUrls from '@/data/new.json';
 import { collections } from '@/features/common/consts/collections';
 import type { Tool } from '@/features/resources/types/resource';
 
@@ -34,10 +34,7 @@ export function getFeaturedResources(count: number): Tool[] {
 
 	return DATA.filter(hasCompleteMetadata)
 		.filter((r) => new Date(r.createdAt) > thirtyDaysAgo)
-		.sort(
-			(a, b) =>
-				new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-		)
+		.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 		.slice(0, count);
 }
 
@@ -46,7 +43,7 @@ export function getFeaturedResources(count: number): Tool[] {
  * Only includes resources with complete metadata
  */
 export function getNewResources(count: number): Tool[] {
-	const newUrlsSet = new Set(newUrls);
+	const newUrlsSet = new Set([]);
 
 	return DATA.filter((r) => newUrlsSet.has(r.url))
 		.filter(hasCompleteMetadata)
@@ -64,11 +61,7 @@ export function getCategoryHighlights(): Tool[] {
 		.map((category) => {
 			const matching = DATA.filter((r) => r.category.includes(category))
 				.filter(hasCompleteMetadata)
-				.sort(
-					(a, b) =>
-						new Date(b.createdAt).getTime() -
-						new Date(a.createdAt).getTime(),
-				)[0];
+				.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0];
 
 			return matching;
 		})
@@ -80,9 +73,7 @@ export function getCategoryHighlights(): Tool[] {
  * Only includes collections with data
  */
 export function getFeaturedCollections(count: number) {
-	return collections
-		.filter((c) => c && c.data && c.data.length > 0)
-		.slice(0, count);
+	return collections.filter((c) => c && c.data && c.data.length > 0).slice(0, count);
 }
 
 /**
@@ -123,17 +114,11 @@ export function getCarouselData() {
 				id: `collection-${collection!.name}`,
 				type: 'collection' as const,
 				name: collection!.name,
-				description:
-					collection!.description ||
-					'Curated collection of resources',
+				description: collection!.description || 'Curated collection of resources',
 				url: `/collections/${slugify(collection!.name)}/`,
 				og: {
-					image:
-						collection!.img ||
-						'https://placehold.co/1200x400',
-					description:
-						collection!.description ||
-						'Curated collection',
+					image: collection!.img || 'https://placehold.co/1200x400',
+					description: collection!.description || 'Curated collection',
 				},
 			})),
 	];
