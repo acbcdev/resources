@@ -30,7 +30,7 @@ if (!items || items.length === 0) {
 }
 ---
 
-<section class="w-full mb-16 px-4 lg:px-6 max-w-full">
+<section class="w-full mb-8 px-4 sm:mb-16 lg:px-6 max-w-full">
 	<Carousel
 		opts={{
 			loop: true,
@@ -44,23 +44,38 @@ if (!items || items.length === 0) {
 			{
 				items.map((item) => (
 					<CarouselItem>
-						<div class="hero-slide">
+						<div class="group relative aspect-[4/3] sm:aspect-video lg:aspect-[3/1] overflow-hidden rounded-2xl sm:rounded-3xl min-h-[250px] sm:min-h-[300px] max-h-[400px] flex items-stretch">
 							<img
 								src={item.og?.image || 'https://placehold.co/1200x400'}
 								alt={item.name}
-								class="hero-image"
+								class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-300 ease-out group-hover:scale-105"
 								loading={item === items[0] ? 'eager' : 'lazy'}
 							/>
-							<div class="hero-overlay">
-								<div class="hero-content">
-									<h2 class="hero-title">{item.name}</h2>
-									<p class="hero-description">{item.description}</p>
+							<div
+								class="absolute inset-0 flex items-end p-4 px-6 sm:p-6 sm:px-8 lg:p-10 lg:px-12 z-10"
+								style="background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,1) 100%)"
+							>
+								<div class="w-full text-white bg-black/70 -mx-6 px-6 py-4 sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12 rounded-b-2xl sm:rounded-b-3xl">
+									<h2 class="text-xl sm:text-2xl lg:text-4xl font-bold mb-1 sm:mb-2 lg:mb-3 leading-tight">
+										{item.name}
+									</h2>
+									<p class="text-sm sm:text-base lg:text-lg mb-3 sm:mb-4 lg:mb-6 max-w-2xl text-white/95 leading-relaxed line-clamp-2 sm:line-clamp-3">
+										{item.description}
+									</p>
 									{item.type === 'collection' ? (
-										<a href={item.url} class="cta-button">
+										<a
+											href={item.url}
+											class="inline-flex items-center px-4 py-2 sm:px-5 sm:py-2.5 lg:px-6 lg:py-3 bg-primary text-primary-foreground no-underline rounded-lg font-semibold text-sm sm:text-base transition-all duration-300 border-2 border-primary cursor-pointer hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5"
+										>
 											View Collection
 										</a>
 									) : (
-										<a href={item.url} target="_blank" rel="noopener noreferrer" class="cta-button">
+										<a
+											href={item.url}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="inline-flex items-center px-4 py-2 sm:px-5 sm:py-2.5 lg:px-6 lg:py-3 bg-primary text-primary-foreground no-underline rounded-lg font-semibold text-sm sm:text-base transition-all duration-300 border-2 border-primary cursor-pointer hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5"
+										>
 											Visit Resource
 										</a>
 									)}
@@ -75,186 +90,6 @@ if (!items || items.length === 0) {
 		<CarouselNext />
 	</Carousel>
 </section>
-
-<style>
-	.hero-carousel-section {
-		width: 100%;
-		margin-bottom: 4rem;
-		padding: 0 1rem;
-		max-width: 100%;
-	}
-
-	.hero-slide {
-		position: relative;
-		aspect-ratio: 3 / 1;
-		overflow: hidden;
-		border-radius: 1.5rem;
-		min-height: 300px;
-		max-height: 400px;
-		display: flex;
-		align-items: stretch;
-	}
-
-	.hero-image {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		transition: transform 0.3s ease;
-	}
-
-	.hero-slide:hover .hero-image {
-		transform: scale(1.05);
-	}
-
-	.hero-overlay {
-		position: absolute;
-		inset: 0;
-		background: linear-gradient(
-			180deg,
-			transparent 0%,
-			rgba(0, 0, 0, 0.3) 50%,
-			rgba(0, 0, 0, 0.9) 100%
-		);
-		display: flex;
-		align-items: flex-end;
-		padding: 2rem;
-		z-index: 10;
-	}
-
-	.hero-content {
-		width: 100%;
-		color: white;
-	}
-
-	.hero-title {
-		font-size: 2.5rem;
-		font-weight: bold;
-		margin-bottom: 0.75rem;
-		line-height: 1.2;
-	}
-
-	.hero-description {
-		font-size: 1.1rem;
-		margin-bottom: 1.5rem;
-		max-width: 700px;
-		color: rgba(255, 255, 255, 0.95);
-		line-height: 1.5;
-	}
-
-	.cta-button {
-		display: inline-flex;
-		align-items: center;
-		padding: 0.75rem 1.5rem;
-		background: var(--primary);
-		color: var(--primary-foreground);
-		text-decoration: none;
-		border-radius: 0.5rem;
-		font-weight: 600;
-		font-size: 1rem;
-		transition: all 0.3s ease;
-		border: 2px solid var(--primary);
-		cursor: pointer;
-	}
-
-	.cta-button:hover {
-		opacity: 0.9;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-		transform: translateY(-2px);
-	}
-
-	/* Navigation buttons styling */
-	:global(
-		.hero-carousel-section [data-slot='carousel-previous'],
-		.hero-carousel-section [data-slot='carousel-next']
-	) {
-		background: var(--muted);
-		border: 2px solid var(--border);
-		color: var(--foreground);
-		width: 40px;
-		height: 40px;
-		border-radius: 0.5rem;
-		transition: all 0.3s ease;
-		top: 50%;
-		transform: translateY(-50%);
-	}
-
-	:global(
-		.hero-carousel-section [data-slot='carousel-previous']:hover,
-		.hero-carousel-section [data-slot='carousel-next']:hover
-	) {
-		background: var(--accent);
-		border-color: var(--border);
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-	}
-
-	/* Mobile responsive */
-	@media (max-width: 768px) {
-		.hero-slide {
-			aspect-ratio: 16 / 9;
-			height: auto;
-		}
-
-		.hero-overlay {
-			padding: 1.5rem;
-		}
-
-		.hero-title {
-			font-size: 1.75rem;
-			margin-bottom: 0.5rem;
-		}
-
-		.hero-description {
-			font-size: 0.95rem;
-			margin-bottom: 1rem;
-		}
-
-		.cta-button {
-			padding: 0.6rem 1.2rem;
-			font-size: 0.9rem;
-		}
-
-		:global(
-			.hero-carousel-section [data-slot='carousel-previous'],
-			.hero-carousel-section [data-slot='carousel-next']
-		) {
-			width: 32px;
-			height: 32px;
-		}
-	}
-
-	@media (max-width: 480px) {
-		.hero-carousel-section {
-			margin-bottom: 2rem;
-			padding: 0 0.5rem;
-		}
-
-		.hero-slide {
-			aspect-ratio: 4 / 3;
-			border-radius: 1rem;
-		}
-
-		.hero-overlay {
-			padding: 1rem;
-		}
-
-		.hero-title {
-			font-size: 1.25rem;
-			margin-bottom: 0.25rem;
-		}
-
-		.hero-description {
-			font-size: 0.85rem;
-			margin-bottom: 0.75rem;
-			max-width: none;
-		}
-
-		.cta-button {
-			padding: 0.5rem 1rem;
-			font-size: 0.85rem;
-		}
-	}
-</style>
 
 <script>
 	/**
