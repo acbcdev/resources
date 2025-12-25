@@ -1,0 +1,113 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { tv, type VariantProps } from "tailwind-variants";
+
+interface Props extends HTMLAttributes<"div">, VariantProps<typeof featureCard> {
+	title: string;
+	description?: string;
+	badge?: string;
+	href?: string;
+	ctaText?: string;
+}
+
+export const featureCard = tv({
+	base: [
+		"relative flex flex-col rounded-xl border overflow-hidden",
+		"starwind-transition-colors",
+	],
+	variants: {
+		variant: {
+			default: "bg-card border-border/50",
+			gradient: "bg-gradient-to-br from-card via-card to-muted/30 border-border/50",
+			primary: "bg-primary/10 border-primary/30",
+		},
+		size: {
+			sm: "p-4",
+			md: "p-6",
+			lg: "p-8",
+		},
+	},
+	defaultVariants: { variant: "default", size: "md" },
+});
+
+export const featureCardBadge = tv({
+	base: "inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full w-fit mb-4",
+	variants: {
+		variant: {
+			default: "bg-muted text-muted-foreground",
+			primary: "bg-primary/20 text-primary",
+			success: "bg-success/20 text-success",
+		},
+	},
+	defaultVariants: { variant: "default" },
+});
+
+export const featureCardTitle = tv({
+	base: "text-xl font-bold text-foreground mb-2",
+});
+
+export const featureCardDescription = tv({
+	base: "text-sm text-muted-foreground mb-4",
+});
+
+export const featureCardCta = tv({
+	base: "inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary-hover transition-colors",
+});
+
+const {
+	variant,
+	size,
+	title,
+	description,
+	badge,
+	href,
+	ctaText,
+	class: className,
+	...rest
+} = Astro.props;
+---
+
+<div class={featureCard({ variant, size, class: className })} data-slot="feature-card" {...rest}>
+	<!-- Background decoration slot -->
+	<slot name="background" />
+
+	<!-- Content -->
+	<div class="relative z-10">
+		{
+			badge && (
+				<span class={featureCardBadge({ variant: variant === "primary" ? "primary" : "default" })}>
+					<slot name="badge-icon" />
+					{badge}
+				</span>
+			)
+		}
+
+		<h3 class={featureCardTitle()}>{title}</h3>
+
+		{description && <p class={featureCardDescription()}>{description}</p>}
+
+		{
+			(ctaText || href) && (
+				<a href={href || "#"} class={featureCardCta()}>
+					{ctaText || "Learn more"}
+					<svg
+						class="size-4"
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<path d="M7 7h10v10" />
+						<path d="M7 17 17 7" />
+					</svg>
+				</a>
+			)
+		}
+
+		<!-- Extra content slot -->
+		<slot />
+	</div>
+</div>

@@ -1,0 +1,159 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { tv, type VariantProps } from "tailwind-variants";
+
+interface Props extends HTMLAttributes<"article">, VariantProps<typeof resourceCard> {
+	href?: string;
+	title: string;
+	description?: string;
+	category?: string;
+	imageUrl?: string;
+	iconUrl?: string;
+}
+
+export const resourceCard = tv({
+	base: [
+		"group relative flex flex-col bg-card text-card-foreground rounded-xl border border-border/50 overflow-hidden",
+		"starwind-transition-colors",
+	],
+	variants: {
+		variant: {
+			default: "hover:border-border hover:shadow-lg hover:shadow-black/10",
+			selected: "border-primary ring-1 ring-primary",
+			loading: "animate-pulse",
+		},
+	},
+	defaultVariants: { variant: "default" },
+});
+
+export const resourceCardImage = tv({
+	base: "relative aspect-[16/10] w-full bg-muted overflow-hidden",
+});
+
+export const resourceCardBookmark = tv({
+	base: [
+		"absolute top-3 right-3 p-1.5 rounded-md bg-background/80 backdrop-blur-sm",
+		"opacity-0 group-hover:opacity-100 transition-opacity",
+		"hover:bg-background",
+	],
+});
+
+export const resourceCardBody = tv({
+	base: "flex flex-col gap-2 p-4",
+});
+
+export const resourceCardMeta = tv({
+	base: "flex items-center gap-2",
+});
+
+export const resourceCardIcon = tv({
+	base: "size-8 rounded-lg bg-muted flex items-center justify-center overflow-hidden",
+});
+
+export const resourceCardCategory = tv({
+	base: "text-xs text-muted-foreground",
+});
+
+export const resourceCardTitle = tv({
+	base: "font-semibold text-foreground line-clamp-1",
+});
+
+export const resourceCardTags = tv({
+	base: "flex flex-wrap gap-1.5",
+});
+
+export const resourceCardTag = tv({
+	base: "px-2 py-0.5 text-xs rounded-md bg-muted text-muted-foreground",
+	variants: {
+		variant: {
+			default: "",
+			featured: "bg-primary/10 text-primary",
+		},
+	},
+	defaultVariants: { variant: "default" },
+});
+
+export const resourceCardDescription = tv({
+	base: "text-sm text-muted-foreground line-clamp-2",
+});
+
+const { variant, href, title, description, category, imageUrl, iconUrl, class: className, ...rest } =
+	Astro.props;
+
+const Tag = href ? "a" : "article";
+---
+
+<Tag
+	class={resourceCard({ variant, class: className })}
+	href={href}
+	data-slot="resource-card"
+	{...rest}
+>
+	<!-- Image area -->
+	<div class={resourceCardImage()}>
+		{
+			imageUrl ? (
+				<img src={imageUrl} alt={title} class="w-full h-full object-cover" loading="lazy" />
+			) : (
+				<div class="w-full h-full bg-gradient-to-br from-muted to-muted/50" />
+			)
+		}
+		<!-- Bookmark button slot -->
+		<slot name="bookmark">
+			<button class={resourceCardBookmark()} aria-label="Bookmark">
+				<svg
+					class="size-4 text-muted-foreground"
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
+					<path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
+				</svg>
+			</button>
+		</slot>
+	</div>
+
+	<!-- Body -->
+	<div class={resourceCardBody()}>
+		<!-- Meta: Icon + Category -->
+		<div class={resourceCardMeta()}>
+			<div class={resourceCardIcon()}>
+				{
+					iconUrl ? (
+						<img src={iconUrl} alt="" class="size-full object-cover" />
+					) : (
+						<slot name="icon">
+							<svg
+								class="size-4 text-muted-foreground"
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+							>
+								<rect width="7" height="7" x="3" y="3" rx="1" />
+								<rect width="7" height="7" x="14" y="3" rx="1" />
+								<rect width="7" height="7" x="14" y="14" rx="1" />
+								<rect width="7" height="7" x="3" y="14" rx="1" />
+							</svg>
+						</slot>
+					)
+				}
+			</div>
+			<div class="flex flex-col">
+				<span class={resourceCardTitle()}>{title}</span>
+				{category && <span class={resourceCardCategory()}>{category}</span>}
+			</div>
+		</div>
+
+		<!-- Tags slot -->
+		<slot name="tags" />
+
+		<!-- Description -->
+		{description && <p class={resourceCardDescription()}>{description}</p>}
+	</div>
+</Tag>
