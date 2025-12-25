@@ -2,9 +2,10 @@
 /**
  * CategoryGroup component
  * Accordion-style category group with nested links
+ * Uses SidebarItem and SidebarSubItem from design system
  */
 
-import SidebarLink from './SidebarLink.astro';
+import { SidebarItem, SidebarSubItem } from '@/features/ui/sidebar-item';
 import { slugify } from '@/features/common/lib/utils';
 
 interface Props {
@@ -13,84 +14,47 @@ interface Props {
 }
 
 const { title, categories } = Astro.props;
+const currentPath = new URL(Astro.request.url).pathname;
 ---
 
-<div class="category-group">
-	<button
+<div class="category-group" data-group-container={slugify(title)}>
+	<SidebarItem
+		expandable
+		expanded={false}
 		class="group-header"
 		data-group={slugify(title)}
-		aria-expanded="false"
 		aria-controls={`group-${slugify(title)}`}
 	>
-		<span class="group-title">{title}</span>
-		<svg
-			class="chevron-icon"
-			width="18"
-			height="18"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			stroke-width="2"
-			stroke-linecap="round"
-			stroke-linejoin="round"
-		>
-			<polyline points="6 9 12 15 18 9"></polyline>
-		</svg>
-	</button>
+		{title}
+	</SidebarItem>
 
 	<div class="group-content" id={`group-${slugify(title)}`} hidden>
-		<nav class="categories-list">
-			{categories.map((category) => (
-				<SidebarLink href={`/categories/${slugify(category)}/1`} label={category} />
-			))}
+		<nav class="flex flex-col pl-4 py-1">
+			{
+				categories.map((category) => {
+					const categoryPath = `/categories/${slugify(category)}/1`;
+					const isActive = currentPath.startsWith(`/categories/${slugify(category)}`);
+					return (
+						<SidebarSubItem
+							href={categoryPath}
+							variant={isActive ? 'active' : 'default'}
+						>
+							{category}
+						</SidebarSubItem>
+					);
+				})
+			}
 		</nav>
 	</div>
 </div>
 
 <style>
-	.category-group {
-		margin-bottom: 0.5rem;
-	}
-
-	.group-header {
-		width: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding: 0.75rem 1rem;
-		background: none;
-		border: none;
-		color: var(--foreground);
-		cursor: pointer;
-		font-size: 0.95rem;
-		font-weight: 600;
-		transition: all 0.2s ease;
-		text-align: left;
-	}
-
-	.group-header:hover {
-		color: var(--foreground);
-		background-color: var(--muted);
-	}
-
-	.group-title {
-		flex: 1;
-	}
-
-	.chevron-icon {
-		flex-shrink: 0;
-		transition: transform 0.3s ease;
-		color: var(--muted-foreground);
-	}
-
-	.group-header[aria-expanded='true'] .chevron-icon {
-		transform: rotate(180deg);
-	}
-
 	.group-content {
 		overflow: hidden;
 		max-height: 0;
-		transition: max-height 0.3s ease, opacity 0.3s ease;
+		transition:
+			max-height 0.3s ease,
+			opacity 0.3s ease;
 		opacity: 0;
 	}
 
@@ -99,28 +63,27 @@ const { title, categories } = Astro.props;
 		opacity: 1;
 		display: block;
 	}
-
-	.categories-list {
-		list-style: none;
-		padding: 0;
-		margin: 0;
-		background-color: var(--muted);
-	}
 </style>
 
 <script>
 	// Initialize accordion functionality
 	function initializeAccordion() {
-		const headers = document.querySelectorAll('.group-header');
+		const containers = document.querySelectorAll('[data-group-container]');
 
-		headers.forEach((header) => {
-			// Restore state from localStorage
+		containers.forEach((container) => {
+			const header = container.querySelector('[data-group]') as HTMLElement;
+			const content = container.querySelector('.group-content') as HTMLElement;
+
+			if (!header || !content) return;
+
 			const groupName = header.getAttribute('data-group');
+
+			// Restore state from localStorage
 			const isOpen = localStorage.getItem(`sidebar-group-${groupName}`) === 'true';
 
-			const content = header.nextElementSibling as HTMLElement;
-			if (content && isOpen) {
+			if (isOpen) {
 				content.removeAttribute('hidden');
+				header.setAttribute('data-expanded', 'true');
 				header.setAttribute('aria-expanded', 'true');
 			}
 
@@ -130,13 +93,12 @@ const { title, categories } = Astro.props;
 				const newState = !isCurrentlyOpen;
 
 				header.setAttribute('aria-expanded', String(newState));
+				header.setAttribute('data-expanded', String(newState));
 
-				if (content) {
-					if (newState) {
-						content.removeAttribute('hidden');
-					} else {
-						content.setAttribute('hidden', '');
-					}
+				if (newState) {
+					content.removeAttribute('hidden');
+				} else {
+					content.setAttribute('hidden', '');
 				}
 
 				// Save state to localStorage

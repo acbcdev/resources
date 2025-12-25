@@ -4,7 +4,7 @@
  */
 
 export const CATEGORY_GROUPS = {
-	AI: ['AI'],
+	AI: ['AI', 'Agents', 'LLMs', 'Video & Image', 'Audio', 'Code', 'Machine Learning', 'Prompts'],
 	Design: [
 		'Design',
 		'Colors',

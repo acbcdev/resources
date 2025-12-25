@@ -2,49 +2,21 @@
 /**
  * SidebarLink component
  * Individual navigation link with active state highlighting
+ * Uses SidebarItem from design system
  */
+
+import { SidebarItem } from '@/features/ui/sidebar-item';
 
 interface Props {
 	href: string;
 	label: string;
-	icon?: any;
 }
 
 const { href, label } = Astro.props;
 const currentPath = new URL(Astro.request.url).pathname;
-const isCurrentlyActive = currentPath === href || (href !== '/' && currentPath.startsWith(href));
+const isActive = currentPath === href || (href !== '/' && currentPath.startsWith(href));
 ---
 
-<a href={href} class:list={['sidebar-link', { active: isCurrentlyActive }]}>
-	<span class="link-label">{label}</span>
-</a>
-
-<style>
-	.sidebar-link {
-		display: flex;
-		align-items: center;
-		padding: 0.75rem 1rem;
-		color: var(--muted-foreground);
-		text-decoration: none;
-		transition: all 0.2s ease;
-		font-size: 0.95rem;
-		border-left: 3px solid transparent;
-	}
-
-	.sidebar-link:hover {
-		color: var(--foreground);
-		background-color: var(--muted);
-		border-left-color: var(--border);
-	}
-
-	.sidebar-link.active {
-		color: var(--foreground);
-		background-color: var(--muted);
-		border-left-color: var(--border);
-		font-weight: 600;
-	}
-
-	.link-label {
-		flex: 1;
-	}
-</style>
+<SidebarItem href={href} variant={isActive ? 'active' : 'default'}>
+	{label}
+</SidebarItem>
