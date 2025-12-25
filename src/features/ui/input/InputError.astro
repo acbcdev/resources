@@ -1,0 +1,16 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { tv } from "tailwind-variants";
+
+type Props = HTMLAttributes<"p">;
+
+export const inputError = tv({
+	base: "text-sm text-destructive mt-1.5",
+});
+
+const { class: className, ...rest } = Astro.props;
+---
+
+<p class={inputError({ class: className })} data-slot="input-error" role="alert" {...rest}>
+	<slot />
+</p>
