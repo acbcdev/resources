@@ -1,0 +1,75 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { tv, type VariantProps } from "tailwind-variants";
+
+interface Props extends Omit<HTMLAttributes<"input">, "type">, VariantProps<typeof checkbox> {
+	label?: string;
+}
+
+export const checkbox = tv({
+	base: [
+		"peer size-5 shrink-0 rounded border-2 border-input bg-transparent appearance-none cursor-pointer",
+		"starwind-transition-colors",
+		"checked:bg-primary checked:border-primary",
+		"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+		"disabled:cursor-not-allowed disabled:opacity-50",
+	],
+	variants: {
+		error: {
+			true: "border-destructive checked:bg-destructive checked:border-destructive focus-visible:ring-destructive",
+			false: "",
+		},
+	},
+	defaultVariants: { error: false },
+});
+
+export const checkboxWrapper = tv({
+	base: "inline-flex items-center gap-2",
+});
+
+export const checkboxLabel = tv({
+	base: "text-sm font-medium text-foreground cursor-pointer select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
+	variants: {
+		error: {
+			true: "text-destructive",
+			false: "",
+		},
+	},
+	defaultVariants: { error: false },
+});
+
+export const checkboxIcon = tv({
+	base: "absolute inset-0 flex items-center justify-center text-primary-foreground pointer-events-none opacity-0 peer-checked:opacity-100",
+});
+
+const { error, label, class: className, id, ...rest } = Astro.props;
+const checkboxId = id || `checkbox-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<div class={checkboxWrapper({ class: className })}>
+	<div class="relative">
+		<input
+			type="checkbox"
+			id={checkboxId}
+			class={checkbox({ error })}
+			data-slot="checkbox"
+			aria-invalid={error ? "true" : undefined}
+			{...rest}
+		/>
+		<span class={checkboxIcon()}>
+			<svg
+				class="size-3.5"
+				xmlns="http://www.w3.org/2000/svg"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="3"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			>
+				<polyline points="20 6 9 17 4 12"></polyline>
+			</svg>
+		</span>
+	</div>
+	{label && <label for={checkboxId} class={checkboxLabel({ error })}>{label}</label>}
+</div>
