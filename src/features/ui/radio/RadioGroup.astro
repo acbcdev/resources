@@ -1,0 +1,36 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { tv, type VariantProps } from "tailwind-variants";
+
+interface Props extends HTMLAttributes<"div">, VariantProps<typeof radioGroup> {
+	label?: string;
+}
+
+export const radioGroup = tv({
+	base: "flex flex-col gap-2",
+	variants: {
+		orientation: {
+			vertical: "flex-col",
+			horizontal: "flex-row gap-4",
+		},
+	},
+	defaultVariants: { orientation: "vertical" },
+});
+
+export const radioGroupLabel = tv({
+	base: "text-sm font-medium text-foreground mb-2",
+});
+
+const { orientation, label, class: className, ...rest } = Astro.props;
+---
+
+<div
+	class={radioGroup({ orientation, class: className })}
+	role="radiogroup"
+	aria-label={label}
+	data-slot="radio-group"
+	{...rest}
+>
+	{label && <span class={radioGroupLabel()}>{label}</span>}
+	<slot />
+</div>

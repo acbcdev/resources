@@ -1,0 +1,81 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { tv, type VariantProps } from "tailwind-variants";
+
+interface Props extends Omit<HTMLAttributes<"input">, "type">, VariantProps<typeof radio> {
+	label?: string;
+}
+
+export const radio = tv({
+	base: [
+		"peer size-5 shrink-0 rounded-full border-2 border-input bg-transparent appearance-none cursor-pointer",
+		"starwind-transition-colors",
+		"checked:border-primary",
+		"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+		"disabled:cursor-not-allowed disabled:opacity-50",
+	],
+	variants: {
+		error: {
+			true: "border-destructive checked:border-destructive focus-visible:ring-destructive",
+			false: "",
+		},
+	},
+	defaultVariants: { error: false },
+});
+
+export const radioWrapper = tv({
+	base: "inline-flex items-center gap-2",
+});
+
+export const radioLabel = tv({
+	base: "text-sm font-medium text-foreground cursor-pointer select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
+	variants: {
+		error: {
+			true: "text-destructive",
+			false: "",
+		},
+	},
+	defaultVariants: { error: false },
+});
+
+export const radioIndicator = tv({
+	base: "absolute inset-0 flex items-center justify-center pointer-events-none",
+	variants: {
+		error: {
+			true: "",
+			false: "",
+		},
+	},
+});
+
+export const radioDot = tv({
+	base: "size-2.5 rounded-full bg-primary scale-0 peer-checked:scale-100 transition-transform",
+	variants: {
+		error: {
+			true: "bg-destructive",
+			false: "",
+		},
+	},
+	defaultVariants: { error: false },
+});
+
+const { error, label, class: className, id, ...rest } = Astro.props;
+const radioId = id || `radio-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<div class={radioWrapper({ class: className })}>
+	<div class="relative">
+		<input
+			type="radio"
+			id={radioId}
+			class={radio({ error })}
+			data-slot="radio"
+			aria-invalid={error ? "true" : undefined}
+			{...rest}
+		/>
+		<span class={radioIndicator()}>
+			<span class={radioDot({ error })}></span>
+		</span>
+	</div>
+	{label && <label for={radioId} class={radioLabel({ error })}>{label}</label>}
+</div>
