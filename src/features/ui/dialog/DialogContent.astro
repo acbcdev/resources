@@ -21,7 +21,7 @@ export const dialogBackdrop = tv({
 export const dialogContent = tv({
   base: [
     "fixed top-16 left-[50%] z-50 translate-x-[-50%] sm:top-[50%] sm:translate-y-[-50%]",
-    "bg-background w-full max-w-md border p-8 shadow-lg sm:rounded-lg",
+    "bg-card text-card-foreground w-full max-w-md border border-border/50 p-6 shadow-xl sm:rounded-xl",
     "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fill-mode-forwards",
     "fade-in zoom-in-95 slide-in-from-bottom-2",
     "fade-out zoom-out-95 slide-out-to-bottom-2",
