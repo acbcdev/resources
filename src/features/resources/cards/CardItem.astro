@@ -23,12 +23,10 @@ type Props = {
 const { link, name, description, ogImage, image, icon, ogDescription, tags } = Astro.props;
 ---
 
-<Card
-	className="group/card overflow-hidden hover:border-border duration-300 border-4 rounded-3xl"
->
+<Card variant="interactive" className="group/card overflow-hidden">
 	<a target="_blank" aria-label={`${name} link`} href={link}>
 		<Image
-			class="group-hover/card:[scale:1.02] w-full duration-200 text-center object-cover aspect-video z-0"
+			class="group-hover/card:scale-[1.02] w-full duration-200 text-center object-cover aspect-video z-0"
 			src={ogImage || image || icon}
 			loading="lazy"
 			width={500}
@@ -36,18 +34,23 @@ const { link, name, description, ogImage, image, icon, ogDescription, tags } = A
 			alt={ogDescription || description}
 		/>
 	</a>
-	<CardContent className="content-card mt-4 sm:px-3 justify-between">
-		<CardTitle className="hover:text-foreground max-w-[90%] break-words hyphens-auto" lang="en"
-			>{name}</CardTitle
+	<CardContent className="flex flex-row items-center justify-between mt-4 sm:px-3">
+		<CardTitle className="hover:text-foreground max-w-[90%] break-words hyphens-auto" lang="en">
+			{name}
+		</CardTitle>
+		<a
+			target="_blank"
+			aria-label={`${name} link`}
+			href={link}
+			class="text-muted-foreground hover:text-foreground transition-colors"
 		>
-		<a target="_blank" aria-label={`${name} link`} href={link}>
-			<ExternalLink />
+			<ExternalLink class="size-5" />
 		</a>
 	</CardContent>
 	<CardFooter className="grid">
-		<CardDescription className="text-base text-zinc-300 mb-2"
-			>{ogDescription ?? description}</CardDescription
-		>
+		<CardDescription className="text-base text-muted-foreground mb-2">
+			{ogDescription ?? description}
+		</CardDescription>
 		<div class="flex flex-wrap gap-x-2">
 			{
 				tags?.map((tag) => {
@@ -55,7 +58,7 @@ const { link, name, description, ogImage, image, icon, ogDescription, tags } = A
 					return (
 						<a
 							href={`/tags/${fixTag}/1`}
-							class="tag text-zinc-400 hover:underline hover:text-foreground"
+							class="text-sm text-muted-foreground hover:underline hover:text-foreground transition-colors"
 						>
 							#{tag}
 						</a>
@@ -65,15 +68,3 @@ const { link, name, description, ogImage, image, icon, ogDescription, tags } = A
 		</div>
 	</CardFooter>
 </Card>
-
-<style>
-	.content-card {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		/*		justify-content: space-around;*/
-		h3 {
-			font-size: 3rem;
-		}
-	}
-</style>
