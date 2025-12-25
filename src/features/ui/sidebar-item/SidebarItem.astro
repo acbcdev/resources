@@ -1,0 +1,105 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { tv, type VariantProps } from 'tailwind-variants';
+
+interface Props extends HTMLAttributes<'a'>, VariantProps<typeof sidebarItem> {
+	href?: string;
+	badge?: string | number;
+	expanded?: boolean;
+	expandable?: boolean;
+}
+
+const {
+	variant,
+	href,
+	badge,
+	expanded = false,
+	expandable = false,
+	disabled = false,
+	class: className,
+	...rest
+} = Astro.props;
+
+export const sidebarItem = tv({
+	base: [
+		'group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium w-full',
+		'starwind-transition-colors',
+		'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
+	],
+	variants: {
+		variant: {
+			default: 'text-muted-foreground hover:bg-muted hover:text-foreground',
+			active: 'bg-primary text-primary-foreground hover:bg-primary-hover',
+		},
+		disabled: {
+			true: 'opacity-50 pointer-events-none cursor-not-allowed',
+			false: 'cursor-pointer',
+		},
+	},
+	defaultVariants: {
+		variant: 'default',
+		disabled: false,
+	},
+});
+
+const Tag = href && !disabled ? 'a' : 'div';
+---
+
+<Tag
+	class={sidebarItem({ variant, disabled, class: className })}
+	href={href && !disabled ? href : undefined}
+	data-slot="sidebar-item"
+	data-expanded={expandable ? expanded : undefined}
+	aria-disabled={disabled ? 'true' : undefined}
+	role={!href ? 'button' : undefined}
+	tabindex={disabled ? -1 : 0}
+	{...rest}
+>
+	<!-- Icon slot -->
+	<span class="flex-shrink-0 [&>svg]:size-5">
+		<slot name="icon" />
+	</span>
+
+	<!-- Label -->
+	<span class="flex-1 truncate">
+		<slot />
+	</span>
+
+	<!-- Badge (optional) -->
+	{
+		badge && (
+			<span
+				class:list={[
+					'flex-shrink-0 rounded px-1.5 py-0.5 text-xs font-medium',
+					variant === 'active'
+						? 'bg-primary-foreground/20 text-primary-foreground'
+						: 'bg-muted text-muted-foreground',
+				]}
+			>
+				{badge}
+			</span>
+		)
+	}
+
+	<!-- Expandable chevron (optional) -->
+	{
+		expandable && (
+			<svg
+				class:list={[
+					'size-4 flex-shrink-0 transition-transform duration-200',
+					expanded ? 'rotate-180' : 'rotate-0',
+					variant === 'active' ? 'text-primary-foreground' : 'text-muted-foreground',
+				]}
+				xmlns="http://www.w3.org/2000/svg"
+				viewBox="0 0 20 20"
+				fill="currentColor"
+			>
+				<path
+					fill-rule="evenodd"
+					d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+					clip-rule="evenodd"
+				/>
+			</svg>
+		)
+	}
+</Tag>

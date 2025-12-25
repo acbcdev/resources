@@ -1,0 +1,47 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { tv, type VariantProps } from "tailwind-variants";
+
+interface Props extends HTMLAttributes<"a">, VariantProps<typeof sidebarSubItem> {
+	href?: string;
+}
+
+const { variant, href, disabled = false, class: className, ...rest } = Astro.props;
+
+export const sidebarSubItem = tv({
+	base: [
+		"flex items-center gap-3 rounded-md px-3 py-2 text-sm w-full ml-8",
+		"border-l-2 border-transparent",
+		"starwind-transition-colors",
+		"focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+	],
+	variants: {
+		variant: {
+			default: "text-muted-foreground hover:text-foreground hover:border-muted-foreground",
+			active: "text-foreground border-primary font-medium",
+		},
+		disabled: {
+			true: "opacity-50 pointer-events-none cursor-not-allowed",
+			false: "cursor-pointer",
+		},
+	},
+	defaultVariants: {
+		variant: "default",
+		disabled: false,
+	},
+});
+
+const Tag = href && !disabled ? "a" : "div";
+---
+
+<Tag
+	class={sidebarSubItem({ variant, disabled, class: className })}
+	href={href && !disabled ? href : undefined}
+	data-slot="sidebar-sub-item"
+	aria-disabled={disabled ? "true" : undefined}
+	role={!href ? "button" : undefined}
+	tabindex={disabled ? -1 : 0}
+	{...rest}
+>
+	<slot />
+</Tag>
