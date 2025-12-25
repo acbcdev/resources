@@ -94,6 +94,44 @@ Add `.astro` files to `src/pages/` for new routes. Use `src/features/common/layo
 
 The build command includes `astro check` which validates TypeScript. Running `pnpm build` will catch type errors before deployment.
 
+## Code Style Guidelines
+
+### TypeScript/JavaScript
+
+- Keep functions single-purpose unless composable or reusable
+- DO NOT do unnecessary destructuring
+- AVOID `else` statements - use early returns instead
+- AVOID `try`/`catch` where possible
+- AVOID using `any` type - use proper typing
+- AVOID `let` - prefer `const`
+- PREFER single word variable names where clarity allows
+
+### Styling
+
+- **Always use Tailwind** - no custom CSS unless absolutely necessary
+- **Minimalistic design** - clean, Apple-inspired aesthetics
+- **Smooth transitions** - use `transition-colors`, `duration-200` for subtle animations
+- **Subtle hover states** - prefer `hover:bg-muted/50` over dramatic color changes
+- **Consistent spacing** - use Tailwind spacing scale (`p-4`, `gap-3`, etc.)
+- **Use CSS variables** - reference design system tokens (`var(--primary)`, `var(--muted)`)
+- **Rounded corners** - prefer `rounded-lg` or `rounded-xl` for modern feel
+
+### Component Patterns
+
+```astro
+// Good - early return, const, minimal
+const items = Astro.props.items;
+if (!items) return null;
+
+// Bad - unnecessary else, let
+let result;
+if (items) {
+  result = items;
+} else {
+  result = null;
+}
+```
+
 ## Code Quality & Formatting
 
 - **Prettier**: Run formatting with Prettier (configured for tabs, 100 char width)
