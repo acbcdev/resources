@@ -12,7 +12,7 @@ import {
 	PaginationNext,
 	PaginationPrevious,
 } from '@/features/ui/pagination';
-import ListResources from '@/features/resources/lists/ListResources.astro';
+import ListResources from '@/features/common/lists/ListResources.astro';
 export const getStaticPaths = (({ paginate }) => {
 	const AllCategories = [...new Set(DATA.flatMap((item) => item.category))];
 	return AllCategories.flatMap((category) => {

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { CategorySchema } from '@/features/categories/types/category';
+import { CategorySchema } from '@/features/common/types/category';
 
 /**
  * Open Graph metadata extracted from a webpage

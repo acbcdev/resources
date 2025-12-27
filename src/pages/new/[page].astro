@@ -9,7 +9,7 @@ import type { GetStaticPaths } from 'astro';
 import { DATA } from '@/data';
 import newUrls from '@/data/new.json';
 import Layout from '@/layouts/Layout.astro';
-import ListResources from '@/features/resources/lists/ListResources.astro';
+import ListResources from '@/features/common/lists/ListResources.astro';
 
 export const getStaticPaths = (({ paginate }) => {
 	// Filter DATA to only include resources that are in the new.json list

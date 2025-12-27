@@ -25,7 +25,7 @@ import { logger } from './utils/logger';
 import { fileIO } from './utils/file-io';
 import { withRetry, batchExecuteWithRetry } from './utils/retry';
 import type { ResourceWithOG, ResourceWithAI } from './types/resource';
-import { CATEGORIES } from '@/features/categories/types/category';
+import { CATEGORIES, getAllCategoryNames } from '@/features/common/types/category';
 
 /**
  * Schema for AI-generated metadata
@@ -34,7 +34,7 @@ const AIGeneratedSchema = z.object({
 	name: z.string().describe('The name/title of the resource'),
 	description: z.string().describe('A brief description of what the resource does'),
 	category: z
-		.array(z.enum(CATEGORIES.map((c) => c.name) as [string, ...string[]]))
+		.array(z.enum(getAllCategoryNames() as [string, ...string[]]))
 		.describe('Array of relevant categories'),
 	topic: z.string().optional().describe('Secondary topic or subject'),
 	main_features: z

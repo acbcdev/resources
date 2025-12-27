@@ -2,14 +2,14 @@
 import { DATA } from '@/data/index';
 import Layout from '@/layouts/Layout.astro';
 import { toHundreds } from '@/features/common/lib/utils';
-import HeroCarousel from '@/features/homepage/HeroCarousel.astro';
-import NewsGrid from '@/features/homepage/NewsGrid.astro';
+import HeroCarousel from '@/features/common/homepage/HeroCarousel.astro';
+import NewsGrid from '@/features/common/homepage/NewsGrid.astro';
 import {
 	getCarouselData,
 	getNewResources,
 	getFeaturedResources,
 	getFeaturedCollections,
-} from '@/features/homepage/lib/getFeaturedContent';
+} from '@/features/common/homepage/lib/getFeaturedContent';
 
 const numOfResources = toHundreds(DATA.length);
 
