@@ -9,9 +9,8 @@
 import Logo from './Logo.astro';
 import SidebarLink from './SidebarLink.astro';
 import CategoryGroup from './CategoryGroup.astro';
-import { CATEGORY_GROUPS } from './categoryGroups';
-
-const groupEntries = Object.entries(CATEGORY_GROUPS) as Array<[string, readonly string[]]>;
+import { Button } from '@/features/ui/button';
+import { CATEGORIES } from '@/features/common/types/category';
 ---
 
 <!-- Hamburger button (mobile only) -->
@@ -67,10 +66,21 @@ const groupEntries = Object.entries(CATEGORY_GROUPS) as Array<[string, readonly 
 
 		<div class="categories-section">
 			{
-				groupEntries.map(([groupName, categories]) => (
-					<CategoryGroup title={groupName} categories={categories as string[]} />
+				CATEGORIES.map((category) => (
+					<CategoryGroup
+						title={category.name}
+						categories={category.subcategories?.map((s) => s.name) || []}
+						icon={category.icon as any}
+					/>
 				))
 			}
+		</div>
+
+		<!-- TODO: This will be a real submission form for users to contribute resources -->
+		<div class="border-t border-border px-3 py-3 mt-auto">
+			<Button href="#" variant="default" size="md" className="w-full">
+				+ Submit Resource
+			</Button>
 		</div>
 	</nav>
 </aside>

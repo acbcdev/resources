@@ -7,13 +7,16 @@
 
 import { SidebarItem, SidebarSubItem } from '@/features/ui/sidebar-item';
 import { slugify } from '@/features/common/lib/utils';
+import type { ComponentType, SVGProps } from 'react';
+import Icon from './IconRenderer';
 
 interface Props {
 	title: string;
 	categories: string[];
+	icon: ComponentType<SVGProps<SVGSVGElement>>;
 }
 
-const { title, categories } = Astro.props;
+const { title, categories, icon: IconComponent } = Astro.props;
 const currentPath = new URL(Astro.request.url).pathname;
 ---
 
@@ -25,6 +28,7 @@ const currentPath = new URL(Astro.request.url).pathname;
 		data-group={slugify(title)}
 		aria-controls={`group-${slugify(title)}`}
 	>
+		<Icon icon={IconComponent} slot="icon" />
 		{title}
 	</SidebarItem>
 
@@ -35,10 +39,7 @@ const currentPath = new URL(Astro.request.url).pathname;
 					const categoryPath = `/categories/${slugify(category)}/1`;
 					const isActive = currentPath.startsWith(`/categories/${slugify(category)}`);
 					return (
-						<SidebarSubItem
-							href={categoryPath}
-							variant={isActive ? 'active' : 'default'}
-						>
+						<SidebarSubItem href={categoryPath} variant={isActive ? 'active' : 'default'}>
 							{category}
 						</SidebarSubItem>
 					);

@@ -1,0 +1,110 @@
+---
+/**
+ * CarouselDots Component
+ * Displays navigation dots for carousel with active state styling
+ * Supports clickable navigation and auto-sync with Embla carousel API
+ */
+
+interface Props {
+	count: number;
+	activeIndex?: number;
+	class?: string;
+}
+
+const { count, activeIndex = 0, class: className } = Astro.props;
+---
+
+<div
+	class={`carousel-dots flex gap-2 justify-center py-4 ${className || ''}`}
+	data-carousel-dots
+	role="tablist"
+	aria-label="Carousel navigation"
+>
+	{Array.from({ length: count }).map((_, i) => (
+		<button
+			class={`size-2 rounded-full bg-white/30 hover:bg-white/50 transition-all duration-300 cursor-pointer
+         ${i === activeIndex ? 'w-6 bg-primary' : ''}`}
+			data-index={i}
+			role="tab"
+			aria-selected={i === activeIndex}
+			aria-label={`Go to slide ${i + 1}`}
+		/>
+	))}
+</div>
+
+<script>
+	/**
+	 * Initialize carousel dots navigation
+	 * Syncs with Embla carousel API and handles click events
+	 */
+	function initCarouselDots() {
+		const dotsContainers = document.querySelectorAll(
+			'[data-carousel-dots]',
+		) as NodeListOf<HTMLElement>;
+
+		dotsContainers.forEach((container) => {
+			const dots = Array.from(
+				container.querySelectorAll('button'),
+			) as HTMLButtonElement[];
+			const carousel = container.closest(
+				'[class*="starwind-carousel"]',
+			) as HTMLElement;
+
+			if (!carousel || dots.length === 0) return;
+
+			// Find Embla API from the carousel
+			let emblaApi: any = null;
+
+			// Try to get from Embla's API methods if available
+			const emblaScript = carousel.querySelector('script[data-embla]');
+			if (emblaScript) {
+				try {
+					const instance = (window as any).__EMBLA_INSTANCES?.[
+						carousel.id || 'main'
+					];
+					if (instance) emblaApi = instance;
+				} catch (e) {
+					// API not immediately available
+				}
+			}
+
+			// Handle dot clicks
+			dots.forEach((dot, index) => {
+				dot.addEventListener('click', () => {
+					if (emblaApi && emblaApi.scrollTo) {
+						emblaApi.scrollTo(index);
+					}
+
+					// Update active state if API not available
+					updateActiveDot(dots, index);
+				});
+			});
+
+			// Function to update active dot styling
+			function updateActiveDot(dots: HTMLButtonElement[], index: number) {
+				dots.forEach((dot, i) => {
+					const isActive = i === index;
+					dot.setAttribute('aria-selected', String(isActive));
+
+					// Update classes
+					if (isActive) {
+						dot.classList.add('w-6', 'bg-primary');
+						dot.classList.remove('bg-white/30');
+					} else {
+						dot.classList.remove('w-6', 'bg-primary');
+						dot.classList.add('bg-white/30');
+					}
+				});
+			}
+		});
+	}
+
+	// Initialize on load and after Astro transitions
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initCarouselDots);
+	} else {
+		initCarouselDots();
+	}
+
+	document.addEventListener('astro:after-swap', initCarouselDots);
+</script>

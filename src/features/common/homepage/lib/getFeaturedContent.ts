@@ -7,7 +7,7 @@
 import { DATA } from '@/data';
 // import newUrls from '@/data/new.json';
 import { collections } from '@/features/common/consts/collections';
-import type { Tool } from '@/features/resources/types/resource';
+import type { Tool } from '@/features/common/types/resource';
 
 /**
  * Validate that a resource has COMPLETE metadata

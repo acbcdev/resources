@@ -21,10 +21,17 @@ type Props = {
 	tags?: string[];
 };
 const { link, name, description, ogImage, image, icon, ogDescription, tags } = Astro.props;
+
+// Extract first letter for badge
+const firstLetter = name.charAt(0).toUpperCase();
 ---
 
-<Card variant="interactive" className="group/card overflow-hidden">
-	<a target="_blank" aria-label={`${name} link`} href={link}>
+<Card variant="interactive" className="group/card overflow-hidden relative">
+	<a target="_blank" aria-label={`${name} link`} href={link} class="relative block">
+		{/* Letter Badge */}
+		<div class="absolute top-3 left-3 z-10 size-10 rounded-full bg-primary text-primary-foreground font-bold text-lg flex items-center justify-center">
+			{firstLetter}
+		</div>
 		<Image
 			class="group-hover/card:scale-[1.02] w-full duration-200 text-center object-cover aspect-video z-0"
 			src={ogImage || image || icon}

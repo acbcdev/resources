@@ -1,8 +1,22 @@
-import { CATEGORIES } from "@/features/categories/types/category";
-import type { Tool } from "@/features/resources/types/resource";
+import { CATEGORIES } from "@/features/common/types/category";
+import type { Tool } from "@/features/common/types/resource";
 import { DATA } from "@/data";
 
-export const categories = CATEGORIES.map(({ name, icon }: { name: string; icon: any }) => {
+// Flatten CATEGORIES including subcategories for counting
+const flattenCategories = () => {
+	const flat: Array<{ name: string; icon: any }> = [];
+	CATEGORIES.forEach((cat) => {
+		flat.push({ name: cat.name, icon: cat.icon });
+		if (cat.subcategories) {
+			cat.subcategories.forEach((sub) => {
+				flat.push({ name: sub.name, icon: sub.icon });
+			});
+		}
+	});
+	return flat;
+};
+
+export const categories = flattenCategories().map(({ name, icon }) => {
 	const length = DATA.filter((d) => d.category.includes(name)).length;
 	return { name, length, icon };
 });

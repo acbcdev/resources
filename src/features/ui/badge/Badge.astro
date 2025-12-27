@@ -1,0 +1,31 @@
+---
+import { tv, type VariantProps } from "tailwind-variants";
+
+const badge = tv({
+	base: "inline-flex items-center justify-center rounded-md font-medium",
+	variants: {
+		variant: {
+			default: "bg-primary text-primary-foreground",
+			secondary: "bg-secondary text-secondary-foreground",
+			outline: "border border-border bg-transparent text-foreground",
+			accent: "bg-accent text-accent-foreground",
+		},
+		size: {
+			sm: "px-2 py-0.5 text-xs",
+			md: "px-3 py-1 text-sm",
+			lg: "px-4 py-1.5 text-base",
+		},
+	},
+	defaultVariants: { variant: "default", size: "md" },
+});
+
+interface Props extends VariantProps<typeof badge> {
+	class?: string;
+}
+
+const { variant, size, class: className } = Astro.props;
+---
+
+<span class={badge({ variant, size, class: className })}>
+	<slot />
+</span>

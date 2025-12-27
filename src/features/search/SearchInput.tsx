@@ -23,8 +23,14 @@ export default function SearchInput() {
 	const [searchIndex, setSearchIndex] = useState<SearchIndexItem[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [activeIndex, setActiveIndex] = useState(-1);
+	const [isMac, setIsMac] = useState(false);
 	const dropdownRef = useRef<HTMLDivElement>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
+
+	// Detect OS on mount
+	useEffect(() => {
+		setIsMac(navigator.platform.includes('Mac'));
+	}, []);
 
 	// Load search index on mount
 	useEffect(() => {
@@ -87,6 +93,19 @@ export default function SearchInput() {
 		return () => document.removeEventListener('mousedown', handleClickOutside);
 	}, []);
 
+	// Handle keyboard shortcut (Cmd+K or Ctrl+K) to focus search
+	useEffect(() => {
+		const handleKeyboardShortcut = (e: KeyboardEvent) => {
+			if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+				e.preventDefault();
+				inputRef.current?.focus();
+			}
+		};
+
+		document.addEventListener('keydown', handleKeyboardShortcut);
+		return () => document.removeEventListener('keydown', handleKeyboardShortcut);
+	}, []);
+
 	// Handle keyboard navigation
 	const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (!showDropdown || results.length === 0) {
@@ -143,6 +162,9 @@ export default function SearchInput() {
 					aria-controls="search-results"
 					className="search-input"
 				/>
+				<kbd className="keyboard-hint">
+					{isMac ? '⌘' : 'Ctrl'} K
+				</kbd>
 			</div>
 
 			{!isLoading && showDropdown && results.length > 0 && (
@@ -221,10 +243,25 @@ export default function SearchInput() {
 					font-size: 0.95rem;
 					outline: none;
 					font-family: inherit;
+					padding-right: 3rem;
 				}
 
 				.search-input::placeholder {
 					color: var(--muted-foreground);
+				}
+
+				.keyboard-hint {
+					position: absolute;
+					right: 0.75rem;
+					background: var(--muted);
+					color: var(--muted-foreground);
+					padding: 0.25rem 0.5rem;
+					border-radius: 0.25rem;
+					font-size: 0.75rem;
+					font-weight: 500;
+					pointer-events: none;
+					font-family: inherit;
+					border: none;
 				}
 
 				.search-dropdown {

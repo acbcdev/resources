@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import { collectionNames } from '@/features/common/consts/collections';
 import { slugify } from '@/features/common/lib/utils';
-import { CategorySchema } from '@/features/categories/types/category';
-import { TargetAudienceSchema, type TargetAudience } from '@/features/audiences/types/audience';
+import { CategorySchema } from '@/features/common/types/category';
+import { TargetAudienceSchema, type TargetAudience } from '@/features/common/types/audience';
 
 // ============================================================================
 // Helper Schemas

@@ -14,9 +14,9 @@ import {
 	Tag,
 	TargetAudience,
 } from 'astro:db';
-import type { Tool, ToolInput } from '@/features/resources/types/resource';
-import type { Category as CategoryType } from '@/features/categories/types/category';
-import type { TargetAudience as AudienceType } from '@/features/audiences/types/audience';
+import type { Tool, ToolInput } from '@/features/common/types/resource';
+import type { Category as CategoryType } from '@/features/common/types/category';
+import type { TargetAudience as AudienceType } from '@/features/common/types/audience';
 import { slugify } from './utils';
 
 // ============================================================================
