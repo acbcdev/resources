@@ -64,6 +64,7 @@ This is an Astro-based web application for cataloging and browsing resources (to
 - **React 19.2.0** - For interactive components (via @astrojs/react integration)
 - **Tailwind CSS v4** - Utility-first CSS (uses @tailwindcss/vite plugin)
 - **Starwind** - Component library built on Tailwind (11 components configured)
+- **Tabler Icons React 3.36.0** - Icon library with React components
 - **TypeScript 5.9.3** - Strict mode enabled
 - **Vitest 3.2.4** - Testing framework with UI mode
 - **Prettier 3.6.2** - Code formatting (with astro plugin)
@@ -77,6 +78,25 @@ This is an Astro-based web application for cataloging and browsing resources (to
 - **CSS Variables**: Starwind uses CSS variables for theming (baseColor: zinc)
 
 ## Common Development Tasks
+
+### Using Tabler Icons
+
+Icons are imported from `@tabler/icons-react`. Use in Astro components by importing the needed icons and rendering them in JSX/Astro markup. Example:
+
+```astro
+---
+import { IconApps, IconClock } from '@tabler/icons-react';
+---
+
+<IconApps size={20} stroke={1.5} slot="icon" />
+```
+
+Common icon options:
+- `size` - Icon size in pixels (default: 24)
+- `stroke` - Stroke width (default: 2)
+- `color` - Icon color (inherits from currentColor by default)
+
+Browse available icons at [tabler-icons.io](https://tabler-icons.io).
 
 ### Adding a New UI Component from Starwind
 
