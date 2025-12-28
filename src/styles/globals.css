@@ -104,6 +104,8 @@
 		--text-light: #1E293B;
 		--text-muted: #64748B;
 		--radius: 0.625rem;
+		
+
 	}
 
 	.dark {
@@ -139,6 +141,8 @@
 		--outline: #2563EB;
 		--text-light: #E2E8F0;
 		--text-muted: #94A3B8;
+		--sidebar-background: #0F0F11;
+
 	}
 
 	* {
