@@ -7,11 +7,14 @@
  */
 
 import Logo from './Logo.astro';
-import SidebarLink from './SidebarLink.astro';
 import CategoryGroup from './CategoryGroup.astro';
+import { SidebarItem } from '@/features/ui/sidebar-item';
+import { IconApps, IconClock } from '@tabler/icons-react';
 import { CATEGORY_GROUPS } from './categoryGroups';
 
 const groupEntries = Object.entries(CATEGORY_GROUPS) as Array<[string, readonly string[]]>;
+const currentPath = new URL(Astro.request.url).pathname;
+const isActive = (href: string) => currentPath === href || (href !== '/' && currentPath.startsWith(href));
 ---
 
 <!-- Hamburger button (mobile only) -->
@@ -61,8 +64,14 @@ const groupEntries = Object.entries(CATEGORY_GROUPS) as Array<[string, readonly 
 		<Logo />
 
 		<div class="quick-links">
-			<SidebarLink href="/" label="All" />
-			<SidebarLink href="/new/1" label="New" />
+			<SidebarItem href="/" variant={isActive('/') ? 'active' : 'default'}>
+				<IconApps slot="icon" size={20} stroke={1.5} />
+				All
+			</SidebarItem>
+			<SidebarItem href="/new/1" variant={isActive('/new/1') ? 'active' : 'default'}>
+				<IconClock slot="icon" size={20} stroke={1.5} />
+				New
+			</SidebarItem>
 		</div>
 
 		<div class="categories-section">
