@@ -1,7 +1,6 @@
 import { z } from 'zod';
 import type { ComponentType, SVGProps } from 'react';
 import {
-	IconBrandOpenai,
 	IconBrain,
 	IconSparkles,
 	IconPhoto,
