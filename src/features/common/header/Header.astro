@@ -6,22 +6,11 @@
  */
 
 import SearchInput from '@/features/search/SearchInput';
-import GithubSVG from '@/features/common/svg/GithubSVG.astro';
 ---
 
 <header class="header lg:col-start-2 lg:row-start-1">
 	<div class="header-content">
 		<SearchInput client:load />
-
-		<a
-			href="https://github.com"
-			target="_blank"
-			rel="noopener noreferrer"
-			aria-label="GitHub"
-			class="github-link"
-		>
-			<GithubSVG />
-		</a>
 	</div>
 </header>
 
@@ -82,27 +71,6 @@ import GithubSVG from '@/features/common/svg/GithubSVG.astro';
 		color: var(--muted-foreground);
 	}
 
-	.github-link {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 40px;
-		height: 40px;
-		padding: 0.5rem;
-		background: var(--muted);
-		border: 1px solid var(--border);
-		border-radius: 0.5rem;
-		color: var(--muted-foreground);
-		text-decoration: none;
-		transition: all 0.3s ease;
-	}
-
-	.github-link:hover {
-		background: var(--accent);
-		border-color: var(--border);
-		color: var(--foreground);
-	}
-
 	/* Mobile responsive */
 	@media (max-width: 1023px) {
 		.header-content {
@@ -125,11 +93,6 @@ import GithubSVG from '@/features/common/svg/GithubSVG.astro';
 
 		.search-input {
 			font-size: 0.85rem;
-		}
-
-		.github-link {
-			width: 36px;
-			height: 36px;
 		}
 	}
 </style>
