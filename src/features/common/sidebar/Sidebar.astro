@@ -59,12 +59,12 @@ import { CATEGORIES } from '@/features/common/types/category';
 	<nav class="sidebar-inner">
 		<Logo />
 
-		<div class="quick-links">
+		<div class="quick-links space-y-0.5">
 			<SidebarLink href="/" label="All" />
 			<SidebarLink href="/new/1" label="New" />
 		</div>
 
-		<div class="categories-section">
+		<div class="categories-section gap-1">
 			{
 				CATEGORIES.map((category) => (
 					<CategoryGroup
@@ -78,9 +78,7 @@ import { CATEGORIES } from '@/features/common/types/category';
 
 		<!-- TODO: This will be a real submission form for users to contribute resources -->
 		<div class="border-t border-border px-3 py-3 mt-auto">
-			<Button href="#" variant="default" size="md" className="w-full">
-				+ Submit Resource
-			</Button>
+			<Button href="#" variant="default" size="md" class="w-full"> + Submit Resource </Button>
 		</div>
 	</nav>
 </aside>
