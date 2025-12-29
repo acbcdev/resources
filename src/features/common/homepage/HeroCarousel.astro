@@ -15,6 +15,7 @@ import CarouselDots from '@/features/ui/carousel/CarouselDots.astro';
 import { Button } from '@/features/ui/button';
 import { Badge } from '@/features/ui/badge';
 import { Play } from 'lucide-react';
+import { HOMEPAGE, CTA } from '@/features/common/consts/text';
 
 interface Props {
 	items: Array<{
@@ -61,7 +62,7 @@ if (!items || items.length === 0) {
 									size="md"
 									class="absolute top-4 left-4 z-20 backdrop-blur-sm"
 								>
-									Featured Resource
+									{HOMEPAGE.hero.featuredBadge}
 								</Badge>
 
 								<img
@@ -89,17 +90,17 @@ if (!items || items.length === 0) {
 										<div class="flex flex-wrap gap-3">
 											{item.type === 'collection' ? (
 												<Button href={item.url} variant="default" size="md">
-													View Collection
+													{CTA.viewCollection}
 												</Button>
 											) : (
 												<Button href={item.url} target="_blank" rel="noopener noreferrer" variant="default" size="md">
-													Get Started
+													{CTA.getStarted}
 												</Button>
 											)}
 											{/* TODO: Add demoUrl field to item data for real demo links */}
 											<Button href={item.url} variant="outline" size="md">
 												<Play size={16} />
-												Watch Demo
+												{CTA.watchDemo}
 											</Button>
 										</div>
 									</div>

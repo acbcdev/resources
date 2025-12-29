@@ -10,6 +10,7 @@ import { DATA } from '@/data';
 import newUrls from '@/data/new.json';
 import Layout from '@/layouts/Layout.astro';
 import ListResources from '@/features/common/lists/ListResources.astro';
+import { PAGES } from '@/features/common/consts/text';
 
 export const getStaticPaths = (({ paginate }) => {
 	// Filter DATA to only include resources that are in the new.json list
@@ -24,11 +25,11 @@ export const getStaticPaths = (({ paginate }) => {
 const { page } = Astro.props;
 ---
 
-<Layout title="New Resources | Recently Added Tools & Libraries">
+<Layout title={PAGES.newResources.title}>
 	<div class="new-resources-container">
 		<div class="new-resources-header">
-			<h1>New Resources</h1>
-			<p class="subtitle">Recently added tools, libraries, and design resources</p>
+			<h1>{PAGES.newResources.heading}</h1>
+			<p class="subtitle">{PAGES.newResources.subtitle}</p>
 		</div>
 
 		{
@@ -42,7 +43,7 @@ const { page } = Astro.props;
 				</>
 			) : (
 				<div class="no-results">
-					<p>No new resources available</p>
+					<p>{PAGES.newResources.noResults}</p>
 				</div>
 			)
 		}

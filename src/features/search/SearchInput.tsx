@@ -6,6 +6,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { Search } from 'lucide-react';
+import { SEARCH } from '@/features/common/consts/text';
 
 interface SearchIndexItem {
 	id: number;
@@ -156,8 +157,8 @@ export default function SearchInput() {
 					value={query}
 					onChange={(e) => setQuery(e.target.value)}
 					onKeyDown={handleKeyDown}
-					placeholder="Search resources..."
-					aria-label="Search resources"
+					placeholder={SEARCH.placeholder}
+					aria-label={SEARCH.ariaLabel}
 					aria-expanded={showDropdown}
 					aria-controls="search-results"
 					className="search-input"
@@ -196,7 +197,7 @@ export default function SearchInput() {
 			{!isLoading && showDropdown && query.length > 2 && results.length === 0 && (
 				<div className="search-dropdown">
 					<div className="search-no-results">
-						No results found for "{query}"
+						{SEARCH.noResults(query)}
 					</div>
 				</div>
 			)}

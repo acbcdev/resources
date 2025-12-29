@@ -4,6 +4,7 @@ import Layout from '@/layouts/Layout.astro';
 import { toHundreds } from '@/features/common/lib/utils';
 import HeroCarousel from '@/features/common/homepage/HeroCarousel.astro';
 import NewsGrid from '@/features/common/homepage/NewsGrid.astro';
+import { PAGES } from '@/features/common/consts/text';
 import {
 	getCarouselData,
 	getNewResources,
@@ -33,8 +34,8 @@ const shuffledNews = newsItems.sort(() => Math.random() - 0.5).slice(0, 12);
 ---
 
 <Layout
-	title={`Resources ${numOfResources}+ | Tools | Libraries | Illustrations | And More`}
-	description="Discover and explore curated resources including tools, libraries, design assets, and learning materials for web development."
+	title={PAGES.home.title(parseInt(numOfResources))}
+	description={PAGES.home.description}
 >
 	<HeroCarousel items={carouselItems} />
 	<NewsGrid items={shuffledNews} />

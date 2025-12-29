@@ -9,8 +9,9 @@
 import Logo from './Logo.astro';
 import CategoryGroup from './CategoryGroup.astro';
 import { SidebarItem } from '@/features/ui/sidebar-item';
-import { IconApps, IconClock } from '@tabler/icons-react';
+import { IconLayoutGrid, IconClock, IconMenu2, IconPlus } from '@tabler/icons-react';
 import { CATEGORY_GROUPS } from './categoryGroups';
+import { NAV } from '@/features/common/consts/text';
 
 const groupEntries = Object.entries(CATEGORY_GROUPS) as Array<[string, readonly string[]]>;
 const currentPath = new URL(Astro.request.url).pathname;
@@ -18,36 +19,8 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
 ---
 
 <!-- Hamburger button (mobile only) -->
-<button data-hamburger aria-label="Toggle sidebar" aria-expanded="false" class="hamburger-button">
-	<svg
-		class="menu-icon"
-		width="24"
-		height="24"
-		viewBox="0 0 24 24"
-		fill="none"
-		stroke="currentColor"
-		stroke-width="2"
-		stroke-linecap="round"
-		stroke-linejoin="round"
-	>
-		<line x1="3" y1="6" x2="21" y2="6"></line>
-		<line x1="3" y1="12" x2="21" y2="12"></line>
-		<line x1="3" y1="18" x2="21" y2="18"></line>
-	</svg>
-	<svg
-		class="close-icon"
-		width="24"
-		height="24"
-		viewBox="0 0 24 24"
-		fill="none"
-		stroke="currentColor"
-		stroke-width="2"
-		stroke-linecap="round"
-		stroke-linejoin="round"
-	>
-		<line x1="18" y1="6" x2="6" y2="18"></line>
-		<line x1="6" y1="6" x2="18" y2="18"></line>
-	</svg>
+<button data-hamburger aria-label={NAV.ariaLabels.toggleSidebar} aria-expanded="false" class="hamburger-button">
+	<IconMenu2 />
 </button>
 
 <!-- Sidebar overlay backdrop (mobile only) -->
@@ -58,19 +31,19 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
 	data-sidebar
 	class="sidebar lg:col-start-1 lg:row-span-2"
 	role="navigation"
-	aria-label="Main navigation"
+	aria-label={NAV.ariaLabels.main}
 >
 	<nav class="sidebar-inner">
 		<Logo />
 
 		<div class="quick-links">
 			<SidebarItem href="/" variant={isActive('/') ? 'active' : 'default'}>
-				<IconApps slot="icon" size={20} stroke={1.5} />
-				All
+				<IconLayoutGrid slot="icon" size={20} stroke={1.5} />
+				{NAV.quickLinks.all}
 			</SidebarItem>
 			<SidebarItem href="/new/1" variant={isActive('/new/1') ? 'active' : 'default'}>
 				<IconClock slot="icon" size={20} stroke={1.5} />
-				New
+				{NAV.quickLinks.new}
 			</SidebarItem>
 		</div>
 
@@ -92,7 +65,7 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
 		top: 1rem;
 		left: 1rem;
 		z-index: 101;
-		background: var(--muted);
+		background: var(--sidebar-background);
 		border: 1px solid var(--border);
 		color: var(--foreground);
 		padding: 0.5rem;
@@ -104,18 +77,6 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
 	.hamburger-button:hover {
 		background: var(--accent);
 		border-color: var(--border);
-	}
-
-	.close-icon {
-		display: none;
-	}
-
-	.hamburger-button.active .menu-icon {
-		display: none;
-	}
-
-	.hamburger-button.active .close-icon {
-		display: block;
 	}
 
 	/* Sidebar overlay */
@@ -140,7 +101,7 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
 		top: 0;
 		height: 100vh;
 		width: 250px;
-		background: var(--background);
+		background: var(--sidebar-background);
 		border-right: 1px solid var(--border);
 		z-index: 100;
 		overflow-y: auto;

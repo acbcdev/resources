@@ -5,6 +5,8 @@
  * Supports clickable navigation and auto-sync with Embla carousel API
  */
 
+import { UI } from '@/features/common/consts/text';
+
 interface Props {
 	count: number;
 	activeIndex?: number;
@@ -18,7 +20,7 @@ const { count, activeIndex = 0, class: className } = Astro.props;
 	class={`carousel-dots flex gap-2 justify-center py-4 ${className || ''}`}
 	data-carousel-dots
 	role="tablist"
-	aria-label="Carousel navigation"
+	aria-label={UI.carousel.ariaLabel}
 >
 	{Array.from({ length: count }).map((_, i) => (
 		<button
@@ -27,7 +29,7 @@ const { count, activeIndex = 0, class: className } = Astro.props;
 			data-index={i}
 			role="tab"
 			aria-selected={i === activeIndex}
-			aria-label={`Go to slide ${i + 1}`}
+			aria-label={UI.carousel.goToSlide(i + 1)}
 		/>
 	))}
 </div>

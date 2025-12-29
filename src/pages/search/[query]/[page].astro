@@ -11,6 +11,7 @@ import type { GetStaticPaths } from 'astro';
 import { DATA } from '@/data';
 import Layout from '@/layouts/Layout.astro';
 import ListResources from '@/features/common/lists/ListResources.astro';
+import { PAGES } from '@/features/common/consts/text';
 
 export const getStaticPaths = (({ paginate }) => {
 	// For now, generate static pages for "all" query
@@ -32,15 +33,15 @@ const { query } = Astro.params;
 const decodedQuery = decodeURIComponent(query || 'all');
 ---
 
-<Layout title={`Search results for "${decodedQuery}"`}>
+<Layout title={PAGES.searchResults.title(decodedQuery)}>
 	<div class="search-results-container">
 		<div class="search-results-header">
-			<h1>Search Results</h1>
+			<h1>{PAGES.searchResults.heading}</h1>
 			<p class="search-query">
 				{
 					query === 'all'
-						? `Showing all ${page.data.length} resources`
-						: `Found ${page.data.length} results for "${decodedQuery}"`
+						? PAGES.searchResults.showing(page.data.length)
+						: PAGES.searchResults.found(page.data.length, decodedQuery)
 				}
 			</p>
 		</div>
@@ -56,9 +57,9 @@ const decodedQuery = decodeURIComponent(query || 'all');
 				</>
 			) : (
 				<div class="no-results">
-					<p>No resources found for "{decodedQuery}"</p>
+					<p>{PAGES.searchResults.noResults(decodedQuery)}</p>
 					<p>
-						<a href="/">Back to homepage</a>
+						<a href="/">{PAGES.searchResults.backToHome}</a>
 					</p>
 				</div>
 			)

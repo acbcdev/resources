@@ -4,7 +4,7 @@ import type { ComponentProps } from 'astro/types';
 import { tv } from 'tailwind-variants';
 
 import { Button } from '@/features/ui/button';
-``;
+import { UI } from '@/features/common/consts/text';
 
 export const carouselNext = tv({
 	base: [
@@ -26,9 +26,9 @@ const { class: className = '', variant = 'outline', size = 'icon', ...rest } = A
 	variant={variant}
 	size={size}
 	class={carouselNext({ class: className })}
-	aria-label="Next slide"
+	aria-label={UI.carousel.next}
 	{...rest}
 >
 	<ArrowRight />
-	<span class="sr-only">Next slide</span>
+	<span class="sr-only">{UI.carousel.next}</span>
 </Button>
