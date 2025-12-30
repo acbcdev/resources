@@ -10,6 +10,10 @@ import { DATA } from '@/data';
 import * as fs from 'fs';
 import * as path from 'path';
 
+// Search index configuration
+const MAX_TAGS_IN_INDEX = 5;
+const MAX_DESCRIPTION_LENGTH = 150;
+
 interface SearchIndexItem {
 	id: number;
 	name: string;
@@ -23,7 +27,7 @@ interface SearchIndexItem {
  * Validate that a resource has complete metadata
  * STRICT validation: all required fields must exist
  */
-function hasCompleteMetadata(resource: any): boolean {
+function hasCompleteMetadata(resource: (typeof DATA)[number]): boolean {
 	return !!(
 		resource.name &&
 		resource.url &&
@@ -42,8 +46,8 @@ function buildSearchIndex(): SearchIndexItem[] {
 		name: resource.name,
 		url: resource.url,
 		category: resource.category,
-		tags: (resource.tags || []).slice(0, 5), // Limit to 5 tags
-		description: (resource.description || '').slice(0, 150), // Truncate to 150 chars
+		tags: (resource.tags || []).slice(0, MAX_TAGS_IN_INDEX),
+		description: (resource.description || '').slice(0, MAX_DESCRIPTION_LENGTH),
 	}));
 }
 
