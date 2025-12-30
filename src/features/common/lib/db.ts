@@ -149,20 +149,22 @@ export async function getResourceByUrl(url: string): Promise<Tool | null> {
 }
 
 /**
- * Get resources by category
+ * Generic helper to fetch resources by an entity name
+ * Reduces code duplication across similar query patterns
  */
-export async function getResourcesByCategory(categoryName: string): Promise<Tool[]> {
-	const category = await db
-		.select()
-		.from(Category)
-		.where(eq(Category.name, categoryName))
-		.get();
-	if (!category) return [];
+async function getResourcesByEntity<T extends { id: number; name?: string }>(
+	entityTable: typeof Category | typeof Tag | typeof TargetAudience | typeof Collection,
+	entityName: string,
+	junctionTable: typeof ResourceCategory | typeof ResourceTag | typeof ResourceAudience | typeof ResourceCollection,
+	entityIdColumn: any,
+): Promise<Tool[]> {
+	const entity = await db.select().from(entityTable).where(eq(entityTable.name, entityName)).get() as T | undefined;
+	if (!entity) return [];
 
 	const resourceIds = await db
-		.select({ resourceId: ResourceCategory.resourceId })
-		.from(ResourceCategory)
-		.where(eq(ResourceCategory.categoryId, category.id));
+		.select({ resourceId: junctionTable.resourceId })
+		.from(junctionTable)
+		.where(eq(entityIdColumn, entity.id));
 
 	const resources = await Promise.all(
 		resourceIds.map(async ({ resourceId }) => {
@@ -172,80 +174,34 @@ export async function getResourcesByCategory(categoryName: string): Promise<Tool
 	);
 
 	return resources.filter((r): r is Tool => r !== null);
+}
+
+/**
+ * Get resources by category
+ */
+export async function getResourcesByCategory(categoryName: string): Promise<Tool[]> {
+	return getResourcesByEntity(Category, categoryName, ResourceCategory, ResourceCategory.categoryId);
 }
 
 /**
  * Get resources by tag
  */
 export async function getResourcesByTag(tagName: string): Promise<Tool[]> {
-	const tag = await db.select().from(Tag).where(eq(Tag.name, tagName)).get();
-	if (!tag) return [];
-
-	const resourceIds = await db
-		.select({ resourceId: ResourceTag.resourceId })
-		.from(ResourceTag)
-		.where(eq(ResourceTag.tagId, tag.id));
-
-	const resources = await Promise.all(
-		resourceIds.map(async ({ resourceId }) => {
-			const resource = await db.select().from(Resource).where(eq(Resource.id, resourceId)).get();
-			return resource ? transformToTool(resource) : null;
-		})
-	);
-
-	return resources.filter((r): r is Tool => r !== null);
+	return getResourcesByEntity(Tag, tagName, ResourceTag, ResourceTag.tagId);
 }
 
 /**
  * Get resources by target audience
  */
 export async function getResourcesByAudience(audienceName: string): Promise<Tool[]> {
-	const audience = await db
-		.select()
-		.from(TargetAudience)
-		.where(eq(TargetAudience.name, audienceName))
-		.get();
-	if (!audience) return [];
-
-	const resourceIds = await db
-		.select({ resourceId: ResourceAudience.resourceId })
-		.from(ResourceAudience)
-		.where(eq(ResourceAudience.audienceId, audience.id));
-
-	const resources = await Promise.all(
-		resourceIds.map(async ({ resourceId }) => {
-			const resource = await db.select().from(Resource).where(eq(Resource.id, resourceId)).get();
-			return resource ? transformToTool(resource) : null;
-		})
-	);
-
-	return resources.filter((r): r is Tool => r !== null);
+	return getResourcesByEntity(TargetAudience, audienceName, ResourceAudience, ResourceAudience.audienceId);
 }
 
 /**
  * Get resources by collection
  */
 export async function getResourcesByCollection(collectionName: string): Promise<Tool[]> {
-	const collection = await db
-		.select()
-		.from(Collection)
-		.where(eq(Collection.name, collectionName))
-		.get();
-	if (!collection) return [];
-
-	const resourceIds = await db
-		.select({ resourceId: ResourceCollection.resourceId })
-		.from(ResourceCollection)
-		.where(eq(ResourceCollection.collectionId, collection.id));
-
-	const resources = await Promise.all(
-		resourceIds.map(async ({ resourceId }) => {
-			const resource = await db.select().from(Resource).where(eq(Resource.id, resourceId)).get();
-			return resource ? transformToTool(resource) : null;
-		})
-	);
-
-	return resources.filter((r): r is Tool => r !== null);
+	return getResourcesByEntity(Collection, collectionName, ResourceCollection, ResourceCollection.collectionId);
 }
 
 /**
