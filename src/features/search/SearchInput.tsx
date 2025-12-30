@@ -8,6 +8,13 @@ import { useState, useEffect, useRef } from 'react';
 import { Search } from 'lucide-react';
 import { SEARCH } from '@/features/common/consts/text';
 
+// Search configuration constants
+const MIN_SEARCH_LENGTH = 3;
+const MAX_RESULTS = 10;
+const DEBOUNCE_DELAY = 300;
+const DROPDOWN_MAX_HEIGHT = 300; // pixels for desktop
+const DROPDOWN_MAX_HEIGHT_MOBILE = 300; // pixels for mobile
+
 interface SearchIndexItem {
 	id: number;
 	name: string;
@@ -53,7 +60,7 @@ export default function SearchInput() {
 	// Debounced search
 	useEffect(() => {
 		const timer = setTimeout(() => {
-			if (query.length > 2) {
+			if (query.length > MIN_SEARCH_LENGTH) {
 				const filtered = searchIndex
 					.filter(
 						(item) =>
@@ -63,7 +70,7 @@ export default function SearchInput() {
 							) ||
 							item.description.toLowerCase().includes(query.toLowerCase()),
 					)
-					.slice(0, 10);
+					.slice(0, MAX_RESULTS);
 
 				setResults(filtered);
 				setShowDropdown(true);
@@ -72,7 +79,7 @@ export default function SearchInput() {
 				setResults([]);
 				setShowDropdown(false);
 			}
-		}, 300);
+		}, DEBOUNCE_DELAY);
 
 		return () => clearTimeout(timer);
 	}, [query, searchIndex]);
