@@ -58,7 +58,7 @@ export class FileIO {
 			}
 
 			// File not found or other read error
-			if ((error as any).code === 'ENOENT') {
+			if (error instanceof Error && 'code' in error && error.code === 'ENOENT') {
 				logger.debug(`File not found: ${path}, using default value`);
 				return defaultValue !== null ? defaultValue : ([] as T);
 			}
@@ -160,7 +160,7 @@ export class FileIO {
 	 * Useful for detecting duplicates and skipping processed URLs
 	 */
 	async urlExistsInArray(path: string, url: string): Promise<boolean> {
-		const items = await this.readJSONArray<any>(path);
+		const items = await this.readJSONArray<{ url?: string }>(path);
 		return items.some(item =>
 			item.url === url || item.url?.startsWith(url.split('?')[0])
 		);
