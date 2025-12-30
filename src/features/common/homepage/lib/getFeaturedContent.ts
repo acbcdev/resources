@@ -7,7 +7,16 @@
 import { DATA } from '@/data';
 // import newUrls from '@/data/new.json';
 import { collections } from '@/features/common/consts/collections';
+import { slugify } from '@/features/common/lib/utils';
 import type { Tool } from '@/features/common/types/resource';
+
+// Featured content configuration
+const MAJOR_CATEGORIES = ['AI', 'Design', 'Libraries', 'Tools', 'Learning Resources'];
+const CATEGORY_HIGHLIGHTS_COUNT = 3;
+const NEW_CAROUSEL_RESOURCES = 3;
+const FEATURED_CAROUSEL_COLLECTIONS = 2;
+const DEFAULT_COLLECTION_DESCRIPTION = 'Curated collection of resources';
+const PLACEHOLDER_IMAGE = 'https://placehold.co/1200x400';
 
 /**
  * Validate that a resource has COMPLETE metadata
@@ -55,9 +64,7 @@ export function getNewResources(count: number): Tool[] {
  * Provides category highlights for carousel
  */
 export function getCategoryHighlights(): Tool[] {
-	const majorCategories = ['AI', 'Design', 'Libraries', 'Tools', 'Learning Resources'];
-
-	return majorCategories
+	return MAJOR_CATEGORIES
 		.map((category) => {
 			const matching = DATA.filter((r) => r.category.includes(category))
 				.filter(hasCompleteMetadata)
@@ -65,7 +72,7 @@ export function getCategoryHighlights(): Tool[] {
 
 			return matching;
 		})
-		.filter((r) => !!r) as Tool[];
+		.filter((r): r is Tool => r !== undefined);
 }
 
 /**
@@ -77,63 +84,51 @@ export function getFeaturedCollections(count: number) {
 }
 
 /**
+ * Helper to convert a resource to carousel item format
+ */
+function resourceToCarouselItem(resource: Tool, idPrefix: string) {
+	return {
+		id: `${idPrefix}-${resource.url}`,
+		type: 'resource' as const,
+		name: resource.name,
+		description: resource.description,
+		url: resource.url,
+		og: resource.og,
+	};
+}
+
+/**
  * Get carousel data
  * Combines: category highlights + new resources + featured collections
  * Used for the hero carousel on homepage
  */
 export function getCarouselData() {
 	const categoryHighlights = getCategoryHighlights();
-	const newResources = getNewResources(3);
-	const featuredCollections = getFeaturedCollections(2);
+	const newResources = getNewResources(NEW_CAROUSEL_RESOURCES);
+	const featuredCollections = getFeaturedCollections(FEATURED_CAROUSEL_COLLECTIONS).filter(
+		(c): c is NonNullable<typeof c> => c !== null && c !== undefined,
+	);
 
 	const carouselItems = [
 		// Category highlights
-		...categoryHighlights.map((resource) => ({
-			id: `category-${resource.url}`,
-			type: 'resource' as const,
-			name: resource.name,
-			description: resource.description,
-			url: resource.url,
-			og: resource.og,
-		})),
+		...categoryHighlights.map((resource) => resourceToCarouselItem(resource, 'category')),
 
 		// New resources
-		...newResources.map((resource) => ({
-			id: `new-${resource.url}`,
-			type: 'resource' as const,
-			name: resource.name,
-			description: resource.description,
-			url: resource.url,
-			og: resource.og,
-		})),
+		...newResources.map((resource) => resourceToCarouselItem(resource, 'new')),
 
 		// Featured collections
-		...featuredCollections
-			.filter((c) => !!c)
-			.map((collection) => ({
-				id: `collection-${collection!.name}`,
-				type: 'collection' as const,
-				name: collection!.name,
-				description: collection!.description || 'Curated collection of resources',
-				url: `/collections/${slugify(collection!.name)}/`,
-				og: {
-					image: collection!.img || 'https://placehold.co/1200x400',
-					description: collection!.description || 'Curated collection',
-				},
-			})),
+		...featuredCollections.map((collection) => ({
+			id: `collection-${collection.name}`,
+			type: 'collection' as const,
+			name: collection.name,
+			description: collection.description || DEFAULT_COLLECTION_DESCRIPTION,
+			url: `/collections/${slugify(collection.name)}/`,
+			og: {
+				image: collection.img || PLACEHOLDER_IMAGE,
+				description: collection.description || 'Curated collection',
+			},
+		})),
 	];
 
 	return carouselItems;
-}
-
-/**
- * Helper: slugify string for URLs
- */
-function slugify(str: string): string {
-	return str
-		.trim()
-		.replace(/[\/\s\+\*]/g, '-')
-		.replace(/[!¡@#$%^&*()]/g, '')
-		.replace(/^-+|-+$/g, '')
-		.toLowerCase();
 }
