@@ -80,10 +80,10 @@ async function fetchWebsiteContent(url: string): Promise<string> {
 		$('script, style, noscript').remove();
 
 		// Get text content
-		let text = $('body').text() || $('html').text() || '';
+		const rawText = $('body').text() || $('html').text() || '';
 
 		// Clean up whitespace
-		text = text.replace(/\s+/g, ' ').trim().substring(0, SCRIPTS_CONFIG.ai.maxContentLength);
+		const text = rawText.replace(/\s+/g, ' ').trim().substring(0, SCRIPTS_CONFIG.ai.maxContentLength);
 
 		return text;
 	} catch (error) {
