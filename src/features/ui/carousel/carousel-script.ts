@@ -49,21 +49,21 @@ export function initCarousel(
   const axis: EmblaOptionsType["axis"] = axisData === "y" ? "y" : "x";
 
   // Safely parse data options
-  let dataOpts = {};
-  try {
-    const optsString = carouselElement.dataset.opts;
-    if (optsString && optsString !== "undefined" && optsString !== "null") {
-      dataOpts = JSON.parse(optsString);
+  const dataOpts = (() => {
+    try {
+      const optsString = carouselElement.dataset.opts;
+      if (optsString && optsString !== "undefined" && optsString !== "null") {
+        const parsed = JSON.parse(optsString);
+        // Ensure it's a valid object
+        if (parsed && typeof parsed === "object") {
+          return parsed;
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to parse carousel opts:", e);
     }
-  } catch (e) {
-    console.warn("Failed to parse carousel opts:", e);
-    dataOpts = {};
-  }
-
-  // Ensure dataOpts is a valid object
-  if (!dataOpts || typeof dataOpts !== "object") {
-    dataOpts = {};
-  }
+    return {};
+  })();
 
   // Merge options - ensure we always have a valid object
   const emblaOptions: EmblaOptionsType = {
@@ -88,12 +88,9 @@ export function initCarousel(
   ) as HTMLButtonElement;
 
   // Initialize Embla
-  let emblaApi: EmblaCarouselType;
-  if (plugins) {
-    emblaApi = EmblaCarousel(viewportElement, emblaOptions, plugins);
-  } else {
-    emblaApi = EmblaCarousel(viewportElement, emblaOptions);
-  }
+  const emblaApi: EmblaCarouselType = plugins
+    ? EmblaCarousel(viewportElement, emblaOptions, plugins)
+    : EmblaCarousel(viewportElement, emblaOptions);
 
   // Update button states
   const updateButtons = () => {
