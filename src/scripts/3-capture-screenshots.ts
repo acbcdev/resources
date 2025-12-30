@@ -83,7 +83,7 @@ async function processResourceForScreenshot(
 	resource: ResourceWithAI,
 ): Promise<ResourceWithScreenshot> {
 	// If resource already has an image, use it
-	const existingImage = (resource as any).image || resource.og.image;
+	const existingImage = resource.og.image;
 	if (existingImage) {
 		return {
 			...resource,
