@@ -12,15 +12,33 @@ import {
 	getFeaturedCollections,
 } from '@/features/common/homepage/lib/getFeaturedContent';
 
+// Homepage configuration
+const NEW_RESOURCES_COUNT = 6;
+const FEATURED_COLLECTIONS_COUNT = 3;
+const FEATURED_RESOURCES_COUNT = 3;
+const NEWS_GRID_DISPLAY_COUNT = 12;
+
+/**
+ * Fisher-Yates shuffle algorithm for unbiased randomization
+ */
+function shuffleArray<T>(array: T[]): T[] {
+	const shuffled = [...array];
+	for (let i = shuffled.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+	}
+	return shuffled;
+}
+
 const numOfResources = toHundreds(DATA.length);
 
 // Get carousel data
 const carouselItems = getCarouselData();
 
 // Get news grid data - mixed content
-const newResources = getNewResources(6);
-const featuredCollections = getFeaturedCollections(3);
-const featuredResources = getFeaturedResources(3);
+const newResources = getNewResources(NEW_RESOURCES_COUNT);
+const featuredCollections = getFeaturedCollections(FEATURED_COLLECTIONS_COUNT);
+const featuredResources = getFeaturedResources(FEATURED_RESOURCES_COUNT);
 
 // Combine news items
 const newsItems = [
@@ -29,8 +47,8 @@ const newsItems = [
 	...featuredResources.map((d) => ({ type: 'resource' as const, data: d })),
 ];
 
-// Shuffle for variety
-const shuffledNews = newsItems.sort(() => Math.random() - 0.5).slice(0, 12);
+// Shuffle for variety using Fisher-Yates algorithm
+const shuffledNews = shuffleArray(newsItems).slice(0, NEWS_GRID_DISPLAY_COUNT);
 ---
 
 <Layout
