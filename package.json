@@ -9,7 +9,12 @@
 		"preview": "astro preview",
 		"astro": "astro",
 		"test": "vitest",
-		"test:ui": "vitest --ui"
+		"test:ui": "vitest --ui",
+		"extract-og": "bun src/scripts/extract-og.ts",
+		"enrich-ai": "bun src/scripts/enrich-ai.ts",
+		"capture-screenshots": "bun src/scripts/capture-screenshots.ts",
+		"merge-data": "bun src/scripts/merge-data.ts",
+		"build-search-index": "bun src/scripts/buildSearchIndex.ts"
 	},
 	"dependencies": {
 		"@astrojs/check": "0.9.6",
