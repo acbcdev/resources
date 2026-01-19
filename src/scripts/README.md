@@ -27,7 +27,7 @@ new.json (URLs)
 
 ### Output Locations
 
-- **Script outputs**: `src/features/data/scripts-output/`
+- **Script outputs**: `src/data/scripts-output/`
 - **Screenshots**: `public/screenshots/`
 
 ## Prerequisites
@@ -93,7 +93,7 @@ bun run src/scripts/4-merge-data.ts
 After reviewing the output from step 4:
 
 1. Copy the new resources from the preview
-2. Paste them into `src/features/common/data/data.json`
+2. Paste them into `src/data/data.json`
 3. Save and commit
 
 ## Detailed Script Documentation
@@ -106,12 +106,12 @@ After reviewing the output from step 4:
 
 **Input**:
 
-- `src/features/common/data/new.json` - Array of URL strings to process
+- `src/data/new.json` - Array of URL strings to process
 
 **Output**:
 
-- `src/features/common/data/scripts-output/ogData.json` - Resources with OG metadata
-- `src/features/common/data/scripts-output/backupOG.json` - Incremental backup
+- `src/data/scripts-output/ogData.json` - Resources with OG metadata
+- `src/data/scripts-output/backupOG.json` - Incremental backup
 
 **What it does**:
 
@@ -139,12 +139,12 @@ After reviewing the output from step 4:
 
 **Input**:
 
-- `src/features/common/data/scripts-output/ogData.json` - Resources with OG metadata
+- `src/data/scripts-output/ogData.json` - Resources with OG metadata
 
 **Output**:
 
-- `src/features/common/data/scripts-output/aiEnriched.json` - Resources with AI metadata
-- `src/features/common/data/scripts-output/backupAI.json` - Incremental backup
+- `src/data/scripts-output/aiEnriched.json` - Resources with AI metadata
+- `src/data/scripts-output/backupAI.json` - Incremental backup
 
 **What it does**:
 
@@ -186,12 +186,12 @@ After reviewing the output from step 4:
 
 **Input**:
 
-- `src/features/common/data/scripts-output/aiEnriched.json` - AI-enriched resources
+- `src/data/scripts-output/aiEnriched.json` - AI-enriched resources
 
 **Output**:
 
-- `src/features/common/data/scripts-output/withScreenshots.json` - Resources with images
-- `src/features/common/data/scripts-output/backupScreenshots.json` - Incremental backup
+- `src/data/scripts-output/withScreenshots.json` - Resources with images
+- `src/data/scripts-output/backupScreenshots.json` - Incremental backup
 - `public/screenshots/*.jpg` - Screenshot files
 
 **What it does**:
@@ -228,13 +228,13 @@ After reviewing the output from step 4:
 
 **Input**:
 
-- `src/features/common/data/scripts-output/withScreenshots.json` - Final processed resources
-- `src/features/common/data/data.json` - Existing resources
+- `src/data/scripts-output/withScreenshots.json` - Final processed resources
+- `src/data/data.json` - Existing resources
 
 **Output**:
 
 - STDOUT: JSON preview for manual review
-- Temporary file: `src/features/common/data/scripts-output/merged-preview-*.json`
+- Temporary file: `src/data/scripts-output/merged-preview-*.json`
 
 **What it does**:
 
@@ -446,7 +446,7 @@ All scripts support resume:
 
 ```bash
 # Edit new.json with single URL
-echo '["https://example.com"]' > src/features/common/data/new.json
+echo '["https://example.com"]' > src/data/new.json
 
 # Run pipeline
 bun run src/scripts/1-extract-og.ts
@@ -514,8 +514,8 @@ DEBUG=true bun run src/scripts/1-extract-og.ts
 ### Check intermediate files
 
 ```bash
-ls -lh src/features/common/data/scripts-output/
-jq '.[] | {url, og}' src/features/common/data/scripts-output/ogData.json | head
+ls -lh src/data/scripts-output/
+jq '.[] | {url, og}' src/data/scripts-output/ogData.json | head
 ```
 
 ### Inspect a failing resource
@@ -523,7 +523,7 @@ jq '.[] | {url, og}' src/features/common/data/scripts-output/ogData.json | head
 Search for URL in backup files:
 
 ```bash
-jq '.[] | select(.url == "https://...")' src/features/common/data/scripts-output/backupOG.json
+jq '.[] | select(.url == "https://...")' src/data/scripts-output/backupOG.json
 ```
 
 ## Support
@@ -532,7 +532,7 @@ For issues:
 
 1. Check troubleshooting section above
 2. Enable debug mode for detailed logs
-3. Check file sizes and counts: `ls -lh src/features/common/data/scripts-output/`
+3. Check file sizes and counts: `ls -lh src/data/scripts-output/`
 4. Verify API keys are correct and have quota
 5. Try running with a single URL first
 
