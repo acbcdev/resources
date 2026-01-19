@@ -3,8 +3,8 @@ import { resolve } from 'path';
 // Project root directory
 const PROJECT_ROOT = resolve(import.meta.dir, '../../..');
 
-// Data directories
-const DATA_DIR = resolve(PROJECT_ROOT, 'src/features/common/data');
+// Data directories (corrected to match actual structure)
+const DATA_DIR = resolve(PROJECT_ROOT, 'src/data');
 const SCRIPTS_OUTPUT_DIR = resolve(DATA_DIR, 'scripts-output');
 const PUBLIC_DIR = resolve(PROJECT_ROOT, 'public');
 const SCREENSHOTS_DIR = resolve(PUBLIC_DIR, 'screenshots');
