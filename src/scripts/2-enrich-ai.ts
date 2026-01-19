@@ -20,12 +20,9 @@ import { mistral } from '@ai-sdk/mistral';
 import { groq } from '@ai-sdk/groq';
 import * as cheerio from 'cheerio';
 import { z } from 'zod';
-import { SCRIPTS_CONFIG, getRandomAIModel, getModelName } from './config/scripts.config';
-import { logger } from './utils/logger';
-import { fileIO } from './utils/file-io';
-import { withRetry, batchExecuteWithRetry } from './utils/retry';
-import type { ResourceWithOG, ResourceWithAI } from './types/resource';
-import { CATEGORIES, getAllCategoryNames } from '@/features/common/types/category';
+import { SCRIPTS_CONFIG, getRandomAIModel, getModelName } from './config';
+import { logger, fileIO, withRetry, batchExecuteWithRetry } from './utils';
+import type { ResourceWithOG, ResourceWithAI } from './types';
 
 /**
  * Schema for AI-generated metadata
@@ -34,7 +31,7 @@ const AIGeneratedSchema = z.object({
 	name: z.string().describe('The name/title of the resource'),
 	description: z.string().describe('A brief description of what the resource does'),
 	category: z
-		.array(z.enum(getAllCategoryNames() as [string, ...string[]]))
+		.array(z.string())
 		.describe('Array of relevant categories'),
 	topic: z.string().optional().describe('Secondary topic or subject'),
 	main_features: z
@@ -147,7 +144,7 @@ ${content}
 Extract the following information:
 - name: The actual name/title of the resource
 - description: A brief 1-2 sentence description
-- category: Array of 1-3 relevant categories from: ${CATEGORIES.map((c) => c.name).join(', ')}
+- category: Array of 1-3 relevant categories (e.g., Tools, Libraries, Frameworks, Design, etc.)
 - topic: Secondary subject/topic if applicable
 - main_features: 3-5 key features/capabilities
 - tags: 5-10 relevant tags/keywords
