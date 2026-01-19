@@ -15,6 +15,7 @@
  */
 
 import { type Page } from 'playwright';
+import * as cheerio from 'cheerio';
 import { SCRIPTS_CONFIG } from './config';
 import { logger, browserPool, closeBrowserOnExit, fileIO, withRetry, batchExecuteWithRetry } from './utils';
 import type { ResourceWithOG } from './types';
@@ -28,6 +29,94 @@ interface OGExtractionResult {
 	site_name?: string;
 	video?: string;
 	icon?: string;
+}
+
+/**
+ * Fetch HTML content from a URL using fetch API
+ */
+async function fetchHTMLContent(url: string): Promise<string> {
+	const controller = new AbortController();
+	const timeoutId = setTimeout(() => controller.abort(), SCRIPTS_CONFIG.og.timeout);
+
+	try {
+		const response = await fetch(url, {
+			headers: {
+				'User-Agent': SCRIPTS_CONFIG.network.userAgent,
+			},
+			signal: controller.signal,
+		});
+
+		if (!response.ok) {
+			throw new Error(`HTTP ${response.status}`);
+		}
+
+		const html = await response.text();
+		clearTimeout(timeoutId);
+		return html;
+	} catch (error) {
+		clearTimeout(timeoutId);
+		throw error;
+	}
+}
+
+/**
+ * Extract OG metadata from raw HTML using Cheerio
+ */
+async function extractOGMetadataFromHTML(
+	html: string,
+	url: string,
+): Promise<OGExtractionResult> {
+	const $ = cheerio.load(html);
+	const metadata: OGExtractionResult = {};
+
+	// Extract OG meta tags
+	$('meta[property^="og:"], meta[name]').each((_, el) => {
+		const $el = $(el);
+		const property = $el.attr('property') || $el.attr('name') || '';
+		const content = $el.attr('content');
+
+		if (!content) return;
+
+		if (property === 'og:title') metadata.title = content;
+		else if (property === 'og:url') metadata.url = content;
+		else if (property === 'og:image') metadata.image = content;
+		else if (property === 'og:description') metadata.description = content;
+		else if (property === 'og:type') metadata.type = content;
+		else if (property === 'og:site_name') metadata.site_name = content;
+		else if (property === 'og:video') metadata.video = content;
+	});
+
+	// Fallback to title tag
+	if (!metadata.title) {
+		metadata.title = $('title').text() || undefined;
+	}
+
+	// Fallback to meta description
+	if (!metadata.description) {
+		const metaDesc = $('meta[name="description"]');
+		if (metaDesc) {
+			metadata.description = metaDesc.attr('content') || undefined;
+		}
+	}
+
+	// Extract favicon
+	const favicon =
+		$('link[rel="icon"]').attr('href') ||
+		$('link[rel="shortcut icon"]').attr('href') ||
+		'/favicon.ico';
+
+	if (favicon) {
+		// Resolve relative URLs
+		try {
+			const faviconUrl = new URL(favicon, url).href;
+			metadata.icon = faviconUrl;
+		} catch {
+			// If URL parsing fails, use favicon as-is
+			metadata.icon = favicon;
+		}
+	}
+
+	return metadata;
 }
 
 /**
@@ -85,8 +174,36 @@ async function extractOGMetadata(page: Page): Promise<OGExtractionResult> {
  * Extract OG data for a single URL
  */
 async function extractOGForURL(url: string): Promise<ResourceWithOG> {
+	// Try fetch first if enabled
+	if (SCRIPTS_CONFIG.og.useFetchFirst) {
+		try {
+			logger.debug(`Trying fetch for ${url}`);
+			const html = await fetchHTMLContent(url);
+			const ogData = await extractOGMetadataFromHTML(html, url);
+
+			// Ensure URL is set
+			if (!ogData.url) ogData.url = url;
+
+			return {
+				url,
+				og: ogData,
+				extraction_method: 'fetch',
+				extracted_at: new Date().toISOString(),
+			};
+		} catch (fetchError) {
+			logger.debug(
+				`Fetch failed for ${url}: ${fetchError instanceof Error ? fetchError.message : String(fetchError)}, trying Playwright...`,
+			);
+			// Fall through to Playwright
+		}
+	}
+
+	// Fallback to Playwright (existing logic with retry)
 	return withRetry(
 		async () => {
+			// Ensure browser is initialized on first use
+			await ensureBrowserInitialized();
+
 			const page = await browserPool.getPage();
 
 			// Navigate to URL
@@ -106,12 +223,29 @@ async function extractOGForURL(url: string): Promise<ResourceWithOG> {
 			return {
 				url,
 				og: ogData,
+				extraction_method: 'browser',
 				extracted_at: new Date().toISOString(),
 			};
 		},
-		`Extract OG for ${url}`,
+		`Extract OG for ${url} with Playwright`,
 		{ maxAttempts: 3 },
 	);
+}
+
+/**
+ * Lazy browser initialization flag
+ */
+let browserInitialized = false;
+
+/**
+ * Ensure browser is initialized before first use
+ */
+async function ensureBrowserInitialized() {
+	if (!browserInitialized) {
+		logger.info('Initializing browser for Playwright fallback...');
+		closeBrowserOnExit(browserPool);
+		browserInitialized = true;
+	}
 }
 
 /**
@@ -125,10 +259,6 @@ async function main() {
 		logger.info('Validating configuration...');
 		// Ensure parent directory exists for output files
 		await fileIO.ensureParentDir(SCRIPTS_CONFIG.paths.output.ogData);
-
-		// Initialize browser
-		logger.info('Initializing browser...');
-		closeBrowserOnExit(browserPool);
 
 		// Load URLs to process
 		logger.info('Loading URLs from new.json...');
@@ -194,6 +324,15 @@ async function main() {
 			if (results.failed.length > 5) {
 				logger.warning(`  ... and ${results.failed.length - 5} more`);
 			}
+
+		// Save failed URLs to file for tracking
+		const failedUrls = results.failed.map((item) => ({
+			url: item.item,
+			error: item.error.message,
+			timestamp: new Date().toISOString(),
+		}));
+		await fileIO.appendToJSONArray(SCRIPTS_CONFIG.paths.output.failedOG, ...failedUrls);
+		logger.info(`Failed URLs saved to: ${SCRIPTS_CONFIG.paths.output.failedOG}`);
 		}
 
 		// Show file info
