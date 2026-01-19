@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { CategorySchema } from '@/features/common/types/category';
 
 /**
  * Open Graph metadata extracted from a webpage
@@ -34,7 +33,7 @@ export type ResourceWithOG = z.infer<typeof ResourceWithOGSchema>;
 export const AIMetadataSchema = z.object({
 	name: z.string(),
 	description: z.string(),
-	category: z.array(CategorySchema),
+	category: z.array(z.string()),
 	topic: z.string().optional(),
 	main_features: z.array(z.object({
 		feature: z.string(),
@@ -53,7 +52,7 @@ export type AIMetadata = z.infer<typeof AIMetadataSchema>;
 export const ResourceWithAISchema = ResourceWithOGSchema.extend({
 	name: z.string(),
 	description: z.string(),
-	category: z.array(CategorySchema),
+	category: z.array(z.string()),
 	topic: z.string().optional(),
 	main_features: z.array(z.object({
 		feature: z.string(),
