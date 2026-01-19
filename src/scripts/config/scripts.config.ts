@@ -26,10 +26,13 @@ export const SCRIPTS_CONFIG = {
 		output: {
 			ogData: resolve(SCRIPTS_OUTPUT_DIR, 'ogData.json'),
 			backupOG: resolve(SCRIPTS_OUTPUT_DIR, 'backupOG.json'),
+			failedOG: resolve(SCRIPTS_OUTPUT_DIR, 'failedOG.json'),
 			aiEnriched: resolve(SCRIPTS_OUTPUT_DIR, 'aiEnriched.json'),
 			backupAI: resolve(SCRIPTS_OUTPUT_DIR, 'backupAI.json'),
+			failedAI: resolve(SCRIPTS_OUTPUT_DIR, 'failedAI.json'),
 			withScreenshots: resolve(SCRIPTS_OUTPUT_DIR, 'withScreenshots.json'),
 			backupScreenshots: resolve(SCRIPTS_OUTPUT_DIR, 'backupScreenshots.json'),
+			failedScreenshots: resolve(SCRIPTS_OUTPUT_DIR, 'failedScreenshots.json'),
 		},
 		// Screenshot storage
 		screenshots: {
@@ -65,6 +68,7 @@ export const SCRIPTS_CONFIG = {
 		contentTimeout: 5000, // ms
 		extractMetaTags: true,
 		extractFavicon: true,
+		useFetchFirst: true, // Try fetch before Playwright
 	},
 
 	// ============ Screenshot Settings ============
@@ -173,8 +177,5 @@ export function getRandomAIModel(): 'google' | 'mistral' | 'groq' {
 export function getModelName(key: 'google' | 'mistral' | 'groq'): string {
 	return SCRIPTS_CONFIG.ai.models[key];
 }
-
-// Validate on import
-validateConfig();
 
 export default SCRIPTS_CONFIG;
