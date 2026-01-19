@@ -1,3 +1,4 @@
+#!/usr/bin/env bun
 /**
  * Build-time script to create a lightweight search index
  * Run during the build process to generate public/search-index.json
@@ -6,13 +7,24 @@
  * - id, name, url, category, tags (limited), description (truncated)
  */
 
-import { DATA } from '@/data';
-import * as fs from 'fs';
-import * as path from 'path';
+import { resolve } from 'path';
+import { fileIO, logger } from './utils';
 
 // Search index configuration
 const MAX_TAGS_IN_INDEX = 5;
 const MAX_DESCRIPTION_LENGTH = 150;
+
+interface Resource {
+	name: string;
+	url: string;
+	description: string;
+	category: string[];
+	tags?: string[];
+	og?: {
+		image?: string;
+		description?: string;
+	};
+}
 
 interface SearchIndexItem {
 	id: number;
@@ -27,7 +39,7 @@ interface SearchIndexItem {
  * Validate that a resource has complete metadata
  * STRICT validation: all required fields must exist
  */
-function hasCompleteMetadata(resource: (typeof DATA)[number]): boolean {
+function hasCompleteMetadata(resource: Resource): boolean {
 	return !!(
 		resource.name &&
 		resource.url &&
@@ -38,10 +50,10 @@ function hasCompleteMetadata(resource: (typeof DATA)[number]): boolean {
 }
 
 /**
- * Build the search index from DATA
+ * Build the search index from data
  */
-function buildSearchIndex(): SearchIndexItem[] {
-	return DATA.filter(hasCompleteMetadata).map((resource, index) => ({
+function buildSearchIndex(data: Resource[]): SearchIndexItem[] {
+	return data.filter(hasCompleteMetadata).map((resource, index) => ({
 		id: index,
 		name: resource.name,
 		url: resource.url,
@@ -55,27 +67,45 @@ function buildSearchIndex(): SearchIndexItem[] {
  * Main function to generate the index
  */
 async function main() {
-	try {
-		const searchIndex = buildSearchIndex();
+	logger.section('Build Search Index');
 
-		// Ensure public directory exists
-		const publicDir = path.join(process.cwd(), 'public');
-		if (!fs.existsSync(publicDir)) {
-			fs.mkdirSync(publicDir, { recursive: true });
+	try {
+		// Load data from data.json using fileIO
+		const dataPath = resolve(import.meta.dir, '../data/data.json');
+		const resources = await fileIO.readJSONArray<Resource>(dataPath);
+
+		if (resources.length === 0) {
+			logger.warning('No resources found in data.json');
+			return;
 		}
 
-		// Write index to file
-		const indexPath = path.join(publicDir, 'search-index.json');
-		fs.writeFileSync(indexPath, JSON.stringify(searchIndex, null, 2));
+		logger.info(`Loaded ${resources.length} resources`);
 
-		console.log(`✓ Search index built successfully`);
-		console.log(`  - Total resources: ${DATA.length}`);
-		console.log(`  - Indexed resources: ${searchIndex.length}`);
-		console.log(`  - Output: ${indexPath}`);
+		const searchIndex = buildSearchIndex(resources);
+
+		// Ensure public directory exists using Bun
+		const publicDir = resolve(import.meta.dir, '../../public');
+		await fileIO.ensureDir(publicDir);
+
+		// Write index to file using Bun.write
+		const indexPath = resolve(publicDir, 'search-index.json');
+		await Bun.write(indexPath, JSON.stringify(searchIndex, null, 2));
+
+		logger.section('Summary');
+		logger.table({
+			'Total resources': resources.length,
+			'Indexed resources': searchIndex.length,
+			'Output': indexPath,
+		});
+
+		logger.success('✓ Search index built successfully');
 	} catch (error) {
-		console.error('✗ Failed to build search index:', error);
+		logger.error('Failed to build search index', error);
 		process.exit(1);
 	}
 }
 
-main();
+main().catch((error) => {
+	logger.error('Unhandled error', error);
+	process.exit(1);
+});
