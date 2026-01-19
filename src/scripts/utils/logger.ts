@@ -1,4 +1,4 @@
-import { SCRIPTS_CONFIG } from '../config/scripts.config';
+import { SCRIPTS_CONFIG } from '../config';
 
 type LogLevel = 'info' | 'success' | 'warning' | 'error' | 'debug';
 
