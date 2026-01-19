@@ -1,4 +1,4 @@
-import { SCRIPTS_CONFIG } from '../config/scripts.config';
+import { SCRIPTS_CONFIG } from '../config';
 import { logger } from './logger';
 
 /**
@@ -11,10 +11,10 @@ function calculateBackoffDelay(attempt: number, initialDelay: number, maxDelay: 
 }
 
 /**
- * Sleep for specified milliseconds
+ * Sleep for specified milliseconds using Bun.sleep for better performance
  */
 function sleep(ms: number): Promise<void> {
-	return new Promise(resolve => setTimeout(resolve, ms));
+	return Bun.sleep(ms);
 }
 
 interface RetryOptions {
