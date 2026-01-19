@@ -18,12 +18,9 @@
 
 import { createHash } from 'crypto';
 import type { Page } from 'playwright';
-import { SCRIPTS_CONFIG } from './config/scripts.config';
-import { logger } from './utils/logger';
-import { browserPool, closeBrowserOnExit } from './utils/browser';
-import { fileIO } from './utils/file-io';
-import { withRetry, batchExecuteWithRetry } from './utils/retry';
-import type { ResourceWithAI, ResourceWithScreenshot } from './types/resource';
+import { SCRIPTS_CONFIG } from './config';
+import { logger, browserPool, closeBrowserOnExit, fileIO, withRetry, batchExecuteWithRetry } from './utils';
+import type { ResourceWithAI, ResourceWithScreenshot } from './types';
 
 /**
  * Generate a safe filename from URL
