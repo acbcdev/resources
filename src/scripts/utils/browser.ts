@@ -1,5 +1,5 @@
 import { chromium, Browser, Page } from 'playwright';
-import { SCRIPTS_CONFIG } from '../config/scripts.config';
+import { SCRIPTS_CONFIG } from '../config';
 import { logger } from './logger';
 
 /**
