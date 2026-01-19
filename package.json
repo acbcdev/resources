@@ -14,7 +14,8 @@
 		"enrich-ai": "bun src/scripts/enrich-ai.ts",
 		"capture-screenshots": "bun src/scripts/capture-screenshots.ts",
 		"merge-data": "bun src/scripts/merge-data.ts",
-		"build-search-index": "bun src/scripts/buildSearchIndex.ts"
+		"build-search-index": "bun src/scripts/buildSearchIndex.ts",
+		"tmp": "bun src/scripts/tmp.ts"
 	},
 	"dependencies": {
 		"@astrojs/check": "0.9.6",
