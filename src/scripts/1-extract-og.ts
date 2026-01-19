@@ -15,12 +15,9 @@
  */
 
 import { type Page } from 'playwright';
-import { SCRIPTS_CONFIG } from './config/scripts.config';
-import { logger } from './utils/logger';
-import { browserPool, closeBrowserOnExit } from './utils/browser';
-import { fileIO } from './utils/file-io';
-import { withRetry, batchExecuteWithRetry } from './utils/retry';
-import type { ResourceWithOG } from './types/resource';
+import { SCRIPTS_CONFIG } from './config';
+import { logger, browserPool, closeBrowserOnExit, fileIO, withRetry, batchExecuteWithRetry } from './utils';
+import type { ResourceWithOG } from './types';
 
 interface OGExtractionResult {
 	title?: string;
@@ -36,7 +33,7 @@ interface OGExtractionResult {
 /**
  * Extract OG metadata from a page
  */
-async function extractOGMetadata(page: Page, url: string): Promise<OGExtractionResult> {
+async function extractOGMetadata(page: Page): Promise<OGExtractionResult> {
 	return page.evaluate(() => {
 		const metadata: OGExtractionResult = {};
 
@@ -99,7 +96,7 @@ async function extractOGForURL(url: string): Promise<ResourceWithOG> {
 			}
 
 			// Extract OG metadata
-			const ogData = await extractOGMetadata(page, url);
+			const ogData = await extractOGMetadata(page);
 
 			// Make sure URL is in the data
 			if (!ogData.url) {
