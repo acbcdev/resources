@@ -3,46 +3,57 @@ import { z } from 'zod';
 /**
  * Open Graph metadata extracted from a webpage
  */
-export const OGMetadataSchema = z.object({
-	title: z.string().optional(),
-	url: z.string().url().optional(),
-	image: z.string().url().optional(),
-	description: z.string().optional(),
-	type: z.string().optional(),
-	site_name: z.string().optional(),
-	video: z.string().optional(),
-	icon: z.string().optional(),
-}).strict();
+export const OGMetadataSchema = z
+	.object({
+		title: z.string().optional(),
+		url: z.string().url().optional(),
+		image: z.string().url().optional(),
+		description: z.string().optional(),
+		type: z.string().optional(),
+		site_name: z.string().optional(),
+		video: z.string().optional(),
+		icon: z.string().optional(),
+	})
+	.strict();
 
 export type OGMetadata = z.infer<typeof OGMetadataSchema>;
 
 /**
  * Resource with Open Graph data extracted
  */
-export const ResourceWithOGSchema = z.object({
-	url: z.string().url(),
-	og: OGMetadataSchema,
-	extracted_at: z.string().datetime().optional(),
-}).strict();
+export const ResourceWithOGSchema = z
+	.object({
+		url: z.url(),
+		og: OGMetadataSchema,
+		extracted_at: z.string().datetime().optional(),
+		extraction_method: z.enum(['fetch', 'browser']).optional(),
+	})
+	.strict();
 
 export type ResourceWithOG = z.infer<typeof ResourceWithOGSchema>;
 
 /**
  * AI-generated metadata for a resource
  */
-export const AIMetadataSchema = z.object({
-	name: z.string(),
-	description: z.string(),
-	category: z.array(z.string()),
-	topic: z.string().optional(),
-	main_features: z.array(z.object({
-		feature: z.string(),
+export const AIMetadataSchema = z
+	.object({
+		name: z.string(),
 		description: z.string(),
-	})).optional(),
-	tags: z.array(z.string()).optional(),
-	targetAudience: z.array(z.string()).optional(),
-	pricing: z.enum(['Free', 'Paid', 'Freemium', 'Opensource', 'Premium']).optional(),
-}).strict();
+		category: z.array(z.string()),
+		topic: z.string().optional(),
+		main_features: z
+			.array(
+				z.object({
+					feature: z.string(),
+					description: z.string(),
+				}),
+			)
+			.optional(),
+		tags: z.array(z.string()).optional(),
+		targetAudience: z.array(z.string()).optional(),
+		pricing: z.enum(['Free', 'Paid', 'Freemium', 'Opensource', 'Premium']).optional(),
+	})
+	.strict();
 
 export type AIMetadata = z.infer<typeof AIMetadataSchema>;
 
@@ -54,10 +65,14 @@ export const ResourceWithAISchema = ResourceWithOGSchema.extend({
 	description: z.string(),
 	category: z.array(z.string()),
 	topic: z.string().optional(),
-	main_features: z.array(z.object({
-		feature: z.string(),
-		description: z.string(),
-	})).optional(),
+	main_features: z
+		.array(
+			z.object({
+				feature: z.string(),
+				description: z.string(),
+			}),
+		)
+		.optional(),
 	tags: z.array(z.string()).optional(),
 	targetAudience: z.array(z.string()).optional(),
 	pricing: z.enum(['Free', 'Paid', 'Freemium', 'Opensource', 'Premium']).optional(),
@@ -90,14 +105,20 @@ export type MergedResource = z.infer<typeof MergedResourceSchema>;
 /**
  * Batch operation result
  */
-export const BatchResultSchema = z.object({
-	successful: z.number(),
-	failed: z.number(),
-	skipped: z.number(),
-	errors: z.array(z.object({
-		url: z.string().url(),
-		error: z.string(),
-	})).optional(),
-}).strict();
+export const BatchResultSchema = z
+	.object({
+		successful: z.number(),
+		failed: z.number(),
+		skipped: z.number(),
+		errors: z
+			.array(
+				z.object({
+					url: z.string().url(),
+					error: z.string(),
+				}),
+			)
+			.optional(),
+	})
+	.strict();
 
 export type BatchResult = z.infer<typeof BatchResultSchema>;
