@@ -15,10 +15,9 @@
  * - Does NOT auto-write to data.json (safety measure)
  */
 
-import { SCRIPTS_CONFIG } from './config/scripts.config';
-import { logger } from './utils/logger';
-import { fileIO } from './utils/file-io';
-import type { ResourceWithScreenshot, MergedResource } from './types/resource';
+import { SCRIPTS_CONFIG } from './config';
+import { logger, fileIO } from './utils';
+import type { ResourceWithScreenshot, MergedResource } from './types';
 
 interface ExistingResource {
 	url: string;
