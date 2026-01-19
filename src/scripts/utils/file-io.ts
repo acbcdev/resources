@@ -1,10 +1,11 @@
-import { mkdir, readFile, writeFile, stat } from 'fs/promises';
-import { dirname, join } from 'path';
+import { mkdir } from 'fs/promises';
+import { dirname } from 'path';
 import { ZodSchema } from 'zod';
 import { logger } from './logger';
 
 /**
  * Safe file I/O operations with automatic directory creation and validation
+ * Uses Bun APIs for file I/O and fs/promises for directory operations
  */
 export class FileIO {
 	/**
@@ -12,15 +13,16 @@ export class FileIO {
 	 */
 	async ensureDir(path: string): Promise<void> {
 		try {
-			await stat(path);
-		} catch {
-			try {
+			// Use Bun to check if directory exists
+			const dir = Bun.file(path);
+			const exists = await dir.exists();
+			if (!exists) {
 				await mkdir(path, { recursive: true });
 				logger.debug(`Created directory: ${path}`);
-			} catch (error) {
-				logger.error(`Failed to create directory ${path}`, error);
-				throw error;
 			}
+		} catch (error) {
+			logger.error(`Failed to create directory ${path}`, error);
+			throw error;
 		}
 	}
 
@@ -42,7 +44,15 @@ export class FileIO {
 		defaultValue: T | null = null
 	): Promise<T> {
 		try {
-			const content = await readFile(path, 'utf-8');
+			const file = Bun.file(path);
+			const exists = await file.exists();
+
+			if (!exists) {
+				logger.debug(`File not found: ${path}, using default value`);
+				return defaultValue !== null ? defaultValue : ([] as T);
+			}
+
+			const content = await file.text();
 			const data = JSON.parse(content);
 
 			if (schema) {
@@ -54,12 +64,6 @@ export class FileIO {
 		} catch (error) {
 			if (error instanceof SyntaxError) {
 				logger.warning(`Invalid JSON in ${path}, using default value`);
-				return defaultValue !== null ? defaultValue : ([] as T);
-			}
-
-			// File not found or other read error
-			if (error instanceof Error && 'code' in error && error.code === 'ENOENT') {
-				logger.debug(`File not found: ${path}, using default value`);
 				return defaultValue !== null ? defaultValue : ([] as T);
 			}
 
@@ -94,17 +98,21 @@ export class FileIO {
 			if (options?.backup) {
 				const backupPath = options?.backupPath || `${path}.backup`;
 				try {
-					const existing = await readFile(path, 'utf-8');
-					await writeFile(backupPath, existing, 'utf-8');
-					logger.debug(`Backup saved: ${backupPath}`);
+					const file = Bun.file(path);
+					const exists = await file.exists();
+					if (exists) {
+						const existing = await file.text();
+						await Bun.write(backupPath, existing);
+						logger.debug(`Backup saved: ${backupPath}`);
+					}
 				} catch {
 					// File might not exist yet, that's OK
 				}
 			}
 
-			// Write the file
+			// Write the file using Bun
 			const json = JSON.stringify(data, null, 2);
-			await writeFile(path, json, 'utf-8');
+			await Bun.write(path, json);
 			logger.debug(`File written: ${path}`);
 		} catch (error) {
 			logger.error(`Failed to write JSON to ${path}`, error);
@@ -183,8 +191,8 @@ export class FileIO {
 	 */
 	async getFileSize(path: string): Promise<number> {
 		try {
-			const stats = await stat(path);
-			return stats.size;
+			const file = Bun.file(path);
+			return file.size;
 		} catch {
 			return 0;
 		}
