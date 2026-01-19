@@ -20,7 +20,7 @@ import { mistral } from '@ai-sdk/mistral';
 import { groq } from '@ai-sdk/groq';
 import * as cheerio from 'cheerio';
 import { z } from 'zod';
-import { SCRIPTS_CONFIG, getRandomAIModel, getModelName } from './config';
+import { SCRIPTS_CONFIG, getRandomAIModel, getModelName, validateConfig } from './config';
 import { logger, fileIO, withRetry, batchExecuteWithRetry } from './utils';
 import type { ResourceWithOG, ResourceWithAI } from './types';
 
@@ -200,6 +200,7 @@ async function main() {
 	try {
 		// Validate configuration
 		logger.info('Validating configuration...');
+		validateConfig();
 		// Ensure parent directory exists for output files
 		await fileIO.ensureParentDir(SCRIPTS_CONFIG.paths.output.aiEnriched);
 
@@ -274,6 +275,15 @@ async function main() {
 			if (results.failed.length > 5) {
 				logger.warning(`  ... and ${results.failed.length - 5} more`);
 			}
+
+		// Save failed resources to file for tracking
+		const failedResources = results.failed.map((item) => ({
+			url: item.item.url,
+			error: 'Failed to enrich - used default values',
+			timestamp: new Date().toISOString(),
+		}));
+		await fileIO.appendToJSONArray(SCRIPTS_CONFIG.paths.output.failedAI, ...failedResources);
+		logger.info(`Failed resources saved to: ${SCRIPTS_CONFIG.paths.output.failedAI}`);
 		}
 
 		// Show file info
