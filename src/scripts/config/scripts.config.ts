@@ -115,7 +115,7 @@ export const SCRIPTS_CONFIG = {
 
 	// ============ Logging Settings ============
 	logging: {
-		timestamps: true,
+		timestamps: false, // Set to false by default to reduce log clutter
 		colors: true,
 		debug: process.env.DEBUG === 'true',
 	},

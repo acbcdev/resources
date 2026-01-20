@@ -1,10 +1,19 @@
 import { SCRIPTS_CONFIG } from '../config';
 
 type LogLevel = 'info' | 'success' | 'warning' | 'error' | 'debug';
+type FetchMethod = 'fetch' | 'playwright';
+type OperationType = 'Fetch' | 'Navigate';
 
 interface LogOptions {
 	context?: string;
 	timestamp?: boolean;
+}
+
+interface NetworkLogOptions extends LogOptions {
+	method?: FetchMethod;
+	operationType?: OperationType;
+	statusCode?: number;
+	fields?: string[];
 }
 
 /**
@@ -105,38 +114,44 @@ export class Logger {
 	}
 
 	/**
-	 * Log progress with percentage
+	 * Log progress with visual bar and percentage
 	 */
 	progress(current: number, total: number, message?: string): void {
-		const percentage = ((current / total) * 100).toFixed(1);
+		const percentage = ((current / total) * 100).toFixed(0);
 		const progressBar = this.getProgressBar(current, total);
-		const msg = `${progressBar} ${percentage}% (${current}/${total})`;
+		const remaining = total - current;
+		const status = remaining > 0 ? `${remaining} remaining` : 'complete';
+		const msg = `${progressBar} ${percentage}% | ${current}/${total} | ${status}`;
 		const fullMessage = message ? `${message} ${msg}` : msg;
-		this.info(fullMessage);
+		const formatted = this.formatMessage(fullMessage, { timestamp: false });
+		console.log(this.colorize(formatted, 'cyan'));
 	}
 
 	/**
-	 * Get a simple text-based progress bar
+	 * Get a clean text-based progress bar
 	 */
 	private getProgressBar(current: number, total: number): string {
-		const barLength = 20;
+		const barLength = 30;
 		const filled = Math.round((current / total) * barLength);
 		const empty = barLength - filled;
-		return `[${this.colorize('█'.repeat(filled), 'green')}${this.colorize('░'.repeat(empty), 'dim')}]`;
+		const filledBar = '='.repeat(filled);
+		const emptyBar = '-'.repeat(empty);
+		return `[${this.colorize(filledBar, 'green')}${emptyBar}]`;
 	}
 
 	/**
-	 * Log section header
+	 * Log section header with visual styling
 	 */
 	section(title: string): void {
 		console.log('');
-		console.log(this.colorize('─'.repeat(60), 'dim'));
+		console.log(this.colorize('─'.repeat(60), 'brightBlue'));
 		console.log(this.colorize(` ${title}`, 'brightBlue'));
-		console.log(this.colorize('─'.repeat(60), 'dim'));
+		console.log(this.colorize('─'.repeat(60), 'brightBlue'));
+		console.log('');
 	}
 
 	/**
-	 * Log a table of results
+	 * Log a formatted table of results
 	 */
 	table(data: Record<string, number | string>): void {
 		const entries = Object.entries(data);
@@ -155,6 +170,71 @@ export class Logger {
 		const logger = new Logger(context);
 		logger.debugEnabled = this.debugEnabled;
 		return logger;
+	}
+
+	/**
+	 * Log network operation (fetch or playwright) with URL and fields
+	 * Format: {Method} {Operation} GET {url} [fields]
+	 * Examples: "Fetch GET", "Playwright Fetch GET", "Playwright Navigate GET"
+	 */
+	networkRequest(
+		url: string,
+		method: FetchMethod = 'fetch',
+		fields: string[] = [],
+		operationType: OperationType = 'Fetch',
+		options?: NetworkLogOptions,
+	): void {
+		const methodLabel = method === 'fetch' ? 'Fetch' : `Playwright ${operationType}`;
+		const fieldsList = fields.length > 0 ? ` [${fields.join(',')}]` : '';
+		const message = `${methodLabel} GET ${url}${fieldsList}`;
+		const formatted = this.formatMessage(message, options);
+		console.log(this.colorize(formatted, 'cyan'));
+	}
+
+	/**
+	 * Log successful network response with extracted fields
+	 * Format: {Method} {Operation} GET {url} [fields_found]
+	 */
+	networkSuccess(
+		url: string,
+		method: FetchMethod = 'fetch',
+		fields: string[] = [],
+		statusCode: number = 200,
+		operationType: OperationType = 'Fetch',
+		options?: NetworkLogOptions,
+	): void {
+		const methodLabel = method === 'fetch' ? 'Fetch' : `Playwright ${operationType}`;
+		const fieldsList = fields.length > 0 ? ` [${fields.join(',')}]` : '';
+		const message = `${methodLabel} GET ${url}${fieldsList}`;
+		const formatted = this.formatMessage(message, options);
+		console.log(this.colorize(formatted, 'green'));
+	}
+
+	/**
+	 * Log failed network response with fields that were attempted
+	 * Format: {Method} {Operation} GET {url} [fields_attempted]
+	 * Error details shown below
+	 */
+	networkError(
+		url: string,
+		method: FetchMethod = 'fetch',
+		error?: string | Error,
+		statusCode?: number,
+		fields: string[] = [],
+		operationType: OperationType = 'Fetch',
+		options?: NetworkLogOptions,
+	): void {
+		const methodLabel = method === 'fetch' ? 'Fetch' : `Playwright ${operationType}`;
+		const fieldsList = fields.length > 0 ? ` [${fields.join(',')}]` : '';
+		const message = `${methodLabel} GET ${url}${fieldsList} - ERROR`;
+		const formatted = this.formatMessage(message, options);
+		console.error(this.colorize(formatted, 'red'));
+
+		if (error) {
+			const errorMsg = error instanceof Error ? error.message : String(error);
+			const statusStr = statusCode ? ` [HTTP ${statusCode}]` : '';
+			console.error(this.colorize(`  ${errorMsg}${statusStr}`, 'dim'));
+		}
 	}
 }
 

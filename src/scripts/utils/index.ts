@@ -13,3 +13,4 @@ export {
 	batchExecuteWithRetry,
 	withRetryAndTimeout,
 } from './retry';
+export { setupGracefulShutdown, updateShutdownStats } from './graceful-shutdown';

@@ -21,7 +21,7 @@ import { groq } from '@ai-sdk/groq';
 import * as cheerio from 'cheerio';
 import { z } from 'zod';
 import { SCRIPTS_CONFIG, getRandomAIModel, getModelName, validateConfig } from './config';
-import { logger, fileIO, withRetry, batchExecuteWithRetry } from './utils';
+import { logger, fileIO, withRetry, batchExecuteWithRetry, setupGracefulShutdown, updateShutdownStats } from './utils';
 import type { ResourceWithOG, ResourceWithAI } from './types';
 
 /**
@@ -82,9 +82,16 @@ async function fetchWebsiteContent(url: string): Promise<string> {
 		// Clean up whitespace
 		const text = rawText.replace(/\s+/g, ' ').trim().substring(0, SCRIPTS_CONFIG.ai.maxContentLength);
 
+		const fieldsFound = ['content'];
+		logger.networkSuccess(url, 'fetch', fieldsFound, response.status, 'Fetch');
 		return text;
 	} catch (error) {
 		clearTimeout(timeoutId);
+		const statusCode = error instanceof Error && error.message.includes('HTTP')
+			? parseInt(error.message.replace('HTTP ', ''))
+			: undefined;
+		const fieldsAttempted = ['content'];
+		logger.networkError(url, 'fetch', error, statusCode, fieldsAttempted, 'Fetch');
 		throw error;
 	}
 }
@@ -170,14 +177,29 @@ async function enrichResourceWithAI(resource: ResourceWithOG): Promise<ResourceW
 	try {
 		const aiData = await generateAIMetadata(resource);
 
+		// Log success with extracted fields
+		const fieldsFound: string[] = [];
+		if (aiData.name) fieldsFound.push('name');
+		if (aiData.description) fieldsFound.push('description');
+		if (aiData.category) fieldsFound.push('category');
+		if (aiData.main_features) fieldsFound.push('main_features');
+		if (aiData.tags) fieldsFound.push('tags');
+		if (aiData.topic) fieldsFound.push('topic');
+		if (aiData.targetAudience) fieldsFound.push('targetAudience');
+		if (aiData.pricing) fieldsFound.push('pricing');
+
+		// Use the network logger for consistency
+		logger.networkSuccess(resource.url, 'fetch', fieldsFound, 200, 'Fetch');
+
 		return {
 			...resource,
 			...aiData,
 			enriched_at: new Date().toISOString(),
 		} as ResourceWithAI;
 	} catch (error) {
-		logger.warning(
-			`Failed to enrich ${resource.url}: ${error instanceof Error ? error.message : String(error)}`,
+		logger.error(
+			`Failed to enrich ${resource.url}`,
+			error,
 		);
 
 		// Return resource with minimal data if AI fails
@@ -195,6 +217,9 @@ async function enrichResourceWithAI(resource: ResourceWithOG): Promise<ResourceW
  * Main function
  */
 async function main() {
+	// Setup graceful shutdown handler
+	setupGracefulShutdown();
+
 	logger.section('AI Metadata Enrichment');
 
 	try {
@@ -235,6 +260,8 @@ async function main() {
 
 		// Process with retry and error handling
 		logger.section('Enriching Resources');
+		let processedCount = 0;
+		let successCount = 0;
 		const results = await batchExecuteWithRetry(
 			resourcesToEnrich,
 			async (resource) => {
@@ -247,6 +274,14 @@ async function main() {
 				maxAttempts: 2,
 				onProgress: (current, total) => {
 					logger.progress(current, total, 'Enriching');
+					// Track for shutdown stats
+					processedCount = current;
+					successCount = current - (results?.failed?.length || 0);
+					updateShutdownStats({
+						totalProcessed: processedCount,
+						successful: successCount,
+						failed: results?.failed?.length || 0,
+					});
 				},
 			},
 		);

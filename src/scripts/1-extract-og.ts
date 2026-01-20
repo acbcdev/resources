@@ -17,7 +17,7 @@
 import { type Page } from 'playwright';
 import * as cheerio from 'cheerio';
 import { SCRIPTS_CONFIG } from './config';
-import { logger, browserPool, closeBrowserOnExit, fileIO, withRetry, batchExecuteWithRetry } from './utils';
+import { logger, browserPool, closeBrowserOnExit, fileIO, withRetry, batchExecuteWithRetry, setupGracefulShutdown, updateShutdownStats } from './utils';
 import type { ResourceWithOG } from './types';
 
 interface OGExtractionResult {
@@ -177,12 +177,24 @@ async function extractOGForURL(url: string): Promise<ResourceWithOG> {
 	// Try fetch first if enabled
 	if (SCRIPTS_CONFIG.og.useFetchFirst) {
 		try {
-			logger.debug(`Trying fetch for ${url}`);
 			const html = await fetchHTMLContent(url);
 			const ogData = await extractOGMetadataFromHTML(html, url);
 
 			// Ensure URL is set
 			if (!ogData.url) ogData.url = url;
+
+			// Collect found fields - show what was extracted
+			const foundFields: string[] = [];
+			if (ogData.url) foundFields.push('url');
+			if (ogData.title) foundFields.push('title');
+			if (ogData.description) foundFields.push('description');
+			if (ogData.image) foundFields.push('image');
+			if (ogData.icon) foundFields.push('icon');
+			if (ogData.type) foundFields.push('type');
+			if (ogData.site_name) foundFields.push('site_name');
+			if (ogData.video) foundFields.push('video');
+
+			logger.networkSuccess(url, 'fetch', foundFields, 200, 'Fetch');
 
 			return {
 				url,
@@ -191,9 +203,13 @@ async function extractOGForURL(url: string): Promise<ResourceWithOG> {
 				extracted_at: new Date().toISOString(),
 			};
 		} catch (fetchError) {
-			logger.debug(
-				`Fetch failed for ${url}: ${fetchError instanceof Error ? fetchError.message : String(fetchError)}, trying Playwright...`,
-			);
+			const statusCode = fetchError instanceof Error && fetchError.message.includes('HTTP')
+				? parseInt(fetchError.message.replace('HTTP ', ''))
+				: undefined;
+			// Show what was attempted (for debugging)
+			const attemptedFields = ['url', 'title', 'description', 'image', 'icon', 'type', 'site_name', 'video'];
+			logger.networkError(url, 'fetch', fetchError, statusCode, attemptedFields, 'Fetch');
+			logger.debug('Falling back to Playwright...');
 			// Fall through to Playwright
 		}
 	}
@@ -219,6 +235,19 @@ async function extractOGForURL(url: string): Promise<ResourceWithOG> {
 			if (!ogData.url) {
 				ogData.url = url;
 			}
+
+			// Collect found fields - show what was extracted
+			const foundFields: string[] = [];
+			if (ogData.url) foundFields.push('url');
+			if (ogData.title) foundFields.push('title');
+			if (ogData.description) foundFields.push('description');
+			if (ogData.image) foundFields.push('image');
+			if (ogData.icon) foundFields.push('icon');
+			if (ogData.type) foundFields.push('type');
+			if (ogData.site_name) foundFields.push('site_name');
+			if (ogData.video) foundFields.push('video');
+
+			logger.networkSuccess(url, 'playwright', foundFields, 200, 'Fetch');
 
 			return {
 				url,
@@ -252,6 +281,9 @@ async function ensureBrowserInitialized() {
  * Main function
  */
 async function main() {
+	// Setup graceful shutdown handler
+	setupGracefulShutdown();
+
 	logger.section('Open Graph Metadata Extraction');
 
 	try {
@@ -284,6 +316,8 @@ async function main() {
 
 		// Process URLs with retry and error handling
 		logger.section('Processing URLs');
+		let processedCount = 0;
+		let successCount = 0;
 		const results = await batchExecuteWithRetry(
 			urlsToProcess,
 			async (url) => {
@@ -296,6 +330,14 @@ async function main() {
 				maxAttempts: 3,
 				onProgress: (current, total) => {
 					logger.progress(current, total, 'Processing');
+					// Track for shutdown stats
+					processedCount = current;
+					successCount = current - (results?.failed?.length || 0);
+					updateShutdownStats({
+						totalProcessed: processedCount,
+						successful: successCount,
+						failed: results?.failed?.length || 0,
+					});
 				},
 			},
 		);

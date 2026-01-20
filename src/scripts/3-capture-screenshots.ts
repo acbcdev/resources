@@ -19,7 +19,7 @@
 import { createHash } from 'crypto';
 import type { Page } from 'playwright';
 import { SCRIPTS_CONFIG } from './config';
-import { logger, browserPool, closeBrowserOnExit, fileIO, withRetry, batchExecuteWithRetry } from './utils';
+import { logger, browserPool, closeBrowserOnExit, fileIO, withRetry, batchExecuteWithRetry, setupGracefulShutdown, updateShutdownStats } from './utils';
 import type { ResourceWithAI, ResourceWithScreenshot } from './types';
 
 /**
@@ -63,12 +63,13 @@ async function captureScreenshot(page: Page, url: string): Promise<string | null
 			fullPage: SCRIPTS_CONFIG.screenshot.fullPage,
 		});
 
+		const fieldsFound = ['image', 'screenshot'];
+		logger.networkSuccess(url, 'playwright', fieldsFound, 200, 'Navigate');
 		// Return public path
 		return `${SCRIPTS_CONFIG.paths.screenshots.publicPath}/${filename}`;
 	} catch (error) {
-		logger.debug(
-			`Screenshot failed for ${url}: ${error instanceof Error ? error.message : String(error)}`,
-		);
+		const fieldsAttempted = ['image', 'screenshot'];
+		logger.networkError(url, 'playwright', error, undefined, fieldsAttempted, 'Navigate');
 		return null;
 	}
 }
@@ -82,6 +83,7 @@ async function processResourceForScreenshot(
 	// If resource already has an image, use it
 	const existingImage = resource.og.image;
 	if (existingImage) {
+		logger.networkSuccess(resource.url, 'fetch', ['image'], 200, 'Fetch');
 		return {
 			...resource,
 			image: existingImage,
@@ -98,7 +100,7 @@ async function processResourceForScreenshot(
 
 			if (!screenshotPath) {
 				// Screenshot failed, use placeholder
-				logger.debug(`No image available for ${resource.url}`);
+				logger.warning(`No image available for ${resource.url}`);
 				return {
 					...resource,
 					image_source: 'none',
@@ -122,6 +124,9 @@ async function processResourceForScreenshot(
  * Main function
  */
 async function main() {
+	// Setup graceful shutdown handler
+	setupGracefulShutdown();
+
 	logger.section('Screenshot Capture');
 
 	try {
@@ -169,6 +174,8 @@ async function main() {
 
 		// Process with retry and error handling
 		logger.section('Processing Resources');
+		let processedCount = 0;
+		let successCount = 0;
 		const results = await batchExecuteWithRetry(
 			resourcesToProcess,
 			async (resource) => {
@@ -184,6 +191,14 @@ async function main() {
 				maxAttempts: 2,
 				onProgress: (current, total) => {
 					logger.progress(current, total, 'Processing');
+					// Track for shutdown stats
+					processedCount = current;
+					successCount = current - (results?.failed?.length || 0);
+					updateShutdownStats({
+						totalProcessed: processedCount,
+						successful: successCount,
+						failed: results?.failed?.length || 0,
+					});
 				},
 			},
 		);
