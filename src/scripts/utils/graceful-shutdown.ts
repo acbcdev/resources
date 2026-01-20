@@ -21,14 +21,17 @@ export function setupGracefulShutdown(): void {
 		if (isShuttingDown) return;
 		isShuttingDown = true;
 
-		console.log('\n'); // Add newline after progress indicator
-		logger.section('Processing Interrupted');
+		console.log('\n');
+		console.log('\n');
+		logger.section('SHUTDOWN INITIATED');
+		logger.warning('Process interrupted by user - saving progress...');
 
 		if (shutdownStats) {
 			displayShutdownStats(shutdownStats);
 		}
 
-		logger.info('Cleaning up and exiting...');
+		logger.info('Cleaning up resources and exiting gracefully...');
+		console.log('');
 		process.exit(0);
 	});
 }
@@ -64,22 +67,31 @@ function displayShutdownStats(stats: ShutdownStats): void {
 		? ((stats.successful / stats.totalProcessed) * 100).toFixed(0)
 		: '0';
 
-	logger.section('Session Summary');
+	console.log('');
+	logger.section('FINAL SESSION STATISTICS');
 
 	logger.table({
 		'Total processed': `${stats.totalProcessed}`,
-		'Successful': `${stats.successful}`,
-		'Failed': `${stats.failed}`,
+		'Successfully completed': `${stats.successful}`,
+		'Failed items': `${stats.failed}`,
 		'Success rate': `${successRate}%`,
 		'Time elapsed': `${elapsedSeconds}s`,
-		'Avg per item': `${avgTime}ms`,
+		'Avg time per item': `${avgTime}ms`,
 	});
+
+	console.log('');
 
 	if (stats.failed > 0) {
 		logger.warning(
-			`${stats.failed} items failed - will be reprocessed on next run`,
+			`WARNING: ${stats.failed} items failed. These will be reprocessed on the next run.`,
+		);
+	} else {
+		logger.success(
+			`All ${stats.totalProcessed} items completed successfully before interruption.`,
 		);
 	}
+
+	console.log('');
 }
 
 export default {

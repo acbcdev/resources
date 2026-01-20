@@ -120,9 +120,9 @@ export class Logger {
 		const percentage = ((current / total) * 100).toFixed(0);
 		const progressBar = this.getProgressBar(current, total);
 		const remaining = total - current;
-		const status = remaining > 0 ? `${remaining} remaining` : 'complete';
+		const status = remaining > 0 ? `${remaining} remaining` : 'COMPLETE';
 		const msg = `${progressBar} ${percentage}% | ${current}/${total} | ${status}`;
-		const fullMessage = message ? `${message} ${msg}` : msg;
+		const fullMessage = message ? `${message}: ${msg}` : msg;
 		const formatted = this.formatMessage(fullMessage, { timestamp: false });
 		console.log(this.colorize(formatted, 'cyan'));
 	}
@@ -144,9 +144,11 @@ export class Logger {
 	 */
 	section(title: string): void {
 		console.log('');
-		console.log(this.colorize('─'.repeat(60), 'brightBlue'));
-		console.log(this.colorize(` ${title}`, 'brightBlue'));
-		console.log(this.colorize('─'.repeat(60), 'brightBlue'));
+		const line = '═'.repeat(60);
+		console.log(this.colorize(`╔${line}╗`, 'brightBlue'));
+		const paddedTitle = ` ${title}`.padEnd(59);
+		console.log(this.colorize(`║${paddedTitle}║`, 'brightBlue'));
+		console.log(this.colorize(`╚${line}╝`, 'brightBlue'));
 		console.log('');
 	}
 
