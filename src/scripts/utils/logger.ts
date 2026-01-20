@@ -124,7 +124,12 @@ export class Logger {
 		const msg = `${progressBar} ${percentage}% | ${current}/${total} | ${status}`;
 		const fullMessage = message ? `${message}: ${msg}` : msg;
 		const formatted = this.formatMessage(fullMessage, { timestamp: false });
-		console.log(this.colorize(formatted, 'cyan'));
+		// Use carriage return for real-time progress updates on same line
+		process.stdout.write(`\r${this.colorize(formatted, 'cyan')}`);
+		// Add newline when complete
+		if (remaining === 0) {
+			console.log('');
+		}
 	}
 
 	/**
