@@ -24,14 +24,20 @@ interface RetryOptions {
 	onRetry?: (attempt: number, error: Error) => void;
 }
 
+interface RetryResult<T> {
+	result: T;
+	retriesRequired: number;
+}
+
 /**
  * Retry async operations with exponential backoff
+ * Returns result with count of retries required
  */
 export async function withRetry<T>(
 	fn: () => Promise<T>,
 	description: string,
 	options?: RetryOptions
-): Promise<T> {
+): Promise<RetryResult<T>> {
 	const {
 		maxAttempts = SCRIPTS_CONFIG.retry.maxAttempts,
 		initialDelay = SCRIPTS_CONFIG.retry.initialDelay,
@@ -43,7 +49,8 @@ export async function withRetry<T>(
 
 	for (let attempt = 0; attempt < maxAttempts; attempt++) {
 		try {
-			return await fn();
+			const result = await fn();
+			return { result, retriesRequired: attempt };
 		} catch (error) {
 			lastError = error instanceof Error ? error : new Error(String(error));
 
@@ -149,6 +156,7 @@ export async function batchExecuteWithRetry<T, R>(
 		maxDelay?: number;
 		onProgress?: (current: number, total: number) => void;
 		onError?: (item: T, error: Error) => void;
+		onSuccess?: (item: T, result: R, retriesRequired: number) => void;
 	}
 ): Promise<{ successful: R[]; failed: Array<{ item: T; error: Error }> }> {
 	const successful: R[] = [];
@@ -158,12 +166,16 @@ export async function batchExecuteWithRetry<T, R>(
 		const item = items[i];
 
 		try {
-			const result = await withRetry(
+			const { result, retriesRequired } = await withRetry(
 				() => fn(item),
 				`Processing item ${i + 1}/${items.length}`,
 				options
 			);
 			successful.push(result);
+
+			if (options?.onSuccess) {
+				options.onSuccess(item, result, retriesRequired);
+			}
 		} catch (error) {
 			const err = error instanceof Error ? error : new Error(String(error));
 			failed.push({ item, error: err });
@@ -190,7 +202,7 @@ export async function withRetryAndTimeout<T>(
 	timeoutMs: number,
 	retryOptions?: RetryOptions
 ): Promise<T> {
-	return withRetry(
+	const { result } = await withRetry(
 		async () => {
 			return Promise.race([
 				fn(),
@@ -205,6 +217,7 @@ export async function withRetryAndTimeout<T>(
 		description,
 		retryOptions
 	);
+	return result;
 }
 
 export default {
