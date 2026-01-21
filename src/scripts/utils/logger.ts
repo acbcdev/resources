@@ -1,7 +1,7 @@
 import { SCRIPTS_CONFIG } from '../config';
 
 type LogLevel = 'info' | 'success' | 'warning' | 'error' | 'debug';
-type FetchMethod = 'fetch' | 'playwright';
+type FetchMethod = 'fetch' | 'playwright' | 'playwright-headless';
 type OperationType = 'Fetch' | 'Navigate';
 
 interface LogOptions {
@@ -39,7 +39,7 @@ export class Logger {
 			parts.push(`[${this.getTimestamp()}]`);
 		}
 
-		if (options?.context ?? this.context) {
+		if (SCRIPTS_CONFIG.logging.showPrefix && (options?.context ?? this.context)) {
 			parts.push(`[${options?.context ?? this.context}]`);
 		}
 
@@ -180,6 +180,147 @@ export class Logger {
 	}
 
 	/**
+	 * Get status icon based on status type
+	 */
+	private getStatusIcon(status: 'success' | 'warning' | 'error'): string {
+		if (!SCRIPTS_CONFIG.logging.useStatusIcons) {
+			return '';
+		}
+		const icons: Record<'success' | 'warning' | 'error', string> = {
+			success: ' ✓ ',
+			warning: ' ⚠ ',
+			error: ' ✗ ',
+		};
+		return icons[status];
+	}
+
+	/**
+	 * Format duration in human-readable format (45s, 2m 15s)
+	 */
+	private formatDuration(ms: number): string {
+		const totalSeconds = Math.floor(ms / 1000);
+		const minutes = Math.floor(totalSeconds / 60);
+		const seconds = totalSeconds % 60;
+
+		if (minutes === 0) {
+			return `${seconds}s`;
+		}
+		return `${minutes}m ${seconds}s`;
+	}
+
+	/**
+	 * Get terminal width for responsive layout
+	 */
+	private getTerminalWidth(): number {
+		return process.stdout.columns || 80;
+	}
+
+	/**
+	 * Enhanced progress bar with status counts, ETA, and current item name
+	 */
+	progressAdvanced(
+		current: number,
+		total: number,
+		status: { successful: number; warnings: number; failed: number },
+		itemName?: string,
+		startTime?: number,
+	): void {
+		const percentage = ((current / total) * 100).toFixed(0);
+		const progressBar = this.getProgressBar(current, total);
+		const remaining = total - current;
+
+		// Build status icons
+		const statusStr = `${this.colorize(String(status.successful), 'green')}${this.getStatusIcon('success')} ${this.colorize(String(status.warnings), 'yellow')}${this.getStatusIcon('warning')} ${this.colorize(String(status.failed), 'red')}${this.getStatusIcon('error')}`;
+
+		// Calculate ETA if startTime provided
+		let etaStr = '';
+		if (SCRIPTS_CONFIG.logging.showETA && startTime && current > 0) {
+			const elapsed = Date.now() - startTime;
+			const avgTimePerItem = elapsed / current;
+			const etaMs = avgTimePerItem * remaining;
+			etaStr = remaining > 0 ? ` | ETA ${this.formatDuration(etaMs)}` : '';
+		}
+
+		// Truncate itemName if it's too long
+		let itemStr = '';
+		if (itemName) {
+			const terminalWidth = this.getTerminalWidth();
+			const maxItemLength = Math.max(20, terminalWidth - 100);
+			const truncatedItem =
+				itemName.length > maxItemLength
+					? itemName.substring(0, maxItemLength - 3) + '...'
+					: itemName;
+			itemStr = ` | ${truncatedItem}`;
+		}
+
+		const msg = `${progressBar} ${percentage}% | ${current}/${total} | ${statusStr}${etaStr}${itemStr}`;
+		const formatted = this.formatMessage(msg, { timestamp: false });
+		process.stdout.write(`\r${this.colorize(formatted, 'cyan')}\n`);
+
+		// Add newline when complete
+		if (remaining === 0) {
+			console.log('');
+		}
+	}
+
+	/**
+	 * Clean, one-line status output with icon
+	 * Success: ✓ example.com
+	 * Warning: ⚠ example.com (Succeeded after 2 retries)
+	 * Error: ✗ example.com (HTTP 404)
+	 */
+	itemStatus(
+		status: 'success' | 'warning' | 'error',
+		url: string,
+		details?: string,
+		retriesRequired?: number,
+	): void {
+		const icon = this.getStatusIcon(status);
+		let message = `${icon} ${url}`;
+
+		if (details) {
+			message += ` (${details})`;
+		}
+
+		const colorMap: Record<'success' | 'warning' | 'error', string> = {
+			success: 'green',
+			warning: 'yellow',
+			error: 'red',
+		};
+
+		const formatted = this.formatMessage(message, { timestamp: false });
+		const color = colorMap[status];
+		console.log(this.colorize(formatted, color));
+	}
+
+	/**
+	 * Enhanced table method with color-coding support
+	 * Auto-detects colors based on key patterns (Successful=green, Warnings=yellow, Failed=red, etc.)
+	 */
+	tableWithColors(data: Record<string, number | string>): void {
+		const entries = Object.entries(data);
+		const maxKeyLength = Math.max(...entries.map(([k]) => k.length));
+
+		for (const [key, value] of entries) {
+			const paddedKey = key.padEnd(maxKeyLength);
+			let valueStr = String(value);
+
+			// Auto-detect colors based on key patterns
+			let color = 'reset';
+			if (key.toLowerCase().includes('success') || key.toLowerCase().includes('successful')) {
+				color = 'green';
+			} else if (key.toLowerCase().includes('warning')) {
+				color = 'yellow';
+			} else if (key.toLowerCase().includes('fail') || key.toLowerCase().includes('error')) {
+				color = 'red';
+			}
+
+			const coloredValue = color !== 'reset' ? this.colorize(valueStr, color) : valueStr;
+			console.log(`  ${paddedKey} : ${coloredValue}`);
+		}
+	}
+
+	/**
 	 * Log network operation (fetch or playwright) with URL and fields
 	 * Format: {Method} {Operation} GET {url} [fields]
 	 * Examples: "Fetch GET", "Playwright Fetch GET", "Playwright Navigate GET"
@@ -200,7 +341,7 @@ export class Logger {
 
 	/**
 	 * Log successful network response with extracted fields
-	 * Format: {Method} {Operation} GET {url} [fields_found]
+	 * Format: {Method} {url} • {fields_found}
 	 */
 	networkSuccess(
 		url: string,
@@ -210,16 +351,16 @@ export class Logger {
 		operationType: OperationType = 'Fetch',
 		options?: NetworkLogOptions,
 	): void {
-		const methodLabel = method === 'fetch' ? 'Fetch' : `Playwright ${operationType}`;
-		const fieldsList = fields.length > 0 ? ` [${fields.join(',')}]` : '';
-		const message = `${methodLabel} GET ${url}${fieldsList}`;
+		const methodLabel = method === 'fetch' ? 'Fetch' : 'Playwright';
+		const fieldsList = fields.length > 0 ? ` • ${fields.join(', ')}` : '';
+		const message = `${methodLabel} ${url}${fieldsList}`;
 		const formatted = this.formatMessage(message, options);
 		console.log(this.colorize(formatted, 'green'));
 	}
 
 	/**
 	 * Log failed network response with fields that were attempted
-	 * Format: {Method} {Operation} GET {url} [fields_attempted]
+	 * Format: {Method} {url} • error details
 	 * Error details shown below
 	 */
 	networkError(
@@ -231,16 +372,15 @@ export class Logger {
 		operationType: OperationType = 'Fetch',
 		options?: NetworkLogOptions,
 	): void {
-		const methodLabel = method === 'fetch' ? 'Fetch' : `Playwright ${operationType}`;
-		const fieldsList = fields.length > 0 ? ` [${fields.join(',')}]` : '';
-		const message = `${methodLabel} GET ${url}${fieldsList} - ERROR`;
+		const methodLabel = method === 'fetch' ? 'Fetch' : 'Playwright';
+		const message = `${methodLabel} ${url}`;
 		const formatted = this.formatMessage(message, options);
 		console.error(this.colorize(formatted, 'red'));
 
 		if (error) {
 			const errorMsg = error instanceof Error ? error.message : String(error);
 			const statusStr = statusCode ? ` [HTTP ${statusCode}]` : '';
-			console.error(this.colorize(`  ${errorMsg}${statusStr}`, 'dim'));
+			console.error(this.colorize(`  → ${errorMsg}${statusStr}`, 'dim'));
 		}
 	}
 }
