@@ -57,12 +57,30 @@ export function updateShutdownStats(stats: {
 }
 
 /**
+ * Format milliseconds to human-readable duration
+ */
+function formatDuration(ms: number): string {
+	const seconds = Math.floor((ms / 1000) % 60);
+	const minutes = Math.floor((ms / (1000 * 60)) % 60);
+	const hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
+
+	if (hours > 0) {
+		return `${hours}h ${minutes}m ${seconds}s`;
+	}
+	if (minutes > 0) {
+		return `${minutes}m ${seconds}s`;
+	}
+	return `${seconds}s`;
+}
+
+/**
  * Display shutdown statistics
  */
 function displayShutdownStats(stats: ShutdownStats): void {
 	const elapsed = new Date().getTime() - stats.startTime.getTime();
-	const elapsedSeconds = (elapsed / 1000).toFixed(2);
-	const avgTime = stats.totalProcessed > 0 ? (elapsed / stats.totalProcessed).toFixed(0) : '0';
+	const formattedElapsed = formatDuration(elapsed);
+	const avgTime = stats.totalProcessed > 0 ? (elapsed / stats.totalProcessed) : 0;
+	const formattedAvgTime = formatDuration(Math.round(avgTime));
 	const successRate = stats.totalProcessed > 0
 		? ((stats.successful / stats.totalProcessed) * 100).toFixed(0)
 		: '0';
@@ -75,8 +93,8 @@ function displayShutdownStats(stats: ShutdownStats): void {
 		'Successfully completed': `${stats.successful}`,
 		'Failed items': `${stats.failed}`,
 		'Success rate': `${successRate}%`,
-		'Time elapsed': `${elapsedSeconds}s`,
-		'Avg time per item': `${avgTime}ms`,
+		'Time elapsed': formattedElapsed,
+		'Avg time per item': formattedAvgTime,
 	});
 
 	console.log('');
