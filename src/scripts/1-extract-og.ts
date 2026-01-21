@@ -14,268 +14,152 @@
  * - Saves incrementally to backup for resume capability
  */
 
-import { type Page } from 'playwright';
-import * as cheerio from 'cheerio';
 import { SCRIPTS_CONFIG } from './config';
-import { logger, browserPool, closeBrowserOnExit, fileIO, withRetry, batchExecuteWithRetry, setupGracefulShutdown, updateShutdownStats } from './utils';
-import type { ResourceWithOG } from './types';
+import {
+	logger,
+	browserPool,
+	closeBrowserOnExit,
+	fileIO,
+	setupGracefulShutdown,
+	updateShutdownStats,
+	httpFetcher,
+	metadataExtractor,
+} from './utils';
+import type { ResourceWithOG, OGMetadata } from './types';
 
-interface OGExtractionResult {
-	title?: string;
-	url?: string;
-	image?: string;
-	description?: string;
-	type?: string;
-	site_name?: string;
-	video?: string;
-	icon?: string;
+/**
+ * Helper: Collect found OG fields for logging
+ */
+function getFoundFields(ogData: OGMetadata): string[] {
+	const fields: string[] = [];
+	if (ogData.url) fields.push('url');
+	if (ogData.title) fields.push('title');
+	if (ogData.description) fields.push('description');
+	if (ogData.image) fields.push('image');
+	if (ogData.icon) fields.push('icon');
+	if (ogData.type) fields.push('type');
+	if (ogData.site_name) fields.push('site_name');
+	if (ogData.video) fields.push('video');
+	return fields;
 }
 
 /**
- * Fetch HTML content from a URL using fetch API
+ * Attempt 1: HTTP fetch with Cheerio
  */
-async function fetchHTMLContent(url: string): Promise<string> {
-	const controller = new AbortController();
-	const timeoutId = setTimeout(() => controller.abort(), SCRIPTS_CONFIG.og.timeout);
-
+async function tryFetch(url: string): Promise<ResourceWithOG | null> {
 	try {
-		const response = await fetch(url, {
-			headers: {
-				'User-Agent': SCRIPTS_CONFIG.network.userAgent,
-			},
-			signal: controller.signal,
-		});
+		const html = await httpFetcher.fetchHTML(url, SCRIPTS_CONFIG.og.timeout);
+		const ogData = await metadataExtractor.extractFromHTML(html, url);
 
-		if (!response.ok) {
-			throw new Error(`HTTP ${response.status}`);
-		}
+		// Ensure URL is set
+		if (!ogData.url) ogData.url = url;
 
-		const html = await response.text();
-		clearTimeout(timeoutId);
-		return html;
+		const foundFields = getFoundFields(ogData);
+		logger.networkSuccess(url, 'fetch', foundFields);
+
+		return {
+			url,
+			og: ogData,
+			extraction_method: 'fetch',
+			extracted_at: new Date().toISOString(),
+		};
 	} catch (error) {
-		clearTimeout(timeoutId);
-		throw error;
-	}
-}
-
-/**
- * Extract OG metadata from raw HTML using Cheerio
- */
-async function extractOGMetadataFromHTML(
-	html: string,
-	url: string,
-): Promise<OGExtractionResult> {
-	const $ = cheerio.load(html);
-	const metadata: OGExtractionResult = {};
-
-	// Extract OG meta tags
-	$('meta[property^="og:"], meta[name]').each((_, el) => {
-		const $el = $(el);
-		const property = $el.attr('property') || $el.attr('name') || '';
-		const content = $el.attr('content');
-
-		if (!content) return;
-
-		if (property === 'og:title') metadata.title = content;
-		else if (property === 'og:url') metadata.url = content;
-		else if (property === 'og:image') metadata.image = content;
-		else if (property === 'og:description') metadata.description = content;
-		else if (property === 'og:type') metadata.type = content;
-		else if (property === 'og:site_name') metadata.site_name = content;
-		else if (property === 'og:video') metadata.video = content;
-	});
-
-	// Fallback to title tag
-	if (!metadata.title) {
-		metadata.title = $('title').text() || undefined;
-	}
-
-	// Fallback to meta description
-	if (!metadata.description) {
-		const metaDesc = $('meta[name="description"]');
-		if (metaDesc) {
-			metadata.description = metaDesc.attr('content') || undefined;
-		}
-	}
-
-	// Extract favicon
-	const favicon =
-		$('link[rel="icon"]').attr('href') ||
-		$('link[rel="shortcut icon"]').attr('href') ||
-		'/favicon.ico';
-
-	if (favicon) {
-		// Resolve relative URLs
-		try {
-			const faviconUrl = new URL(favicon, url).href;
-			metadata.icon = faviconUrl;
-		} catch {
-			// If URL parsing fails, use favicon as-is
-			metadata.icon = favicon;
-		}
-	}
-
-	return metadata;
-}
-
-/**
- * Extract OG metadata from a page
- */
-async function extractOGMetadata(page: Page): Promise<OGExtractionResult> {
-	return page.evaluate(() => {
-		const metadata: OGExtractionResult = {};
-
-		// Extract from meta tags
-		const metas = document.querySelectorAll('meta');
-		for (const meta of metas) {
-			const property = meta.getAttribute('property') || meta.getAttribute('name') || '';
-			const content = meta.getAttribute('content');
-
-			if (!content) continue;
-
-			if (property === 'og:title') metadata.title = content;
-			else if (property === 'og:url') metadata.url = content;
-			else if (property === 'og:image') metadata.image = content;
-			else if (property === 'og:description') metadata.description = content;
-			else if (property === 'og:type') metadata.type = content;
-			else if (property === 'og:site_name') metadata.site_name = content;
-			else if (property === 'og:video') metadata.video = content;
-		}
-
-		// Fallback to title tag
-		if (!metadata.title) {
-			metadata.title = document.querySelector('title')?.textContent || undefined;
-		}
-
-		// Fallback to meta description
-		if (!metadata.description) {
-			const metaDesc = document.querySelector('meta[name="description"]');
-			if (metaDesc) {
-				metadata.description = metaDesc.getAttribute('content') || undefined;
-			}
-		}
-
-		// Extract favicon
-		const favicon =
-			document.querySelector('link[rel="icon"]')?.getAttribute('href') ||
-			document.querySelector('link[rel="shortcut icon"]')?.getAttribute('href') ||
-			'/favicon.ico';
-
-		if (favicon) {
-			metadata.icon = favicon;
-		}
-
-		return metadata;
-	});
-}
-
-/**
- * Extract OG data for a single URL
- */
-async function extractOGForURL(url: string): Promise<ResourceWithOG> {
-	// Try fetch first if enabled
-	if (SCRIPTS_CONFIG.og.useFetchFirst) {
-		try {
-			const html = await fetchHTMLContent(url);
-			const ogData = await extractOGMetadataFromHTML(html, url);
-
-			// Ensure URL is set
-			if (!ogData.url) ogData.url = url;
-
-			// Collect found fields - show what was extracted
-			const foundFields: string[] = [];
-			if (ogData.url) foundFields.push('url');
-			if (ogData.title) foundFields.push('title');
-			if (ogData.description) foundFields.push('description');
-			if (ogData.image) foundFields.push('image');
-			if (ogData.icon) foundFields.push('icon');
-			if (ogData.type) foundFields.push('type');
-			if (ogData.site_name) foundFields.push('site_name');
-			if (ogData.video) foundFields.push('video');
-
-			logger.networkSuccess(url, 'fetch', foundFields, 200, 'Fetch');
-
-			return {
-				url,
-				og: ogData,
-				extraction_method: 'fetch',
-				extracted_at: new Date().toISOString(),
-			};
-		} catch (fetchError) {
-			const statusCode = fetchError instanceof Error && fetchError.message.includes('HTTP')
-				? parseInt(fetchError.message.replace('HTTP ', ''))
+		const statusCode =
+			error instanceof Error && error.message.includes('HTTP')
+				? parseInt(error.message.replace('HTTP ', ''))
 				: undefined;
-			// Show what was attempted (for debugging)
-			const attemptedFields = ['url', 'title', 'description', 'image', 'icon', 'type', 'site_name', 'video'];
-			logger.networkError(url, 'fetch', fetchError, statusCode, attemptedFields, 'Fetch');
-			logger.debug('Falling back to Playwright...');
-			// Fall through to Playwright
+		const attemptedFields = [
+			'url',
+			'title',
+			'description',
+			'image',
+			'icon',
+			'type',
+			'site_name',
+			'video',
+		];
+		logger.networkError(
+			url,
+			'fetch',
+			error instanceof Error ? error : new Error(String(error)),
+			statusCode,
+			attemptedFields,
+		);
+		return null;
+	}
+}
+
+/**
+ * Capture OG data using browser (opens and closes per URL)
+ */
+async function capture(url: string, headless: boolean): Promise<ResourceWithOG | null> {
+	try {
+		const page = await browserPool.getPage(headless);
+		const navigated = await browserPool.navigateToURL(page, url);
+		if (!navigated) {
+			throw new Error(`Failed to navigate to ${url}`);
 		}
+
+		const ogData = await metadataExtractor.extractFromPage(page);
+		if (!ogData.url) ogData.url = url;
+
+		const foundFields = getFoundFields(ogData);
+		const method = headless ? 'playwright' : 'playwright-visible';
+		logger.networkSuccess(url, method, foundFields);
+
+		// Close browser after extraction
+		await browserPool.close();
+
+		return {
+			url,
+			og: ogData,
+			extraction_method: 'browser',
+			extracted_at: new Date().toISOString(),
+		};
+	} catch (error) {
+		// Close browser on error
+		await browserPool.close();
+
+		const method = headless ? 'playwright' : 'playwright-visible';
+		logger.networkError(
+			url,
+			method,
+			error instanceof Error ? error : new Error(String(error)),
+			undefined,
+			['url', 'title', 'description', 'image', 'icon', 'type', 'site_name', 'video'],
+		);
+		return null;
 	}
-
-	// Fallback to Playwright (existing logic with retry)
-	return withRetry(
-		async () => {
-			// Ensure browser is initialized on first use
-			await ensureBrowserInitialized();
-
-			const page = await browserPool.getPage();
-
-			// Navigate to URL
-			const navigated = await browserPool.navigateToURL(page, url);
-			if (!navigated) {
-				throw new Error(`Failed to navigate to ${url}`);
-			}
-
-			// Extract OG metadata
-			const ogData = await extractOGMetadata(page);
-
-			// Make sure URL is in the data
-			if (!ogData.url) {
-				ogData.url = url;
-			}
-
-			// Collect found fields - show what was extracted
-			const foundFields: string[] = [];
-			if (ogData.url) foundFields.push('url');
-			if (ogData.title) foundFields.push('title');
-			if (ogData.description) foundFields.push('description');
-			if (ogData.image) foundFields.push('image');
-			if (ogData.icon) foundFields.push('icon');
-			if (ogData.type) foundFields.push('type');
-			if (ogData.site_name) foundFields.push('site_name');
-			if (ogData.video) foundFields.push('video');
-
-			logger.networkSuccess(url, 'playwright', foundFields, 200, 'Fetch');
-
-			return {
-				url,
-				og: ogData,
-				extraction_method: 'browser',
-				extracted_at: new Date().toISOString(),
-			};
-		},
-		`Extract OG for ${url} with Playwright`,
-		{ maxAttempts: 3 },
-	);
 }
 
 /**
- * Lazy browser initialization flag
+ * Extract OG data with simple 3-attempt fallback strategy
+ * 1. HTTP fetch with Cheerio
+ * 2. Browser (headless)
+ * 3. Browser (visible)
  */
-let browserInitialized = false;
-
-/**
- * Ensure browser is initialized before first use
- */
-async function ensureBrowserInitialized() {
-	if (!browserInitialized) {
-		logger.info('Initializing browser for Playwright fallback...');
-		closeBrowserOnExit(browserPool);
-		browserInitialized = true;
+async function extractOG(url: string): Promise<ResourceWithOG> {
+	// Attempt 1: HTTP Fetch
+	if (SCRIPTS_CONFIG.og.useFetchFirst) {
+		const result = await tryFetch(url);
+		if (result) return result;
+		logger.info('Fetch failed, falling back to browser...');
 	}
+
+	// Attempt 2: Browser (headless)
+	let result = await capture(url, true);
+	if (result) return result;
+
+	logger.info('Headless browser failed, retrying in visible mode...');
+
+	// Attempt 3: Browser (visible for debugging)
+	result = await capture(url, false);
+	if (result) return result;
+
+	// All attempts failed
+	throw new Error(`Unable to extract OG data from ${url} after 3 attempts`);
 }
+
 
 /**
  * Main function
@@ -310,40 +194,59 @@ async function main() {
 
 		if (urlsToProcess.length === 0) {
 			logger.success('All URLs already processed!');
-			await browserPool.close();
 			return;
 		}
 
-		// Process URLs with retry and error handling
+		// Process URLs with simple linear fallback (no retry loops)
 		logger.section('Processing URLs');
+		const startTime = Date.now();
 		let processedCount = 0;
 		let successCount = 0;
-		const results = await batchExecuteWithRetry(
-			urlsToProcess,
-			async (url) => {
-				const result = await extractOGForURL(url);
-				// Save incrementally
-				await fileIO.appendToJSONArray(SCRIPTS_CONFIG.paths.output.backupOG, result);
-				return result;
-			},
-			{
-				maxAttempts: 3,
-				onProgress: (current, total) => {
-					logger.progress(current, total, 'Processing');
-					// Track for shutdown stats
-					processedCount = current;
-					successCount = current - (results?.failed?.length || 0);
-					updateShutdownStats({
-						totalProcessed: processedCount,
-						successful: successCount,
-						failed: results?.failed?.length || 0,
-					});
-				},
-			},
-		);
+		let failedCount = 0;
+		const successfulResults: ResourceWithOG[] = [];
+		const failedUrls: Array<{ url: string; error: Error }> = [];
+
+		for (const url of urlsToProcess) {
+			try {
+				const result = await extractOG(url);
+				successfulResults.push(result);
+				successCount++;
+				if (SCRIPTS_CONFIG.logging.verboseSuccess) {
+					logger.itemStatus('success', url, 'Retrieved');
+				}
+			} catch (error) {
+				failedCount++;
+				const err = error instanceof Error ? error : new Error(String(error));
+				failedUrls.push({ url, error: err });
+				logger.itemStatus('error', url, err.message);
+			}
+
+			// Save incrementally for resume capability
+			if (successfulResults.length > 0) {
+				await fileIO.appendToJSONArray(
+					SCRIPTS_CONFIG.paths.output.backupOG,
+					successfulResults[successfulResults.length - 1],
+				);
+			}
+
+			// Update progress
+			processedCount++;
+			logger.progressAdvanced(
+				processedCount,
+				urlsToProcess.length,
+				{ successful: successCount, failed: failedCount, warnings: 0 },
+				url,
+				startTime,
+			);
+			updateShutdownStats({
+				totalProcessed: processedCount,
+				successful: successCount,
+				failed: failedCount,
+			});
+		}
 
 		// Combine existing data with new data
-		const allData = [...existingData, ...results.successful];
+		const allData = [...existingData, ...successfulResults];
 
 		// Save final output
 		logger.section('Saving Results');
@@ -351,30 +254,31 @@ async function main() {
 
 		// Log results
 		logger.section('Summary');
-		logger.table({
+		logger.tableWithColors({
 			'Total URLs': allUrls.length,
-			'Successfully processed': results.successful.length,
-			Failed: results.failed.length,
+			'Successfully processed': successfulResults.length,
+			Failed: failedUrls.length,
 			'Already processed': existingUrls.size,
 		});
 
-		if (results.failed.length > 0) {
-			logger.warning(`${results.failed.length} URLs failed:`);
-			for (const { item: url, error } of results.failed.slice(0, 5)) {
+		if (failedUrls.length > 0) {
+			logger.warning(`${failedUrls.length} URLs failed:`);
+			for (const { url, error } of failedUrls.slice(0, 5)) {
 				logger.warning(`  - ${url}: ${error.message}`);
 			}
-			if (results.failed.length > 5) {
-				logger.warning(`  ... and ${results.failed.length - 5} more`);
+			if (failedUrls.length > 5) {
+				logger.warning(`  ... and ${failedUrls.length - 5} more`);
 			}
 
-		// Save failed URLs to file for tracking
-		const failedUrls = results.failed.map((item) => ({
-			url: item.item,
-			error: item.error.message,
-			timestamp: new Date().toISOString(),
-		}));
-		await fileIO.appendToJSONArray(SCRIPTS_CONFIG.paths.output.failedOG, ...failedUrls);
-		logger.info(`Failed URLs saved to: ${SCRIPTS_CONFIG.paths.output.failedOG}`);
+			// Save failed URLs to file for tracking
+			for (const { url, error } of failedUrls) {
+				await fileIO.appendToJSONArray(SCRIPTS_CONFIG.paths.output.failedOG, {
+					url,
+					error: error.message,
+					timestamp: new Date().toISOString(),
+				});
+			}
+			logger.info(`Failed URLs saved to: ${SCRIPTS_CONFIG.paths.output.failedOG}`);
 		}
 
 		// Show file info
@@ -390,8 +294,6 @@ async function main() {
 	} catch (error) {
 		logger.error('Fatal error', error);
 		process.exit(1);
-	} finally {
-		await browserPool.close();
 	}
 }
 
