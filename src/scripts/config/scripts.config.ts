@@ -105,7 +105,9 @@ export const SCRIPTS_CONFIG = {
 		},
 	},
 
-	// ============ Retry Settings ============
+	// ============ Retry Settings (Legacy) ============
+	// Note: These are only used by scripts that haven't been migrated to
+	// the simple fallback strategy. New scripts should use direct attempt logic.
 	retry: {
 		maxAttempts: 3,
 		// Exponential backoff: delay = initialDelay * (2 ^ attempt)
@@ -118,6 +120,10 @@ export const SCRIPTS_CONFIG = {
 		timestamps: false, // Set to false by default to reduce log clutter
 		colors: true,
 		debug: process.env.DEBUG === 'true',
+		showPrefix: false, // Disable [scripts] prefix by default for cleaner output
+		useStatusIcons: true, // Enable ✓/✗/⚠ symbols
+		showETA: true, // Show ETA in progress bar
+		verboseSuccess: false, // Only log warnings/errors (not every success)
 	},
 
 	// ============ Processing Settings ============
