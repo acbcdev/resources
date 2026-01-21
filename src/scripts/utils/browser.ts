@@ -38,10 +38,24 @@ export class BrowserPool {
 	/**
 	 * Get a page instance (reuses existing page, closes previous one)
 	 * This is more efficient than creating new browser instances
+	 * headless parameter can override config for specific attempts
 	 */
-	async getPage(): Promise<Page> {
+	async getPage(headless?: boolean): Promise<Page> {
+		const headlessMode = headless !== undefined ? headless : SCRIPTS_CONFIG.browser.headless;
+
+		// If headless mode is different from current browser, reinitialize
+		if (this.initialized && this.browser && headlessMode !== SCRIPTS_CONFIG.browser.headless) {
+			logger.debug(`Switching browser headless mode to: ${headlessMode}`);
+			await this.close();
+		}
+
 		if (!this.initialized || !this.browser) {
-			await this.initialize();
+			logger.debug('Initializing Chromium browser...');
+			this.browser = await chromium.launch({
+				headless: headlessMode,
+				args: SCRIPTS_CONFIG.browser.args,
+			});
+			this.initialized = true;
 		}
 
 		// Close previous page if exists
@@ -109,8 +123,6 @@ export class BrowserPool {
 			this.browser = null;
 			this.currentPage = null;
 			this.initialized = false;
-
-			logger.success('Browser closed');
 		} catch (error) {
 			logger.error('Error closing browser', error);
 		}
@@ -121,13 +133,15 @@ export class BrowserPool {
 	 */
 	async execute<T>(
 		operation: (page: Page) => Promise<T>,
-		description: string = 'Operation'
+		description: string = 'Operation',
 	): Promise<T | null> {
 		try {
 			const page = await this.getPage();
 			return await operation(page);
 		} catch (error) {
-			logger.debug(`${description} failed: ${error instanceof Error ? error.message : String(error)}`);
+			logger.debug(
+				`${description} failed: ${error instanceof Error ? error.message : String(error)}`,
+			);
 			return null;
 		}
 	}
