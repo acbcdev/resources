@@ -83,7 +83,7 @@ async function processResourceForScreenshot(
 	// If resource already has an image, use it
 	const existingImage = resource.og.image;
 	if (existingImage) {
-		logger.networkSuccess(resource.url, 'fetch', ['image'], 200, 'Fetch');
+		logger.networkSuccess(resource.url, 'fetch', ['image'], 200);
 		return {
 			...resource,
 			image: existingImage,

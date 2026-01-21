@@ -18,10 +18,9 @@ import { generateObject } from 'ai';
 import { google } from '@ai-sdk/google';
 import { mistral } from '@ai-sdk/mistral';
 import { groq } from '@ai-sdk/groq';
-import * as cheerio from 'cheerio';
 import { z } from 'zod';
 import { SCRIPTS_CONFIG, getRandomAIModel, getModelName, validateConfig } from './config';
-import { logger, fileIO, withRetry, batchExecuteWithRetry, setupGracefulShutdown, updateShutdownStats } from './utils';
+import { logger, fileIO, withRetry, batchExecuteWithRetry, setupGracefulShutdown, updateShutdownStats, httpFetcher } from './utils';
 import type { ResourceWithOG, ResourceWithAI } from './types';
 
 /**
@@ -47,54 +46,6 @@ const AIGeneratedSchema = z.object({
 	targetAudience: z.array(z.string()).optional().describe('Who this resource is for'),
 	pricing: z.enum(['Free', 'Paid', 'Freemium', 'Opensource', 'Premium']).optional().describe('Pricing model'),
 });
-
-/**
- * Fetch website content
- */
-async function fetchWebsiteContent(url: string): Promise<string> {
-	const controller = new AbortController();
-	const timeoutId = setTimeout(() => controller.abort(), SCRIPTS_CONFIG.network.fetchTimeout);
-
-	try {
-		const response = await fetch(url, {
-			headers: {
-				'User-Agent': SCRIPTS_CONFIG.network.userAgent,
-			},
-			signal: controller.signal,
-		});
-
-		if (!response.ok) {
-			throw new Error(`HTTP ${response.status}`);
-		}
-
-		const html = await response.text();
-		clearTimeout(timeoutId);
-
-		// Parse HTML and extract text
-		const $ = cheerio.load(html);
-
-		// Remove script and style elements
-		$('script, style, noscript').remove();
-
-		// Get text content
-		const rawText = $('body').text() || $('html').text() || '';
-
-		// Clean up whitespace
-		const text = rawText.replace(/\s+/g, ' ').trim().substring(0, SCRIPTS_CONFIG.ai.maxContentLength);
-
-		const fieldsFound = ['content'];
-		logger.networkSuccess(url, 'fetch', fieldsFound, response.status, 'Fetch');
-		return text;
-	} catch (error) {
-		clearTimeout(timeoutId);
-		const statusCode = error instanceof Error && error.message.includes('HTTP')
-			? parseInt(error.message.replace('HTTP ', ''))
-			: undefined;
-		const fieldsAttempted = ['content'];
-		logger.networkError(url, 'fetch', error, statusCode, fieldsAttempted, 'Fetch');
-		throw error;
-	}
-}
 
 /**
  * Get AI model instance
@@ -123,7 +74,11 @@ async function generateAIMetadata(
 	return withRetry(
 		async () => {
 			// Fetch website content
-			const content = await fetchWebsiteContent(resource.url);
+			const content = await httpFetcher.fetchTextContent(
+				resource.url,
+				SCRIPTS_CONFIG.ai.maxContentLength,
+				SCRIPTS_CONFIG.network.fetchTimeout,
+			);
 
 			if (!content || content.length < 50) {
 				throw new Error('Not enough content to analyze');
@@ -189,7 +144,7 @@ async function enrichResourceWithAI(resource: ResourceWithOG): Promise<ResourceW
 		if (aiData.pricing) fieldsFound.push('pricing');
 
 		// Use the network logger for consistency
-		logger.networkSuccess(resource.url, 'fetch', fieldsFound, 200, 'Fetch');
+		logger.networkSuccess(resource.url, 'fetch', fieldsFound, 200);
 
 		return {
 			...resource,
