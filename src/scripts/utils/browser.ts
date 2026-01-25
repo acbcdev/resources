@@ -1,4 +1,4 @@
-import { chromium, Browser, Page } from 'playwright';
+import { chromium, type Browser, type Page } from 'playwright';
 import { SCRIPTS_CONFIG } from '../config';
 import { logger } from './logger';
 
