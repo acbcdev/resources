@@ -26,6 +26,8 @@ import {
 	metadataExtractor,
 } from './utils';
 import type { ResourceWithOG, OGMetadata } from './types';
+import type { FetchMethod } from './utils/logger';
+import { chromium, type Browser } from 'playwright';
 
 /**
  * Helper: Collect found OG fields for logging
@@ -93,22 +95,31 @@ async function tryFetch(url: string): Promise<ResourceWithOG | null> {
  * Capture OG data using browser (opens and closes per URL)
  */
 async function capture(url: string, headless: boolean): Promise<ResourceWithOG | null> {
+	const browser = await chromium
+		.launch({
+			headless,
+			// args: [...SCRIPTS_CONFIG.browser.args],
+		})
+		.catch((error) => {
+			logger.error('Error launching browser', error);
+			throw error;
+		});
 	try {
-		const page = await browserPool.getPage(headless);
-		const navigated = await browserPool.navigateToURL(page, url);
-		if (!navigated) {
-			throw new Error(`Failed to navigate to ${url}`);
-		}
+		const page = await browser.newPage();
 
+		await page.goto(url, {
+			// waitUntil: 'networkidle',
+			timeout: SCRIPTS_CONFIG.og.navigateTimeout,
+		});
 		const ogData = await metadataExtractor.extractFromPage(page);
 		if (!ogData.url) ogData.url = url;
 
 		const foundFields = getFoundFields(ogData);
-		const method = headless ? 'playwright' : 'playwright-visible';
+		const method: FetchMethod = headless ? 'playwright' : 'playwright-headless';
 		logger.networkSuccess(url, method, foundFields);
 
 		// Close browser after extraction
-		await browserPool.close();
+		await browser.close();
 
 		return {
 			url,
@@ -117,10 +128,8 @@ async function capture(url: string, headless: boolean): Promise<ResourceWithOG |
 			extracted_at: new Date().toISOString(),
 		};
 	} catch (error) {
-		// Close browser on error
-		await browserPool.close();
-
-		const method = headless ? 'playwright' : 'playwright-visible';
+		// Browser is closed in finally block
+		const method: FetchMethod = headless ? 'playwright' : 'playwright-headless';
 		logger.networkError(
 			url,
 			method,
@@ -129,6 +138,8 @@ async function capture(url: string, headless: boolean): Promise<ResourceWithOG |
 			['url', 'title', 'description', 'image', 'icon', 'type', 'site_name', 'video'],
 		);
 		return null;
+	} finally {
+		browser.close();
 	}
 }
 
@@ -140,26 +151,27 @@ async function capture(url: string, headless: boolean): Promise<ResourceWithOG |
  */
 async function extractOG(url: string): Promise<ResourceWithOG> {
 	// Attempt 1: HTTP Fetch
-	if (SCRIPTS_CONFIG.og.useFetchFirst) {
-		const result = await tryFetch(url);
-		if (result) return result;
-		logger.info('Fetch failed, falling back to browser...');
-	}
+	logger.log('\nFeching...\n');
+	let result = await tryFetch(url);
+	if (result) return result;
+	logger.info('Fetch failed, falling back to browser...');
 
 	// Attempt 2: Browser (headless)
-	let result = await capture(url, true);
+	logger.log('\nBrowsering headless...\n');
+
+	result = await capture(url, true);
 	if (result) return result;
 
 	logger.info('Headless browser failed, retrying in visible mode...');
 
 	// Attempt 3: Browser (visible for debugging)
-	result = await capture(url, false);
-	if (result) return result;
+	// logger.log('\nBrowsering visible...\n');
+	// result = await capture(url, false);
+	// if (result) return result;
 
 	// All attempts failed
 	throw new Error(`Unable to extract OG data from ${url} after 3 attempts`);
 }
-
 
 /**
  * Main function
@@ -208,6 +220,7 @@ async function main() {
 
 		for (const url of urlsToProcess) {
 			try {
+				logger.log(`Processing URL: ${url}`);
 				const result = await extractOG(url);
 				successfulResults.push(result);
 				successCount++;
