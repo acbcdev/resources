@@ -97,12 +97,6 @@ export const SCRIPTS_CONFIG = {
 			mistral: process.env.MISTRAL_MODEL || 'mistral-small-latest',
 			groq: process.env.GROQ_MODEL || 'mixtral-8x7b-32768',
 		},
-		// Weights for model selection (higher = more likely)
-		modelWeights: {
-			google: 0.4,
-			mistral: 0.3,
-			groq: 0.3,
-		},
 	},
 
 	// ============ Retry Settings (Legacy) ============
@@ -153,28 +147,11 @@ export function validateConfig() {
 }
 
 /**
- * Get a random AI model name based on configured weights
+ * Get a random AI model name
  */
 export function getRandomAIModel(): 'google' | 'mistral' | 'groq' {
 	const models = ['google', 'mistral', 'groq'] as const;
-	const weights = [
-		SCRIPTS_CONFIG.ai.modelWeights.google,
-		SCRIPTS_CONFIG.ai.modelWeights.mistral,
-		SCRIPTS_CONFIG.ai.modelWeights.groq,
-	];
-
-	// Weighted random selection
-	const totalWeight = weights.reduce((a, b) => a + b, 0);
-	let random = Math.random() * totalWeight;
-
-	for (let i = 0; i < models.length; i++) {
-		random -= weights[i];
-		if (random <= 0) {
-			return models[i];
-		}
-	}
-
-	return models[0];
+	return models[Math.floor(Math.random() * models.length)];
 }
 
 /**
