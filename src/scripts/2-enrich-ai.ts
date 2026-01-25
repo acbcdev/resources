@@ -20,31 +20,52 @@ import { mistral } from '@ai-sdk/mistral';
 import { groq } from '@ai-sdk/groq';
 import { z } from 'zod';
 import { SCRIPTS_CONFIG, getRandomAIModel, getModelName, validateConfig } from './config';
-import { logger, fileIO, withRetry, batchExecuteWithRetry, setupGracefulShutdown, updateShutdownStats, httpFetcher } from './utils';
+import {
+	logger,
+	fileIO,
+	withRetry,
+	batchExecuteWithRetry,
+	setupGracefulShutdown,
+	createProgressCallback,
+	httpFetcher,
+} from './utils';
 import type { ResourceWithOG, ResourceWithAI } from './types';
+import { FeatureSchema, PricingSchema, CategorySchema } from '@/features/common/types/resource';
+import { TargetAudienceSchema } from '@/features/common/types/audience';
+
+/**
+ * AI metadata field names to check for in enrichment results
+ */
+const AI_FIELDS = [
+	'name',
+	'description',
+	'category',
+	'main_features',
+	'tags',
+	'topic',
+	'targetAudience',
+	'pricing',
+] as const;
 
 /**
  * Schema for AI-generated metadata
+ * Aligned with ToolSchema from @/features/common/types/resource.ts
  */
 const AIGeneratedSchema = z.object({
-	name: z.string().describe('The name/title of the resource'),
-	description: z.string().describe('A brief description of what the resource does'),
-	category: z
-		.array(z.string())
-		.describe('Array of relevant categories'),
-	topic: z.string().optional().describe('Secondary topic or subject'),
+	name: z.string().min(1).describe('The name/title of the resource'),
+	description: z.string().min(1).describe('A brief description of what the resource does'),
+	category: z.array(CategorySchema).describe('Array of 1-3 relevant categories'),
+	topic: z.string().min(1).describe('Secondary topic or subject'),
 	main_features: z
-		.array(
-			z.object({
-				feature: z.string(),
-				description: z.string(),
-			}),
-		)
+		.array(FeatureSchema)
 		.optional()
-		.describe('3-5 main features of the resource'),
-	tags: z.array(z.string()).optional().describe('5-10 relevant tags'),
-	targetAudience: z.array(z.string()).optional().describe('Who this resource is for'),
-	pricing: z.enum(['Free', 'Paid', 'Freemium', 'Opensource', 'Premium']).optional().describe('Pricing model'),
+		.describe('3-5 main features/capabilities with feature name and description'),
+	tags: z.array(z.string()).optional().describe('5-10 relevant tags (plain text, will be slugified)'),
+	targetAudience: z
+		.array(TargetAudienceSchema)
+		.optional()
+		.describe('Who should use this resource (strict enum values)'),
+	pricing: PricingSchema.optional().describe('Pricing model'),
 });
 
 /**
@@ -107,11 +128,11 @@ Extract the following information:
 - name: The actual name/title of the resource
 - description: A brief 1-2 sentence description
 - category: Array of 1-3 relevant categories (e.g., Tools, Libraries, Frameworks, Design, etc.)
-- topic: Secondary subject/topic if applicable
-- main_features: 3-5 key features/capabilities
-- tags: 5-10 relevant tags/keywords
-- targetAudience: Who should use this (e.g., Developers, Designers, etc.)
-- pricing: Free, Paid, Freemium, Opensource, or Premium
+- topic: Secondary subject/topic (required)
+- main_features: 3-5 key features/capabilities with feature name and description
+- tags: 5-10 relevant tags/keywords (plain text, will be auto-slugified)
+- targetAudience: Who should use this (strict values: Developers, Designers, Marketers, Founders, etc.)
+- pricing: Free, Paid, Freemium, Opensource, or Premium (optional)
 
 Be accurate and concise.`,
 				temperature: SCRIPTS_CONFIG.ai.temperature,
@@ -126,6 +147,13 @@ Be accurate and concise.`,
 }
 
 /**
+ * Helper: Check which AI fields were found
+ */
+function getFoundAIFields(data: z.infer<typeof AIGeneratedSchema>): string[] {
+	return AI_FIELDS.filter((field) => data[field as keyof typeof data]);
+}
+
+/**
  * Enrich a single resource with AI metadata
  */
 async function enrichResourceWithAI(resource: ResourceWithOG): Promise<ResourceWithAI> {
@@ -133,15 +161,7 @@ async function enrichResourceWithAI(resource: ResourceWithOG): Promise<ResourceW
 		const aiData = await generateAIMetadata(resource);
 
 		// Log success with extracted fields
-		const fieldsFound: string[] = [];
-		if (aiData.name) fieldsFound.push('name');
-		if (aiData.description) fieldsFound.push('description');
-		if (aiData.category) fieldsFound.push('category');
-		if (aiData.main_features) fieldsFound.push('main_features');
-		if (aiData.tags) fieldsFound.push('tags');
-		if (aiData.topic) fieldsFound.push('topic');
-		if (aiData.targetAudience) fieldsFound.push('targetAudience');
-		if (aiData.pricing) fieldsFound.push('pricing');
+		const fieldsFound = getFoundAIFields(aiData);
 
 		// Use the network logger for consistency
 		logger.networkSuccess(resource.url, 'fetch', fieldsFound, 200);
@@ -152,10 +172,7 @@ async function enrichResourceWithAI(resource: ResourceWithOG): Promise<ResourceW
 			enriched_at: new Date().toISOString(),
 		} as ResourceWithAI;
 	} catch (error) {
-		logger.error(
-			`Failed to enrich ${resource.url}`,
-			error,
-		);
+		logger.error(`Failed to enrich ${resource.url}`, error);
 
 		// Return resource with minimal data if AI fails
 		return {
@@ -215,8 +232,6 @@ async function main() {
 
 		// Process with retry and error handling
 		logger.section('Enriching Resources');
-		let processedCount = 0;
-		let successCount = 0;
 		const results = await batchExecuteWithRetry(
 			resourcesToEnrich,
 			async (resource) => {
@@ -227,17 +242,7 @@ async function main() {
 			},
 			{
 				maxAttempts: 2,
-				onProgress: (current, total) => {
-					logger.progress(current, total, 'Enriching');
-					// Track for shutdown stats
-					processedCount = current;
-					successCount = current - (results?.failed?.length || 0);
-					updateShutdownStats({
-						totalProcessed: processedCount,
-						successful: successCount,
-						failed: results?.failed?.length || 0,
-					});
-				},
+				onProgress: createProgressCallback('Enriching', results),
 			},
 		);
 
@@ -266,14 +271,14 @@ async function main() {
 				logger.warning(`  ... and ${results.failed.length - 5} more`);
 			}
 
-		// Save failed resources to file for tracking
-		const failedResources = results.failed.map((item) => ({
-			url: item.item.url,
-			error: 'Failed to enrich - used default values',
-			timestamp: new Date().toISOString(),
-		}));
-		await fileIO.appendToJSONArray(SCRIPTS_CONFIG.paths.output.failedAI, ...failedResources);
-		logger.info(`Failed resources saved to: ${SCRIPTS_CONFIG.paths.output.failedAI}`);
+			// Save failed resources to file for tracking
+			const failedResources = results.failed.map((item) => ({
+				url: item.item.url,
+				error: 'Failed to enrich - used default values',
+				timestamp: new Date().toISOString(),
+			}));
+			await fileIO.appendToJSONArray(SCRIPTS_CONFIG.paths.output.failedAI, ...failedResources);
+			logger.info(`Failed resources saved to: ${SCRIPTS_CONFIG.paths.output.failedAI}`);
 		}
 
 		// Show file info

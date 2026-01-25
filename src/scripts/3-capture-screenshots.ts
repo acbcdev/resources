@@ -19,7 +19,7 @@
 import { createHash } from 'crypto';
 import type { Page } from 'playwright';
 import { SCRIPTS_CONFIG } from './config';
-import { logger, browserPool, closeBrowserOnExit, fileIO, withRetry, batchExecuteWithRetry, setupGracefulShutdown, updateShutdownStats } from './utils';
+import { logger, browserPool, closeBrowserOnExit, fileIO, withRetry, batchExecuteWithRetry, setupGracefulShutdown, createProgressCallback } from './utils';
 import type { ResourceWithAI, ResourceWithScreenshot } from './types';
 
 /**
@@ -174,8 +174,6 @@ async function main() {
 
 		// Process with retry and error handling
 		logger.section('Processing Resources');
-		let processedCount = 0;
-		let successCount = 0;
 		const results = await batchExecuteWithRetry(
 			resourcesToProcess,
 			async (resource) => {
@@ -189,17 +187,7 @@ async function main() {
 			},
 			{
 				maxAttempts: 2,
-				onProgress: (current, total) => {
-					logger.progress(current, total, 'Processing');
-					// Track for shutdown stats
-					processedCount = current;
-					successCount = current - (results?.failed?.length || 0);
-					updateShutdownStats({
-						totalProcessed: processedCount,
-						successful: successCount,
-						failed: results?.failed?.length || 0,
-					});
-				},
+				onProgress: createProgressCallback('Processing', results),
 			},
 		);
 
