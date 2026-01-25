@@ -1,7 +1,7 @@
 import { SCRIPTS_CONFIG } from '../config';
 
 type LogLevel = 'info' | 'success' | 'warning' | 'error' | 'debug';
-type FetchMethod = 'fetch' | 'playwright' | 'playwright-headless';
+export type FetchMethod = 'fetch' | 'playwright' | 'playwright-headless';
 type OperationType = 'Fetch' | 'Navigate';
 
 interface LogOptions {
@@ -106,7 +106,10 @@ export class Logger {
 			}
 		}
 	}
-
+	log(message: string, options?: LogOptions): void {
+		const formatted = this.formatMessage(message, options);
+		console.log(formatted);
+	}
 	debug(message: string, options?: LogOptions): void {
 		if (!this.debugEnabled) return;
 		const formatted = this.formatMessage(message, options);
@@ -151,7 +154,7 @@ export class Logger {
 		console.log('');
 		const line = '═'.repeat(60);
 		console.log(this.colorize(`╔${line}╗`, 'brightBlue'));
-		const paddedTitle = ` ${title}`.padEnd(59);
+		const paddedTitle = ` ${title}`.padEnd(60);
 		console.log(this.colorize(`║${paddedTitle}║`, 'brightBlue'));
 		console.log(this.colorize(`╚${line}╝`, 'brightBlue'));
 		console.log('');
