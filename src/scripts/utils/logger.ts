@@ -219,6 +219,46 @@ export class Logger {
 	}
 
 	/**
+	 * Build colored status counts (success ✓, warnings ⚠, failed ✗)
+	 */
+	private buildStatusString(status: { successful: number; warnings: number; failed: number }): string {
+		const parts: string[] = [];
+		parts.push(`${this.colorize(String(status.successful), 'green')}${this.getStatusIcon('success')}`);
+		parts.push(`${this.colorize(String(status.warnings), 'yellow')}${this.getStatusIcon('warning')}`);
+		parts.push(`${this.colorize(String(status.failed), 'red')}${this.getStatusIcon('error')}`);
+		return parts.join(' ');
+	}
+
+	/**
+	 * Calculate and format ETA string if available
+	 */
+	private buildETAString(current: number, total: number, startTime?: number): string {
+		if (!SCRIPTS_CONFIG.logging.showETA || !startTime || current === 0) {
+			return '';
+		}
+		const remaining = total - current;
+		if (remaining <= 0) return '';
+		const elapsed = Date.now() - startTime;
+		const avgTimePerItem = elapsed / current;
+		const etaMs = avgTimePerItem * remaining;
+		return ` | ETA ${this.formatDuration(etaMs)}`;
+	}
+
+	/**
+	 * Truncate and format item name for display
+	 */
+	private buildItemString(itemName?: string): string {
+		if (!itemName) return '';
+		const terminalWidth = this.getTerminalWidth();
+		const maxItemLength = Math.max(20, terminalWidth - 100);
+		const truncated =
+			itemName.length > maxItemLength
+				? itemName.substring(0, maxItemLength - 3) + '...'
+				: itemName;
+		return ` | ${truncated}`;
+	}
+
+	/**
 	 * Enhanced progress bar with status counts, ETA, and current item name
 	 */
 	progressAdvanced(
@@ -231,36 +271,14 @@ export class Logger {
 		const percentage = ((current / total) * 100).toFixed(0);
 		const progressBar = this.getProgressBar(current, total);
 		const remaining = total - current;
-
-		// Build status icons
-		const statusStr = `${this.colorize(String(status.successful), 'green')}${this.getStatusIcon('success')} ${this.colorize(String(status.warnings), 'yellow')}${this.getStatusIcon('warning')} ${this.colorize(String(status.failed), 'red')}${this.getStatusIcon('error')}`;
-
-		// Calculate ETA if startTime provided
-		let etaStr = '';
-		if (SCRIPTS_CONFIG.logging.showETA && startTime && current > 0) {
-			const elapsed = Date.now() - startTime;
-			const avgTimePerItem = elapsed / current;
-			const etaMs = avgTimePerItem * remaining;
-			etaStr = remaining > 0 ? ` | ETA ${this.formatDuration(etaMs)}` : '';
-		}
-
-		// Truncate itemName if it's too long
-		let itemStr = '';
-		if (itemName) {
-			const terminalWidth = this.getTerminalWidth();
-			const maxItemLength = Math.max(20, terminalWidth - 100);
-			const truncatedItem =
-				itemName.length > maxItemLength
-					? itemName.substring(0, maxItemLength - 3) + '...'
-					: itemName;
-			itemStr = ` | ${truncatedItem}`;
-		}
+		const statusStr = this.buildStatusString(status);
+		const etaStr = this.buildETAString(current, total, startTime);
+		const itemStr = this.buildItemString(itemName);
 
 		const msg = `${progressBar} ${percentage}% | ${current}/${total} | ${statusStr}${etaStr}${itemStr}`;
 		const formatted = this.formatMessage(msg, { timestamp: false });
 		process.stdout.write(`\r${this.colorize(formatted, 'cyan')}\n`);
 
-		// Add newline when complete
 		if (remaining === 0) {
 			console.log('');
 		}
@@ -298,26 +316,28 @@ export class Logger {
 
 	/**
 	 * Enhanced table method with color-coding support
-	 * Auto-detects colors based on key patterns (Successful=green, Warnings=yellow, Failed=red, etc.)
+	 * Uses explicit key mappings for consistent coloring
 	 */
 	tableWithColors(data: Record<string, number | string>): void {
 		const entries = Object.entries(data);
 		const maxKeyLength = Math.max(...entries.map(([k]) => k.length));
 
+		// Explicit color mappings for predictable output
+		const colorMap: Record<string, string> = {
+			'Successfully processed': 'green',
+			'Successfully enriched': 'green',
+			'With images': 'green',
+			'From OG metadata': 'green',
+			'From screenshots': 'green',
+			'Warnings': 'yellow',
+			'Failed': 'red',
+			'Failed (using defaults)': 'red',
+		};
+
 		for (const [key, value] of entries) {
 			const paddedKey = key.padEnd(maxKeyLength);
-			let valueStr = String(value);
-
-			// Auto-detect colors based on key patterns
-			let color = 'reset';
-			if (key.toLowerCase().includes('success') || key.toLowerCase().includes('successful')) {
-				color = 'green';
-			} else if (key.toLowerCase().includes('warning')) {
-				color = 'yellow';
-			} else if (key.toLowerCase().includes('fail') || key.toLowerCase().includes('error')) {
-				color = 'red';
-			}
-
+			const valueStr = String(value);
+			const color = colorMap[key] || 'reset';
 			const coloredValue = color !== 'reset' ? this.colorize(valueStr, color) : valueStr;
 			console.log(`  ${paddedKey} : ${coloredValue}`);
 		}
