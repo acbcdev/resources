@@ -27,22 +27,14 @@ import {
 } from './utils';
 import type { ResourceWithOG, OGMetadata } from './types';
 import type { FetchMethod } from './utils/logger';
+import { OG_FIELDS } from './utils/og-fields';
 import { chromium, type Browser } from 'playwright';
 
 /**
  * Helper: Collect found OG fields for logging
  */
 function getFoundFields(ogData: OGMetadata): string[] {
-	const fields: string[] = [];
-	if (ogData.url) fields.push('url');
-	if (ogData.title) fields.push('title');
-	if (ogData.description) fields.push('description');
-	if (ogData.image) fields.push('image');
-	if (ogData.icon) fields.push('icon');
-	if (ogData.type) fields.push('type');
-	if (ogData.site_name) fields.push('site_name');
-	if (ogData.video) fields.push('video');
-	return fields;
+	return OG_FIELDS.filter((field) => ogData[field as keyof OGMetadata]);
 }
 
 /**
@@ -70,22 +62,12 @@ async function tryFetch(url: string): Promise<ResourceWithOG | null> {
 			error instanceof Error && error.message.includes('HTTP')
 				? parseInt(error.message.replace('HTTP ', ''))
 				: undefined;
-		const attemptedFields = [
-			'url',
-			'title',
-			'description',
-			'image',
-			'icon',
-			'type',
-			'site_name',
-			'video',
-		];
 		logger.networkError(
 			url,
 			'fetch',
 			error instanceof Error ? error : new Error(String(error)),
 			statusCode,
-			attemptedFields,
+			[...OG_FIELDS],
 		);
 		return null;
 	}
@@ -135,7 +117,7 @@ async function capture(url: string, headless: boolean): Promise<ResourceWithOG |
 			method,
 			error instanceof Error ? error : new Error(String(error)),
 			undefined,
-			['url', 'title', 'description', 'image', 'icon', 'type', 'site_name', 'video'],
+			[...OG_FIELDS],
 		);
 		return null;
 	} finally {
