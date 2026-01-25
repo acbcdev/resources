@@ -24,7 +24,7 @@ export class BrowserPool {
 
 			this.browser = await chromium.launch({
 				headless: SCRIPTS_CONFIG.browser.headless,
-				args: SCRIPTS_CONFIG.browser.args,
+				args: [...SCRIPTS_CONFIG.browser.args],
 			});
 
 			this.initialized = true;
@@ -53,7 +53,7 @@ export class BrowserPool {
 			logger.debug('Initializing Chromium browser...');
 			this.browser = await chromium.launch({
 				headless: headlessMode,
-				args: SCRIPTS_CONFIG.browser.args,
+				args: [...SCRIPTS_CONFIG.browser.args],
 			});
 			this.initialized = true;
 		}
