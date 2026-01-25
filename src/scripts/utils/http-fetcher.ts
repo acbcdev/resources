@@ -9,31 +9,40 @@ import { logger } from './logger';
  */
 export class HTTPFetcher {
 	/**
-	 * Fetch raw HTML content from a URL with timeout handling
+	 * Helper: Wrap a fetch call with timeout handling
 	 */
-	async fetchHTML(url: string, timeoutMs: number = SCRIPTS_CONFIG.network.fetchTimeout): Promise<string> {
+	private async withTimeout<T>(
+		fn: (signal: AbortSignal) => Promise<T>,
+		timeoutMs: number,
+	): Promise<T> {
 		const controller = new AbortController();
 		const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
 		try {
+			return await fn(controller.signal);
+		} finally {
+			clearTimeout(timeoutId);
+		}
+	}
+
+	/**
+	 * Fetch raw HTML content from a URL with timeout handling
+	 */
+	async fetchHTML(url: string, timeoutMs: number = SCRIPTS_CONFIG.network.fetchTimeout): Promise<string> {
+		return this.withTimeout(async (signal) => {
 			const response = await fetch(url, {
 				headers: {
 					'User-Agent': SCRIPTS_CONFIG.network.userAgent,
 				},
-				signal: controller.signal,
+				signal,
 			});
 
 			if (!response.ok) {
 				throw new Error(`HTTP ${response.status}`);
 			}
 
-			const html = await response.text();
-			clearTimeout(timeoutId);
-			return html;
-		} catch (error) {
-			clearTimeout(timeoutId);
-			throw error;
-		}
+			return response.text();
+		}, timeoutMs);
 	}
 
 	/**
@@ -46,15 +55,12 @@ export class HTTPFetcher {
 		maxLength: number = SCRIPTS_CONFIG.ai.maxContentLength,
 		timeoutMs: number = SCRIPTS_CONFIG.network.fetchTimeout,
 	): Promise<string> {
-		const controller = new AbortController();
-		const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-
-		try {
+		return this.withTimeout(async (signal) => {
 			const response = await fetch(url, {
 				headers: {
 					'User-Agent': SCRIPTS_CONFIG.network.userAgent,
 				},
-				signal: controller.signal,
+				signal,
 			});
 
 			if (!response.ok) {
@@ -62,7 +68,6 @@ export class HTTPFetcher {
 			}
 
 			const html = await response.text();
-			clearTimeout(timeoutId);
 
 			// Parse HTML and extract text
 			const $ = cheerio.load(html);
@@ -79,8 +84,7 @@ export class HTTPFetcher {
 			const fieldsFound = ['content'];
 			logger.networkSuccess(url, 'fetch', fieldsFound, response.status);
 			return text;
-		} catch (error) {
-			clearTimeout(timeoutId);
+		}, timeoutMs).catch((error) => {
 			const statusCode =
 				error instanceof Error && error.message.includes('HTTP')
 					? parseInt(error.message.replace('HTTP ', ''))
@@ -88,7 +92,7 @@ export class HTTPFetcher {
 			const fieldsAttempted = ['content'];
 			logger.networkError(url, 'fetch', error, statusCode, fieldsAttempted);
 			throw error;
-		}
+		});
 	}
 }
 
