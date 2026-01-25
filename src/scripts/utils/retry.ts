@@ -75,74 +75,6 @@ export async function withRetry<T>(
 	throw lastError || new Error(`${description} failed`);
 }
 
-/**
- * Retry with custom backoff strategy
- */
-export async function withCustomRetry<T>(
-	fn: () => Promise<T>,
-	description: string,
-	options: {
-		maxAttempts: number;
-		delayFn: (attempt: number) => number;
-		onRetry?: (attempt: number, error: Error) => void;
-		shouldRetry?: (error: Error) => boolean;
-	}
-): Promise<T> {
-	const { maxAttempts, delayFn, onRetry, shouldRetry } = options;
-
-	let lastError: Error | null = null;
-
-	for (let attempt = 0; attempt < maxAttempts; attempt++) {
-		try {
-			return await fn();
-		} catch (error) {
-			lastError = error instanceof Error ? error : new Error(String(error));
-
-			// Check if we should retry this error
-			if (shouldRetry && !shouldRetry(lastError)) {
-				throw lastError;
-			}
-
-			if (attempt < maxAttempts - 1) {
-				const delay = delayFn(attempt);
-				logger.warning(
-					`${description} failed (attempt ${attempt + 1}/${maxAttempts}): ${lastError.message}`
-				);
-				logger.debug(`Retrying in ${delay}ms...`);
-
-				if (onRetry) {
-					onRetry(attempt + 1, lastError);
-				}
-
-				await sleep(delay);
-			}
-		}
-	}
-
-	throw lastError || new Error(`${description} failed after ${maxAttempts} attempts`);
-}
-
-/**
- * Retry with linear backoff (delay = initialDelay * attempt)
- */
-export async function withLinearRetry<T>(
-	fn: () => Promise<T>,
-	description: string,
-	options?: {
-		maxAttempts?: number;
-		delay?: number;
-		onRetry?: (attempt: number, error: Error) => void;
-	}
-): Promise<T> {
-	const maxAttempts = options?.maxAttempts ?? SCRIPTS_CONFIG.retry.maxAttempts;
-	const delay = options?.delay ?? SCRIPTS_CONFIG.retry.initialDelay;
-
-	return withCustomRetry(fn, description, {
-		maxAttempts,
-		delayFn: (attempt) => delay * (attempt + 1),
-		onRetry: options?.onRetry,
-	});
-}
 
 /**
  * Batch execute operations with retry and error collection
@@ -193,37 +125,7 @@ export async function batchExecuteWithRetry<T, R>(
 	return { successful, failed };
 }
 
-/**
- * Retry with timeout
- */
-export async function withRetryAndTimeout<T>(
-	fn: () => Promise<T>,
-	description: string,
-	timeoutMs: number,
-	retryOptions?: RetryOptions
-): Promise<T> {
-	const { result } = await withRetry(
-		async () => {
-			return Promise.race([
-				fn(),
-				new Promise<T>((_, reject) =>
-					setTimeout(
-						() => reject(new Error(`${description} timed out after ${timeoutMs}ms`)),
-						timeoutMs
-					)
-				),
-			]);
-		},
-		description,
-		retryOptions
-	);
-	return result;
-}
-
 export default {
 	withRetry,
-	withCustomRetry,
-	withLinearRetry,
 	batchExecuteWithRetry,
-	withRetryAndTimeout,
 };
