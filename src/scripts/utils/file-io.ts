@@ -1,6 +1,6 @@
 import { mkdir } from 'fs/promises';
 import { dirname } from 'path';
-import { ZodSchema } from 'zod';
+import { z } from 'zod';
 import { logger } from './logger';
 
 /**
@@ -40,8 +40,8 @@ export class FileIO {
 	 */
 	async readJSON<T>(
 		path: string,
-		schema?: ZodSchema,
-		defaultValue: T | null = null
+		schema?: z.ZodTypeAny,
+		defaultValue: T | null = null,
 	): Promise<T> {
 		try {
 			const file = Bun.file(path);
@@ -81,8 +81,8 @@ export class FileIO {
 		options?: {
 			backup?: boolean;
 			backupPath?: string;
-			schema?: ZodSchema;
-		}
+			schema?: z.ZodTypeAny;
+		},
 	): Promise<void> {
 		try {
 			// Ensure parent directory exists
@@ -124,10 +124,7 @@ export class FileIO {
 	 * Read a JSON file and return array of items
 	 * Useful for incremental processing
 	 */
-	async readJSONArray<T>(
-		path: string,
-		schema?: ZodSchema
-	): Promise<T[]> {
+	async readJSONArray<T>(path: string, schema?: z.ZodTypeAny): Promise<T[]> {
 		const data = await this.readJSON<T[]>(path, schema, []);
 		return Array.isArray(data) ? data : [];
 	}
@@ -139,8 +136,8 @@ export class FileIO {
 		path: string,
 		item: T,
 		options?: {
-			schema?: ZodSchema;
-		}
+			schema?: z.ZodTypeAny;
+		},
 	): Promise<void> {
 		try {
 			const items = await this.readJSONArray<T>(path, options?.schema);
@@ -155,10 +152,7 @@ export class FileIO {
 	/**
 	 * Find items in a JSON array by predicate
 	 */
-	async findInJSONArray<T>(
-		path: string,
-		predicate: (item: T) => boolean
-	): Promise<T[]> {
+	async findInJSONArray<T>(path: string, predicate: (item: T) => boolean): Promise<T[]> {
 		const items = await this.readJSONArray<T>(path);
 		return items.filter(predicate);
 	}
@@ -169,9 +163,7 @@ export class FileIO {
 	 */
 	async urlExistsInArray(path: string, url: string): Promise<boolean> {
 		const items = await this.readJSONArray<{ url?: string }>(path);
-		return items.some(item =>
-			item.url === url || item.url?.startsWith(url.split('?')[0])
-		);
+		return items.some((item) => item.url === url || item.url?.startsWith(url.split('?')[0]));
 	}
 
 	/**
