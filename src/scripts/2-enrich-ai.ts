@@ -1,37 +1,28 @@
 #!/usr/bin/env bun
 /**
- * Step 2: AI Metadata Enrichment
+ * Step 2: AI Metadata Enrichment (Simplified)
  *
  * Input: ogData.json (from step 1)
  * Output: aiEnriched.json (with AI-generated metadata)
- * Backup: backupAI.json (incremental saves for resume)
+ * Failed: failedAI.json (resources that failed enrichment)
  *
  * This script:
  * - Loads OG data from step 1
- * - Fetches website content with Cheerio
- * - Uses AI (Google/Mistral/Groq) to generate structured metadata
+ * - Fetches website content
+ * - Uses Google AI to generate structured metadata
  * - Merges AI data with OG data
- * - Saves incrementally for resume capability
+ * - Skips failed resources and saves them for retry on next run
  */
 
 import { generateObject } from 'ai';
 import { google } from '@ai-sdk/google';
-import { mistral } from '@ai-sdk/mistral';
-import { groq } from '@ai-sdk/groq';
 import { z } from 'zod';
-import { SCRIPTS_CONFIG, getRandomAIModel, getModelName, validateConfig } from './config';
-import {
-	logger,
-	fileIO,
-	withRetry,
-	batchExecuteWithRetry,
-	setupGracefulShutdown,
-	createProgressCallback,
-	httpFetcher,
-} from './utils';
+import { SCRIPTS_CONFIG, getModelName, validateConfig } from './config';
+import { logger, fileIO, setupGracefulShutdown, httpFetcher } from './utils';
 import type { ResourceWithOG, ResourceWithAI } from './types';
-import { FeatureSchema, PricingSchema, CategorySchema } from '@/features/common/types/resource';
+import { FeatureSchema, PricingSchema } from '@/features/common/types/resource';
 import { TargetAudienceSchema } from '@/features/common/types/audience';
+import { CategorySchema } from '@/features/common/types/category';
 
 /**
  * AI metadata field names to check for in enrichment results
@@ -60,7 +51,10 @@ const AIGeneratedSchema = z.object({
 		.array(FeatureSchema)
 		.optional()
 		.describe('3-5 main features/capabilities with feature name and description'),
-	tags: z.array(z.string()).optional().describe('5-10 relevant tags (plain text, will be slugified)'),
+	tags: z
+		.array(z.string())
+		.optional()
+		.describe('5-10 relevant tags (plain text, will be slugified)'),
 	targetAudience: z
 		.array(TargetAudienceSchema)
 		.optional()
@@ -69,53 +63,30 @@ const AIGeneratedSchema = z.object({
 });
 
 /**
- * Get AI model instance
- */
-function getAIModel() {
-	const modelKey = getRandomAIModel();
-
-	switch (modelKey) {
-		case 'google':
-			return google(getModelName('google'));
-		case 'mistral':
-			return mistral(getModelName('mistral'));
-		case 'groq':
-			return groq(getModelName('groq'));
-		default:
-			return google(getModelName('google'));
-	}
-}
-
-/**
  * Generate AI metadata for a resource
  */
 async function generateAIMetadata(
 	resource: ResourceWithOG,
 ): Promise<z.infer<typeof AIGeneratedSchema>> {
-	return withRetry(
-		async () => {
-			// Fetch website content
-			const content = await httpFetcher.fetchTextContent(
-				resource.url,
-				SCRIPTS_CONFIG.ai.maxContentLength,
-				SCRIPTS_CONFIG.network.fetchTimeout,
-			);
+	// Fetch website content
+	const content = await httpFetcher.fetchTextContent(
+		resource.url,
+		SCRIPTS_CONFIG.ai.maxContentLength,
+		SCRIPTS_CONFIG.network.fetchTimeout,
+	);
 
-			if (!content || content.length < 50) {
-				throw new Error('Not enough content to analyze');
-			}
+	if (!content || content.length < 50) {
+		throw new Error('Not enough content to analyze');
+	}
 
-			// Get random AI model
-			const model = getAIModel();
-			const modelKey = getRandomAIModel();
+	// Use Google AI model directly
+	const model = google(getModelName('google'));
 
-			logger.debug(`Using ${modelKey} for ${resource.url}`);
-
-			// Generate metadata with AI
-			const result = await generateObject({
-				model,
-				schema: AIGeneratedSchema,
-				prompt: `Analyze this website content and extract structured metadata.
+	// Generate metadata with AI
+	const result = await generateObject({
+		model,
+		schema: AIGeneratedSchema,
+		prompt: `Analyze this website content and extract structured metadata.
 
 Website URL: ${resource.url}
 OG Title: ${resource.og.title || 'N/A'}
@@ -135,15 +106,11 @@ Extract the following information:
 - pricing: Free, Paid, Freemium, Opensource, or Premium (optional)
 
 Be accurate and concise.`,
-				temperature: SCRIPTS_CONFIG.ai.temperature,
-				// maxTokens: SCRIPTS_CONFIG.ai.maxTokens,
-			});
+		temperature: SCRIPTS_CONFIG.ai.temperature,
+		// maxTokens: SCRIPTS_CONFIG.ai.maxTokens,
+	});
 
-			return result.object;
-		},
-		`Generate AI metadata for ${resource.url}`,
-		{ maxAttempts: 2 },
-	);
+	return result.object;
 }
 
 /**
@@ -155,34 +122,20 @@ function getFoundAIFields(data: z.infer<typeof AIGeneratedSchema>): string[] {
 
 /**
  * Enrich a single resource with AI metadata
+ * Throws error on failure (no fallback to defaults)
  */
 async function enrichResourceWithAI(resource: ResourceWithOG): Promise<ResourceWithAI> {
-	try {
-		const aiData = await generateAIMetadata(resource);
+	const aiData = await generateAIMetadata(resource);
 
-		// Log success with extracted fields
-		const fieldsFound = getFoundAIFields(aiData);
+	// Log success with extracted fields
+	const fieldsFound = getFoundAIFields(aiData);
+	logger.networkSuccess(resource.url, 'fetch', fieldsFound, 200);
 
-		// Use the network logger for consistency
-		logger.networkSuccess(resource.url, 'fetch', fieldsFound, 200);
-
-		return {
-			...resource,
-			...aiData,
-			enriched_at: new Date().toISOString(),
-		} as ResourceWithAI;
-	} catch (error) {
-		logger.error(`Failed to enrich ${resource.url}`, error);
-
-		// Return resource with minimal data if AI fails
-		return {
-			...resource,
-			name: resource.og.title || resource.url,
-			description: resource.og.description || 'Resource',
-			category: ['Tools'], // Default category as array
-			enriched_at: new Date().toISOString(),
-		} as ResourceWithAI;
-	}
+	return {
+		...resource,
+		...aiData,
+		enriched_at: new Date().toISOString(),
+	} as ResourceWithAI;
 }
 
 /**
@@ -230,56 +183,52 @@ async function main() {
 			return;
 		}
 
-		// Process with retry and error handling
+		// Process with simple sequential loop
 		logger.section('Enriching Resources');
-		const results = await batchExecuteWithRetry(
-			resourcesToEnrich,
-			async (resource) => {
+		const successful: ResourceWithAI[] = [];
+		const failed: Array<{ url: string; error: string; timestamp: string }> = [];
+
+		for (let i = 0; i < resourcesToEnrich.length; i++) {
+			const resource = resourcesToEnrich[i];
+			logger.info(`Processing ${i + 1}/${resourcesToEnrich.length}: ${resource.url}`);
+
+			try {
 				const enriched = await enrichResourceWithAI(resource);
-				// Save incrementally
-				await fileIO.appendToJSONArray(SCRIPTS_CONFIG.paths.output.backupAI, enriched);
-				return enriched;
-			},
-			{
-				maxAttempts: 2,
-				onProgress: createProgressCallback('Enriching', results),
-			},
-		);
+				successful.push(enriched);
+			} catch (error) {
+				const errorMsg = error instanceof Error ? error.message : String(error);
+				logger.error(`Failed to enrich ${resource.url}: ${errorMsg}`);
+				failed.push({
+					url: resource.url,
+					error: errorMsg,
+					timestamp: new Date().toISOString(),
+				});
+			}
+		}
 
 		// Combine existing with new enriched data
-		const allEnriched = [...existingEnriched, ...results.successful];
+		const allEnriched = [...existingEnriched, ...successful];
 
 		// Save final output
 		logger.section('Saving Results');
 		await fileIO.writeJSON(SCRIPTS_CONFIG.paths.output.aiEnriched, allEnriched);
 
+		// Save failed resources for retry on next run
+		if (failed.length > 0) {
+			await fileIO.appendToJSONArray(SCRIPTS_CONFIG.paths.output.failedAI, failed);
+			logger.info(
+				`Saved ${failed.length} failed resources to: ${SCRIPTS_CONFIG.paths.output.failedAI}`,
+			);
+		}
+
 		// Log results
 		logger.section('Summary');
 		logger.table({
 			'Total resources': ogData.length,
-			'Successfully enriched': results.successful.length,
-			'Failed (using defaults)': results.failed.length,
+			'Successfully enriched': successful.length,
+			'Failed to enrich': failed.length,
 			'Already enriched': enrichedUrls.size,
 		});
-
-		if (results.failed.length > 0) {
-			logger.warning(`${results.failed.length} resources used default values:`);
-			for (const { item } of results.failed.slice(0, 5)) {
-				logger.warning(`  - ${item.url}`);
-			}
-			if (results.failed.length > 5) {
-				logger.warning(`  ... and ${results.failed.length - 5} more`);
-			}
-
-			// Save failed resources to file for tracking
-			const failedResources = results.failed.map((item) => ({
-				url: item.item.url,
-				error: 'Failed to enrich - used default values',
-				timestamp: new Date().toISOString(),
-			}));
-			await fileIO.appendToJSONArray(SCRIPTS_CONFIG.paths.output.failedAI, ...failedResources);
-			logger.info(`Failed resources saved to: ${SCRIPTS_CONFIG.paths.output.failedAI}`);
-		}
 
 		// Show file info
 		const fileInfo = await fileIO.getFileInfo(SCRIPTS_CONFIG.paths.output.aiEnriched);
