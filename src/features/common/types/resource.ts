@@ -68,12 +68,12 @@ export const ToolSchema = z
 
 		// Status Tracking
 		status: ResourceStatusSchema.optional().default('active'),
-		lastCheckedAt: z.string().datetime().optional(),
+		lastCheckedAt: z.iso.datetime().optional(),
 		verifiedByTeam: z.boolean().optional().default(false),
 
 		// Technical Metadata
 		license: z.string().optional(),
-		codeRepository: z.string().url().optional(),
+		codeRepository: z.url().optional(),
 		apiAvailable: z.boolean().optional(),
 		requiresAuth: z.boolean().optional(),
 
