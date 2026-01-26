@@ -80,7 +80,7 @@ async function generateAIMetadata(
 	}
 
 	// Use Google AI model directly
-	const model = google(getModelName('google'));
+	const model = google('gemini-3-flash-preview');
 
 	// Generate metadata with AI
 	const result = await generateObject({
