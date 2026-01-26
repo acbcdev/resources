@@ -4,22 +4,52 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is an Astro-based web application for cataloging and browsing resources (tools, libraries, illustrations, etc.). The project uses React components within Astro, Tailwind CSS v4, and Starwind UI components for the component library.
+This is a monorepo containing an Astro-based web application for cataloging and browsing resources (tools, libraries, illustrations, etc.), plus utility scripts. The project uses React components within Astro, Tailwind CSS v4, and Starwind UI components for the component library. It's managed as a pnpm workspace with two main packages: `web` and `scripts`.
 
 ## Development Commands
 
 | Command | Purpose |
 |---------|---------|
-| `pnpm dev` | Start local dev server (http://localhost:4321) |
-| `pnpm build` | Build production site with type checking (`astro check && astro build`) |
-| `pnpm preview` | Preview production build locally |
-| `pnpm test` | Run tests with Vitest |
-| `pnpm test:ui` | Run tests with Vitest UI |
-| `pnpm astro` | Run Astro CLI commands |
+| `pnpm web dev` | Start local dev server for web (http://localhost:4321) |
+| `pnpm web build` | Build production site with type checking (`astro check && astro build`) |
+| `pnpm web preview` | Preview production build locally |
+| `pnpm web test` | Run tests with Vitest |
+| `pnpm web test:ui` | Run tests with Vitest UI |
+| `pnpm script <script-name>` | Run a script from the scripts package |
+| `pnpm install` | Install dependencies across all workspace packages |
+
+## Workspace Setup
+
+This project uses **pnpm workspaces** to manage multiple packages in a single repository. The workspace configuration is defined in `pnpm-workspace.yaml`:
+
+```yaml
+packages:
+  - "web"
+  - "scripts"
+```
+
+**Benefits:**
+- Shared dependency installation (faster, smaller disk footprint)
+- Cross-package imports where needed
+- Monorepo-style development workflow
+- Independent package versioning and publishing
+
+**Package Commands:**
+- Use `pnpm web <command>` to run scripts in the `web` package
+- Use `pnpm script <command>` to run scripts in the `scripts` package
+- Use `pnpm install` (from root) to install all dependencies
 
 ## Architecture & Code Organization
 
-### Directory Structure
+### Monorepo Structure
+
+This is a pnpm workspace with two main packages:
+- **`web/`** - Astro-based web application
+- **`scripts/`** - Standalone utility scripts for data processing
+
+### Web Package (`web/`)
+
+#### Directory Structure
 
 - **`src/pages/`** - Astro file-based routing. Each `.astro` file becomes a route. Supports dynamic routes via `[param]` syntax.
 - **`src/features/`** - Feature modules organized by domain
@@ -37,7 +67,16 @@ This is an Astro-based web application for cataloging and browsing resources (to
   - **`categories/`** - Category-related code
   - **`collections/`** - Collection-related code
 - **`src/styles/`** - Global CSS (globals.css referenced in Layout.astro)
-- **`src/scripts/`** - Utility scripts for data processing (ai.ts, getOg.ts, screenshot.ts, tpm.ts)
+
+### Scripts Package (`scripts/`)
+
+Standalone utility scripts for processing and enriching resource data. Each script runs independently with Bun. Available scripts:
+- **`1-extract-og.ts`** - Extract Open Graph metadata from resources
+- **`2-enrich-ai.ts`** - Enrich resource data using AI
+- **`3-capture-screenshots.ts`** - Capture screenshots of resources
+- **`4-merge-data.ts`** - Merge processed data files
+- **`buildSearchIndex.ts`** - Build search index for web app
+- **`tmp.ts`** - Temporary utility script
 
 ### Key Architectural Patterns
 
@@ -162,11 +201,28 @@ if (items) {
 
 Tests are configured to run with Vitest. Currently no test files exist in the codebase (no *.test.ts or *.spec.ts files found). Tests would use path alias `@/` to reference src files.
 
-## Scripts & Utilities
+## Utility Functions
 
-- **`src/scripts/ai.ts`** - AI integration script (likely for content generation/enhancement)
-- **`src/scripts/getOg.ts`** - Open Graph image generation
-- **`src/scripts/screenshot.ts`** - Screenshot capture utility (likely for resource previews)
-- **`src/scripts/tpm.ts`** - Unknown utility
+### Web Utilities
+
 - **`src/features/common/lib/utils.ts`** - Helper functions (slugify, toHundreds, etc.)
 - **`src/features/common/lib/dom.ts`** - DOM manipulation utilities
+
+### Running Scripts
+
+Scripts are managed in the `scripts/` workspace package and use Bun as the runtime. Run them from the root:
+
+```bash
+pnpm script extract-og         # Extract OG metadata
+pnpm script enrich-ai          # Enrich with AI
+pnpm script capture-screenshots # Capture screenshots
+pnpm script merge-data         # Merge data files
+pnpm script build-search-index # Build search index
+```
+
+Or run directly from the scripts directory:
+
+```bash
+cd scripts
+bun 1-extract-og.ts
+```
