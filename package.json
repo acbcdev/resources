@@ -5,7 +5,13 @@
   "main": "index.js",
   "scripts": {
     "web": "pnpm --filter web ",
-    "script": "pnpm --filter scripts "
+    "script": "pnpm --filter scripts ",
+    "extract-og": "bun scripts/1-extract-og.ts",
+    "enrich-ai": "bun scripts/2-enrich-ai.ts",
+    "capture-screenshots": "bun scripts/3-capture-screenshots.ts",
+    "merge-data": "bun scripts/4-merge-data.ts",
+    "build-search-index": "bun scripts/buildSearchIndex.ts",
+    "tmp": "bun scripts/tmp.ts"
   },
   "keywords": [],
   "author": "",
