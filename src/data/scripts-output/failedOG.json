@@ -213,5 +213,100 @@
     "url": "chrome://newtab/",
     "error": "Unable to extract OG data from chrome://newtab/ after 3 attempts",
     "timestamp": "2026-01-22T13:08:17.702Z"
+  },
+  {
+    "url": "https://smalldev.tools/",
+    "error": "Unable to extract OG data from https://smalldev.tools/ after 3 attempts",
+    "timestamp": "2026-01-25T21:40:13.786Z"
+  },
+  {
+    "url": "https://www.freeillustrations.club/",
+    "error": "Unable to extract OG data from https://www.freeillustrations.club/ after 3 attempts",
+    "timestamp": "2026-01-25T21:40:13.789Z"
+  },
+  {
+    "url": "https://jdion.xyz/tilt",
+    "error": "Unable to extract OG data from https://jdion.xyz/tilt after 3 attempts",
+    "timestamp": "2026-01-25T21:40:13.789Z"
+  },
+  {
+    "url": "https://upto.site/",
+    "error": "Unable to extract OG data from https://upto.site/ after 3 attempts",
+    "timestamp": "2026-01-25T21:40:13.790Z"
+  },
+  {
+    "url": "https://justd.co/",
+    "error": "Unable to extract OG data from https://justd.co/ after 3 attempts",
+    "timestamp": "2026-01-25T21:40:13.790Z"
+  },
+  {
+    "url": "https://items.design/",
+    "error": "Unable to extract OG data from https://items.design/ after 3 attempts",
+    "timestamp": "2026-01-25T21:40:13.790Z"
+  },
+  {
+    "url": "https://variantvault.chrisabdo.dev/",
+    "error": "Unable to extract OG data from https://variantvault.chrisabdo.dev/ after 3 attempts",
+    "timestamp": "2026-01-25T21:40:13.791Z"
+  },
+  {
+    "url": "https://archetypeapp.com/",
+    "error": "Unable to extract OG data from https://archetypeapp.com/ after 3 attempts",
+    "timestamp": "2026-01-25T21:40:13.791Z"
+  },
+  {
+    "url": "https://windstatic.com/",
+    "error": "Unable to extract OG data from https://windstatic.com/ after 3 attempts",
+    "timestamp": "2026-01-25T21:40:13.791Z"
+  },
+  {
+    "url": "https://items.design/category/free",
+    "error": "Unable to extract OG data from https://items.design/category/free after 3 attempts",
+    "timestamp": "2026-01-25T21:40:13.792Z"
+  },
+  {
+    "url": "https://postgres.new/",
+    "error": "Unable to extract OG data from https://postgres.new/ after 3 attempts",
+    "timestamp": "2026-01-25T21:40:13.792Z"
+  },
+  {
+    "url": "https://www.linears.art/",
+    "error": "Unable to extract OG data from https://www.linears.art/ after 3 attempts",
+    "timestamp": "2026-01-25T21:40:13.792Z"
+  },
+  {
+    "url": "https://slimify.app/",
+    "error": "Unable to extract OG data from https://slimify.app/ after 3 attempts",
+    "timestamp": "2026-01-25T21:40:13.793Z"
+  },
+  {
+    "url": "https://easyreadme.app",
+    "error": "Unable to extract OG data from https://easyreadme.app after 3 attempts",
+    "timestamp": "2026-01-25T21:40:13.793Z"
+  },
+  {
+    "url": "https://www.inspovault.com/",
+    "error": "Unable to extract OG data from https://www.inspovault.com/ after 3 attempts",
+    "timestamp": "2026-01-25T21:40:13.793Z"
+  },
+  {
+    "url": "https://tinter.uxie.io/",
+    "error": "Unable to extract OG data from https://tinter.uxie.io/ after 3 attempts",
+    "timestamp": "2026-01-25T21:40:13.794Z"
+  },
+  {
+    "url": "https://silicon-css.com/",
+    "error": "Unable to extract OG data from https://silicon-css.com/ after 3 attempts",
+    "timestamp": "2026-01-25T21:40:13.794Z"
+  },
+  {
+    "url": "https://mutable.ai/",
+    "error": "Unable to extract OG data from https://mutable.ai/ after 3 attempts",
+    "timestamp": "2026-01-25T21:40:13.794Z"
+  },
+  {
+    "url": "chrome://newtab/",
+    "error": "Unable to extract OG data from chrome://newtab/ after 3 attempts",
+    "timestamp": "2026-01-25T21:40:13.794Z"
   }
 ]

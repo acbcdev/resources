@@ -18068,6 +18068,20 @@
     "extracted_at": "2026-01-22T13:08:16.562Z"
   },
   {
+    "url": "https://www.linode.com/es/",
+    "og": {
+      "site_name": "Akamai",
+      "type": "website",
+      "url": "https://www.linode.com/es/",
+      "title": "La plataforma de cloud computing más distribuida del mundo | Akamai",
+      "description": "Desarrolle y distribuya aplicaciones nativas del Edge de baja latencia en Akamai Connected Cloud.",
+      "image": "https://assets.linode.com/akamai-logo.svg",
+      "icon": "https://assets.linode.com/icons/favicon-32x32.png"
+    },
+    "extraction_method": "browser",
+    "extracted_at": "2026-01-22T13:08:16.562Z"
+  },
+  {
     "url": "https://www.keyvalues.com/",
     "og": {
       "title": "Service Suspended",
@@ -18076,5 +18090,77 @@
     },
     "extraction_method": "browser",
     "extracted_at": "2026-01-22T13:08:17.694Z"
+  },
+  {
+    "url": "https://illustrationsuniverse.com/",
+    "og": {
+      "icon": "https://illustrationsuniverse.com/favicon.ico",
+      "url": "https://illustrationsuniverse.com/"
+    },
+    "extraction_method": "fetch",
+    "extracted_at": "2026-01-25T19:57:26.838Z"
+  },
+  {
+    "url": "https://illustrationsuniverse.com/",
+    "og": {
+      "icon": "https://illustrationsuniverse.com/favicon.ico",
+      "url": "https://illustrationsuniverse.com/"
+    },
+    "extraction_method": "fetch",
+    "extracted_at": "2026-01-25T19:57:26.838Z"
+  },
+  {
+    "url": "https://illustrationsuniverse.com/",
+    "og": {
+      "icon": "https://illustrationsuniverse.com/favicon.ico",
+      "url": "https://illustrationsuniverse.com/"
+    },
+    "extraction_method": "fetch",
+    "extracted_at": "2026-01-25T19:57:26.838Z"
+  },
+  {
+    "url": "https://illustrationsuniverse.com/",
+    "og": {
+      "icon": "https://illustrationsuniverse.com/favicon.ico",
+      "url": "https://illustrationsuniverse.com/"
+    },
+    "extraction_method": "fetch",
+    "extracted_at": "2026-01-25T19:57:26.838Z"
+  },
+  {
+    "url": "https://illustrationsuniverse.com/",
+    "og": {
+      "icon": "https://illustrationsuniverse.com/favicon.ico",
+      "url": "https://illustrationsuniverse.com/"
+    },
+    "extraction_method": "fetch",
+    "extracted_at": "2026-01-25T19:57:26.838Z"
+  },
+  {
+    "url": "https://illustrationsuniverse.com/",
+    "og": {
+      "icon": "https://illustrationsuniverse.com/favicon.ico",
+      "url": "https://illustrationsuniverse.com/"
+    },
+    "extraction_method": "fetch",
+    "extracted_at": "2026-01-25T19:57:26.838Z"
+  },
+  {
+    "url": "https://illustrationsuniverse.com/",
+    "og": {
+      "icon": "https://illustrationsuniverse.com/favicon.ico",
+      "url": "https://illustrationsuniverse.com/"
+    },
+    "extraction_method": "fetch",
+    "extracted_at": "2026-01-25T19:57:26.838Z"
+  },
+  {
+    "url": "https://illustrationsuniverse.com/",
+    "og": {
+      "icon": "https://illustrationsuniverse.com/favicon.ico",
+      "url": "https://illustrationsuniverse.com/"
+    },
+    "extraction_method": "fetch",
+    "extracted_at": "2026-01-25T19:57:26.838Z"
   }
 ]
