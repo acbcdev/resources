@@ -1,5 +1,5 @@
 {
-  "name": "data-scripts",
+  "name": "@resources/scripts",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,10 +9,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.28.1",
   "dependencies": {
+    "@resources/web": "workspace:*",
     "@ai-sdk/google": "^3.0.13",
-    "@types/bun": "^1.3.6",
+    "@types/bun": "1.3.6",
     "ai": "^6.0.49",
     "cheerio": "^1.2.0",
     "playwright": "^1.58.0"
