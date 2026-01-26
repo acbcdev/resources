@@ -1,0 +1,4 @@
+packages:
+  - "web"
+  - "scripts"
+minimumReleaseAge: 1440
