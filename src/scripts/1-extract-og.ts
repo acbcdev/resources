@@ -289,6 +289,9 @@ async function main() {
 	} catch (error) {
 		logger.error('Fatal error', error);
 		process.exit(1);
+	} finally {
+		// Ensure browser is closed on exit
+		process.exit(1);
 	}
 }
 
