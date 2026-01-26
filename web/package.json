@@ -1,5 +1,5 @@
 {
-	"name": "resources",
+	"name": "@web",
 	"type": "module",
 	"version": "0.0.1",
 	"scripts": {
@@ -40,17 +40,9 @@
 		"zod": "4.1.11"
 	},
 	"devDependencies": {
-		"@ai-sdk/anthropic": "2.0.23",
-		"@ai-sdk/google": "3.0.13",
-		"@ai-sdk/groq": "2.0.22",
-		"@ai-sdk/mistral": "2.0.17",
-		"@types/bun": "1.2.23",
 		"@types/react": "19.2.0",
 		"@types/react-dom": "19.2.0",
 		"@vitest/ui": "3.2.4",
-		"ai": "5.0.60",
-		"cheerio": "1.1.2",
-		"playwright": "1.55.1",
 		"prettier": "3.6.2",
 		"prettier-plugin-astro": "0.14.1",
 		"vitest": "3.2.4"
