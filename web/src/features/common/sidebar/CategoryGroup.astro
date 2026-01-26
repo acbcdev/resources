@@ -1,0 +1,121 @@
+---
+/**
+ * CategoryGroup component
+ * Accordion-style category group with nested links
+ * Uses SidebarItem and SidebarSubItem from design system
+ */
+
+import { SidebarItem, SidebarSubItem } from 'web/src/features/ui/sidebar-item';
+import { slugify } from 'web/src/features/common/lib/utils';
+import type { ComponentType, SVGProps } from 'react';
+import Icon from './IconRenderer';
+
+interface Props {
+	title: string;
+	categories: string[];
+	icon: ComponentType<SVGProps<SVGSVGElement>>;
+}
+
+const { title, categories, icon: IconComponent } = Astro.props;
+const currentPath = new URL(Astro.request.url).pathname;
+---
+
+<div class="category-group" data-group-container={slugify(title)}>
+	<SidebarItem
+		expandable
+		expanded={false}
+		class="group-header"
+		data-group={slugify(title)}
+		aria-controls={`group-${slugify(title)}`}
+	>
+		<Icon icon={IconComponent} slot="icon" />
+		{title}
+	</SidebarItem>
+
+	<div class="group-content" id={`group-${slugify(title)}`} hidden>
+		<nav class="flex flex-col pl-4 py-1">
+			{
+				categories.map((category) => {
+					const categoryPath = `/categories/${slugify(category)}/1`;
+					const isActive = currentPath.startsWith(`/categories/${slugify(category)}`);
+					return (
+						<SidebarSubItem href={categoryPath} variant={isActive ? 'active' : 'default'}>
+							{category}
+						</SidebarSubItem>
+					);
+				})
+			}
+		</nav>
+	</div>
+</div>
+
+<style>
+	.group-content {
+		overflow: hidden;
+		max-height: 0;
+		transition:
+			max-height 0.3s ease,
+			opacity 0.3s ease;
+		opacity: 0;
+	}
+
+	.group-content:not([hidden]) {
+		max-height: 500px;
+		opacity: 1;
+		display: block;
+	}
+</style>
+
+<script>
+	// Initialize accordion functionality
+	function initializeAccordion() {
+		const containers = document.querySelectorAll('[data-group-container]');
+
+		containers.forEach((container) => {
+			const header = container.querySelector('[data-group]') as HTMLElement;
+			const content = container.querySelector('.group-content') as HTMLElement;
+
+			if (!header || !content) return;
+
+			const groupName = header.getAttribute('data-group');
+
+			// Restore state from localStorage
+			const isOpen = localStorage.getItem(`sidebar-group-${groupName}`) === 'true';
+
+			if (isOpen) {
+				content.removeAttribute('hidden');
+				header.setAttribute('data-expanded', 'true');
+				header.setAttribute('aria-expanded', 'true');
+			}
+
+			// Add click handler
+			header.addEventListener('click', () => {
+				const isCurrentlyOpen = header.getAttribute('aria-expanded') === 'true';
+				const newState = !isCurrentlyOpen;
+
+				header.setAttribute('aria-expanded', String(newState));
+				header.setAttribute('data-expanded', String(newState));
+
+				if (newState) {
+					content.removeAttribute('hidden');
+				} else {
+					content.setAttribute('hidden', '');
+				}
+
+				// Save state to localStorage
+				if (groupName) {
+					localStorage.setItem(`sidebar-group-${groupName}`, String(newState));
+				}
+			});
+		});
+	}
+
+	// Initialize on load and after Astro transitions
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initializeAccordion);
+	} else {
+		initializeAccordion();
+	}
+
+	document.addEventListener('astro:after-swap', initializeAccordion);
+</script>

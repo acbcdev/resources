@@ -1,0 +1,58 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Layout from '@/layouts/Layout.astro';
+import { collections } from 'web/src/features/common/consts/collections';
+import { slugify } from 'web/src/features/common/lib/utils';
+import ListResources from '@/features/common/lists/ListResources.astro';
+import CardItem from '@/features/common/cards/CardItem.astro';
+
+export const getStaticPaths = (() => {
+	return collections.map((i) => {
+		return {
+			params: {
+				id: slugify(i?.name ?? ''),
+			},
+			props: {
+				collection: i,
+			},
+		};
+	});
+}) satisfies GetStaticPaths;
+const { collection } = Astro.props;
+console.log(collection?.data.length);
+---
+
+<Layout title={collection?.name ?? ''}>
+	<section class="grid place-content-center gap-3">
+		<h1 class="text-5xl font-bold text-center my-5" transition:name={`${collection?.name}-title`}>
+			{collection?.name}
+		</h1>
+		<img
+			transition:name={`${collection?.name}-image`}
+			class="rounded-3xl aspect-auto w-96 mx-auto"
+			src={collection?.img || 'https://placehold.co/250x150'}
+			alt={collection?.description}
+		/>
+		<ul class="flex flex-wrap gap-4 mx-10">
+			{
+				collection?.data.map((item) => (
+					<CardItem
+						name={item.name}
+						description={item.description}
+						link={item.link}
+						image={item.image ?? ''}
+						ogImage={item.og?.image ?? ''}
+						ogDescription={item.og?.description ?? ''}
+						tags={item.tags}
+					/>
+				))
+			}
+		</ul>
+	</section>
+</Layout>
+<style>
+	section {
+		width: calc(100% - 2em);
+		max-width: 100%;
+	}
+</style>

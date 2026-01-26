@@ -1,0 +1,28 @@
+---
+import type { Tool } from 'web/src/features/common/types/resource';
+import CardItem from '@/features/common/cards/CardItem.astro';
+
+interface Props {
+	resources: Tool[];
+	class?: string;
+}
+
+const { resources, class: className } = Astro.props;
+---
+
+<section class:list={['scroll-fadeIn grid grid-cols-2 md:grid-cols-3 mx-10 gap-4', className]}>
+	{
+		resources.map((item) => (
+			<CardItem
+				name={item.name}
+				description={item.description}
+				link={item.url}
+				image={item.image}
+				icon={item.icon}
+				ogImage={item.og?.image ?? ''}
+				ogDescription={item.og?.description ?? ''}
+				tags={item.tags}
+			/>
+		))
+	}
+</section>

@@ -1,0 +1,57 @@
+---
+import { DATA } from 'web/src/data/index';
+import Layout from '@/layouts/Layout.astro';
+import { toHundreds } from 'web/src/features/common/lib/utils';
+import HeroCarousel from '@/features/common/homepage/HeroCarousel.astro';
+import NewsGrid from '@/features/common/homepage/NewsGrid.astro';
+import { PAGES } from 'web/src/features/common/consts/text';
+import {
+	getCarouselData,
+	getNewResources,
+	getFeaturedResources,
+	getFeaturedCollections,
+} from 'web/src/features/common/homepage/lib/getFeaturedContent';
+
+// Homepage configuration
+const NEW_RESOURCES_COUNT = 6;
+const FEATURED_COLLECTIONS_COUNT = 3;
+const FEATURED_RESOURCES_COUNT = 3;
+const NEWS_GRID_DISPLAY_COUNT = 12;
+
+/**
+ * Fisher-Yates shuffle algorithm for unbiased randomization
+ */
+function shuffleArray<T>(array: T[]): T[] {
+	const shuffled = [...array];
+	for (let i = shuffled.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+	}
+	return shuffled;
+}
+
+const numOfResources = toHundreds(DATA.length);
+
+// Get carousel data
+const carouselItems = getCarouselData();
+
+// Get news grid data - mixed content
+const newResources = getNewResources(NEW_RESOURCES_COUNT);
+const featuredCollections = getFeaturedCollections(FEATURED_COLLECTIONS_COUNT);
+const featuredResources = getFeaturedResources(FEATURED_RESOURCES_COUNT);
+
+// Combine news items
+const newsItems = [
+	...newResources.map((d) => ({ type: 'resource' as const, data: d })),
+	...featuredCollections.map((d) => ({ type: 'collection' as const, data: d })),
+	...featuredResources.map((d) => ({ type: 'resource' as const, data: d })),
+];
+
+// Shuffle for variety using Fisher-Yates algorithm
+const shuffledNews = shuffleArray(newsItems).slice(0, NEWS_GRID_DISPLAY_COUNT);
+---
+
+<Layout title={PAGES.home.title(parseInt(numOfResources))} description={PAGES.home.description}>
+	<HeroCarousel items={carouselItems} />
+	<NewsGrid items={shuffledNews} />
+</Layout>

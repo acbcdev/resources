@@ -1,0 +1,63 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { DATA } from 'web/src/data/index';
+import { slugify } from 'web/src/features/common/lib/utils';
+import LayoutCategories from '@/layouts/LayoutCategories.astro';
+import {
+	Pagination,
+	PaginationContent,
+	PaginationEllipsis,
+	PaginationItem,
+	PaginationLink,
+	PaginationNext,
+	PaginationPrevious,
+} from 'web/src/features/ui/pagination';
+import ListResources from '@/features/common/lists/ListResources.astro';
+export const getStaticPaths = (({ paginate }) => {
+	const AllCategories = [...new Set(DATA.flatMap((item) => item.category))];
+	return AllCategories.flatMap((category) => {
+		const categoryData = DATA.filter((item) => item.category.includes(category));
+		const fixCategory = slugify(category);
+		return paginate(categoryData, {
+			props: { category },
+			params: { category: fixCategory },
+			pageSize: 20,
+		});
+	});
+}) satisfies GetStaticPaths;
+const { page, category } = Astro.props;
+---
+
+<LayoutCategories title={`${category}`} subTitle={category}>
+	<ListResources resources={page.data} />
+	<Pagination>
+		<PaginationContent>
+			{
+				page.url.prev && (
+					<PaginationItem>
+						<PaginationPrevious href={page.url.prev} />
+					</PaginationItem>
+				)
+			}
+			{
+				Array.from({ length: page.lastPage }, (_, i) => i + 1).map((pageNum) => (
+					<PaginationItem>
+						<PaginationLink
+							href={`/categories/${category}/${pageNum}`}
+							isActive={pageNum === page.currentPage}
+						>
+							{pageNum}
+						</PaginationLink>
+					</PaginationItem>
+				))
+			}
+			{
+				page.url.next && (
+					<PaginationItem>
+						<PaginationNext href={page.url.next} />
+					</PaginationItem>
+				)
+			}
+		</PaginationContent>
+	</Pagination>
+</LayoutCategories>
