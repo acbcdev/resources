@@ -31,6 +31,9 @@ importers:
       playwright:
         specifier: ^1.58.0
         version: 1.58.0
+      zod:
+        specifier: 4.1.11
+        version: 4.1.11
 
   packages/web:
     dependencies:
