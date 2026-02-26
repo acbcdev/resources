@@ -10,7 +10,7 @@ export {
 	withRetry,
 	batchExecuteWithRetry,
 } from './retry';
-export { setupGracefulShutdown, updateShutdownStats } from './graceful-shutdown';
+export { setupGracefulShutdown, updateShutdownStats, onShutdown } from './graceful-shutdown';
 export { httpFetcher, type HTTPFetcher } from './http-fetcher';
 export { metadataExtractor, type MetadataExtractor } from './metadata-extractor';
 export { createProgressCallback } from './progress-tracker';
