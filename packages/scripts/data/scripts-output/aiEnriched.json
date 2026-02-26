@@ -123,7 +123,7 @@
     "og": {
       "title": "Realtime Colors",
       "description": "Visualize your color palettes on a real website.",
-      "image": "/preview.png",
+      "image": "https://www.realtimecolors.com/preview.png",
       "url": "https://realtimecolors.com",
       "type": "website",
       "site_name": "Realtime Colors",
@@ -580,7 +580,7 @@
       "url": "https://svgdoodles.com/",
       "title": "SVG Doodles – Free, editable SVGs to spice up your designs",
       "description": "Browse a curated collection of free, customizable SVG doodles and icons to use in your websites, apps, slides, and prints.",
-      "image": "/og-image.png",
+      "image": "https://svgdoodles.com/og-image.png",
       "site_name": "SVG Doodles",
       "icon": "./favicons/favicon.ico"
     },
@@ -1579,7 +1579,7 @@
     "og": {
       "title": "Fontsource",
       "description": "Download and self-host 1500+ open-source fonts in neatly bundled NPM packages. Access a comprehensive library of web typefaces for free.",
-      "image": "/og-image.png",
+      "image": "https://fontsource.org/og-image.png",
       "icon": "/favicon-32x32.png",
       "url": "https://fontsource.org/"
     },
@@ -1794,7 +1794,7 @@
     "og": {
       "title": "ReqRes – Frontend-first backend you call with fetch()",
       "description": "ReqRes is the frontend-first backend you call with fetch(). Projects bundle collections, app users, logs, and automations-no backend code required.",
-      "image": "/img/logo-dark.jpg",
+      "image": "https://reqres.in/img/logo-dark.jpg",
       "url": "https://reqres.in",
       "type": "website",
       "icon": "/img/logo-dark.jpg"
@@ -2124,7 +2124,7 @@
     "url": "https://pokeapi.co/",
     "og": {
       "type": "website",
-      "image": "/static/pokeapi_256.3fa72200.png",
+      "image": "https://pokeapi.co/static/pokeapi_256.3fa72200.png",
       "title": "PokéAPI",
       "icon": "/pokeapi_192_square.png",
       "url": "https://pokeapi.co/"
@@ -2458,7 +2458,7 @@
   {
     "url": "https://zustand-demo.pmnd.rs/",
     "og": {
-      "image": "/ogimage.jpg",
+      "image": "https://zustand-demo.pmnd.rs/ogimage.jpg",
       "title": "Zustand",
       "description": "🐻 Bear necessities for state management in React",
       "icon": "/favicon.ico",
@@ -2971,7 +2971,7 @@
       "type": "article",
       "description": "Completely unstyled, fully accessible UI components, designed to integrate beautifully with Tailwind CSS.",
       "title": "Headless UI",
-      "image": "/_next/static/media/social-card.46834755.jpg",
+      "image": "https://headlessui.com/_next/static/media/social-card.46834755.jpg",
       "icon": "/favicon.ico"
     },
     "extracted_at": "2026-01-19T06:00:53.888Z",
@@ -4074,7 +4074,7 @@
       "title": "Anime.js | JavaScript Animation Engine",
       "url": "/",
       "description": "A fast and versatile JavaScript animation library",
-      "image": "/media/site/5e9b48763d-1744100039/anime-js-sharing-image.png",
+      "image": "https://animejs.com/media/site/5e9b48763d-1744100039/anime-js-sharing-image.png",
       "icon": "/assets/images/favicon.png"
     },
     "extracted_at": "2026-01-19T12:44:59.247Z",
@@ -6376,7 +6376,7 @@
       "url": "https://www.cssportal.com/",
       "title": "CSS Portal - Generators, Resources, Tools, HTML - CSS Portal",
       "description": "CSS Portal is home to many examples of CSS / HTML and how it can be used in website design.",
-      "image": "/assets/images/cssicon.png",
+      "image": "https://www.cssportal.com/assets/images/cssicon.png",
       "icon": "/assets/images/favicon.ico"
     },
     "extracted_at": "2026-01-19T18:40:34.360Z",
@@ -6829,7 +6829,7 @@
     "og": {
       "title": "Tailwind CSS Animations Plugin: Community-Powered Animation Magic",
       "description": "Tailwind plugin to add easily animations to your website",
-      "image": "/og.jpg",
+      "image": "https://tailwindcss-animations.vercel.app/og.jpg",
       "icon": "/favicon.svg",
       "url": "https://tailwindcss-animations.vercel.app/"
     },
@@ -7211,7 +7211,7 @@
       "description": "Discover free fonts and font pairings. Handpicked fonts and professionally curated combinations using beautiful free fonts.",
       "type": "website",
       "url": "https://fontpair.co",
-      "image": "/lovable-uploads/3c2d5cf2-8539-4178-9be2-bea2f6128957.png",
+      "image": "https://www.fontpair.co/lovable-uploads/3c2d5cf2-8539-4178-9be2-bea2f6128957.png",
       "icon": "https://www.fontpair.co/lovable-uploads/6d6d6d0f-fa61-4507-8417-e70f209f5be1.png"
     },
     "extraction_method": "fetch",
@@ -7444,7 +7444,7 @@
   {
     "url": "https://sortablejs.github.io/Sortable/",
     "og": {
-      "image": "/st/og-image.png",
+      "image": "https://sortablejs.github.io/st/og-image.png",
       "title": "SortableJS",
       "description": "Sortable — is a JavaScript library for reorderable drag-and-drop lists on modern browsers and touch devices. No jQuery required. Supports Meteor, AngularJS, React, Polymer, Vue, Knockout and any CSS library, e.g. Bootstrap.",
       "icon": "https://sortablejs.github.io/Sortable/st/og-image.png",
@@ -9321,7 +9321,7 @@
       "description": "Fast, offline, and free documentation browser for developers. Search 100+ docs in one web app including HTML, CSS, JavaScript, PHP, Ruby, Python, Go, C, C++, and many more.",
       "type": "website",
       "url": "https://devdocs.io",
-      "image": "/images/icon-320.png",
+      "image": "https://devdocs.io/images/icon-320.png",
       "icon": "https://devdocs.io/favicon.ico"
     },
     "extraction_method": "fetch",
@@ -10433,7 +10433,7 @@
     "og": {
       "title": "Full stack open",
       "description": "Helsingin yliopiston ja Houston Inc:n kaikille avoin ja ilmainen moderniin JavaScript-pohjaiseen web-sovelluskehitykseen keskittyvä kurssi. Osallistujilta edellytetään vahvaa ohjelmointirutiinia, pitkäjänteistyyttä ja valmiuksia omatoimiseen ongelmanratkaisuun.",
-      "image": "/static/seo_image-939e8e249cf62a835ed560f6da4200ad.jpg",
+      "image": "https://fullstackopen.com/static/seo_image-939e8e249cf62a835ed560f6da4200ad.jpg",
       "type": "website",
       "icon": "https://fullstackopen.com/favicon-32x32.png?v=6460c405ec32c913ef778f48c5ab192e",
       "url": "https://fullstackopen.com/"
@@ -12946,7 +12946,7 @@
   {
     "url": "https://mageicons.com/",
     "og": {
-      "image": "/mage-icons-preview.png",
+      "image": "https://mageicons.com/mage-icons-preview.png",
       "title": "Mage Icons",
       "description": "Open Source Icon System",
       "icon": "https://mageicons.com/favicon.png",
@@ -13623,7 +13623,7 @@
       "url": "http://iconsvg.xyz",
       "type": "article",
       "title": "Find, customize & generate common SVG icons for your project",
-      "image": "/cover-image-color-2.png",
+      "image": "https://iconsvg.xyz/cover-image-color-2.png",
       "site_name": "iconsvg.xyz",
       "description": "Simple tool to find, customize and generate common SVG icons for your project",
       "icon": "https://iconsvg.xyz/favicon-32.png"
@@ -15293,7 +15293,7 @@
   {
     "url": "https://librestock.com/",
     "og": {
-      "image": "/static/images/og_librestock.jpg",
+      "image": "https://librestock.com/static/images/og_librestock.jpg",
       "title": "Librestock Photos - Free Stock Photo Search Engine",
       "description": "\nWe scan and index the best free photos from the top stock sites. All photos are free for personal and commercial. No attribution required. CC0.\n",
       "icon": "https://librestock.com/static/images/favicon-196x196.png",
@@ -16340,7 +16340,7 @@
       "url": "https://www.carbondesignsystem.com",
       "title": "Carbon Design System",
       "description": "Carbon is IBM’s open source design system for products and digital experiences. With the IBM Design Language as its foundation, the system consists of working code, design tools and resources, human interface guidelines, and a vibrant community of contributors.",
-      "image": "/ogimage.png",
+      "image": "https://carbondesignsystem.com/ogimage.png",
       "type": "website",
       "icon": "https://carbondesignsystem.com/favicon-32x32.png?v=5cf4c8343dc066e64aa2555b67a58e0a"
     },
@@ -16456,7 +16456,7 @@
       "title": "Animated Icons | 4000+ Free Animated Icons",
       "url": "https://animatedicons.co/",
       "description": "4000+ High-quality Free & Premium Animated Icons. Adjust to your brand in just a few clicks with our animation software. Available to Download as a Free Lottie Animation, MP4, GIF, SVG & PNG. Use without Attribution",
-      "image": "/og-image-3.png",
+      "image": "https://animatedicons.co/og-image-3.png",
       "icon": "https://animatedicons.co/favicon.ico"
     },
     "extraction_method": "fetch",
@@ -17230,7 +17230,7 @@
       "type": "website",
       "title": "Grabient - CSS Gradient Generator & Palette Finder",
       "description": "Create beautiful gradients with Grabient's intuitive gradient generator. Export to CSS, SVG, and more.",
-      "image": "/grabber.png",
+      "image": "https://www.grabient.com/grabber.png",
       "icon": "https://www.grabient.com/favicon-32x32.png",
       "url": "https://www.grabient.com/"
     },
@@ -17634,7 +17634,7 @@
     "og": {
       "title": "Flat UI Colors 2 - 14 Color Palettes, 280 colors 🎨",
       "description": "280 handpicked colors ready for COPY & PASTE",
-      "image": "/static/facebook-share.png",
+      "image": "https://flatuicolors.com/static/facebook-share.png",
       "type": "website",
       "icon": "https://flatuicolors.com/static/favicon.ico",
       "url": "https://flatuicolors.com/"
@@ -19113,7 +19113,7 @@
   {
     "url": "https://www.color-selector.com/",
     "og": {
-      "image": "/facebook.png",
+      "image": "https://www.color-selector.com/facebook.png",
       "title": "Color Selector",
       "description": "Color Selector is a database of color & images for artists, designers, photographers, printers or curious people and my personal perception of color. This tool offers a large variety of color combinations, from basic colors to neons, pastels, vivid and natural tints.",
       "icon": "https://www.color-selector.com/favicon-32x32.png",
@@ -21415,7 +21415,7 @@
   {
     "url": "https://swup.js.org/",
     "og": {
-      "image": "/assets/images/swup-social-preview.png",
+      "image": "https://swup.js.org/assets/images/swup-social-preview.png",
       "title": "swup — Versatile and extensible page transition library for server-rendered websitesGitHubswup",
       "description": "Versatile and extensible page transition library for server-rendered websites",
       "icon": "https://swup.js.org/assets/images/icon.png",
@@ -21654,7 +21654,7 @@
     "og": {
       "title": "ipad-cursor",
       "description": "iPad Cursor Effect in Browser",
-      "image": "/og-image.jpg",
+      "image": "https://cursor.oooo.so/og-image.jpg",
       "icon": "https://cursor.oooo.so/vite.svg",
       "url": "https://cursor.oooo.so/"
     },
@@ -22641,7 +22641,7 @@
       "title": "Responsively App - A Web Developer's Browser",
       "description": "A dev-tool that aids faster and precise responsive web development.",
       "type": "website",
-      "image": "/assets/img/responsively-image.png",
+      "image": "https://responsively.app/assets/img/responsively-image.png",
       "icon": "https://responsively.app/favicon-32x32.png",
       "url": "https://responsively.app/"
     },
@@ -23380,7 +23380,7 @@
   {
     "url": "https://maxibestof.one/",
     "og": {
-      "image": "/og.jpg",
+      "image": "https://maxibestof.one/og.jpg",
       "title": "Best website design & fonts inspiration feed",
       "description": "Discover fresh webdesign & font inspiration",
       "icon": "https://maxibestof.one/favicon.png",
@@ -24342,7 +24342,7 @@
     "url": "https://component.gallery/components/",
     "og": {
       "title": "Components",
-      "image": "/open-graph/default.png",
+      "image": "https://component.gallery/open-graph/default.png",
       "url": "https://component.gallery/components/",
       "description": "An up-to-date repository of interface components based on examples from the world of design systems, designed to be a reference for anyone building user interfaces.",
       "icon": "https://component.gallery/favicon-96x96.png"
@@ -25692,7 +25692,7 @@
       "type": "object",
       "title": "Free Customizable Illustrations - Graphics by Designs.ai",
       "site_name": "Free Customizable Illustrations - Graphics by Designs.ai",
-      "image": "/graphicmaker/img/graphics_fb.jpg",
+      "image": "https://designs.ai/graphicmaker/img/graphics_fb.jpg",
       "icon": "https://designs.ai/graphicmaker/img/favicon.ico",
       "url": "https://designs.ai/graphicmaker"
     },
@@ -26315,7 +26315,7 @@
       "url": "https://holasvg.com/loaders/",
       "title": "Hola SVG Loaders - Free SVG Loading Generator",
       "description": "Free SVG Loader Generator",
-      "image": "/holasvg-loaders-preview.png",
+      "image": "https://loaders.holasvg.com/holasvg-loaders-preview.png",
       "icon": "https://loaders.holasvg.com/favicon.ico"
     },
     "extraction_method": "fetch",
@@ -26475,7 +26475,7 @@
       "url": "https://www.cssportal.com/css-loader-generator/",
       "title": "CSS Loader Generator - CSS Portal",
       "description": "Generate the perfect loader with our online collection of spinners and loaders for CSS, currently 310 to select from.",
-      "image": "/assets/images/cssicon.png",
+      "image": "https://www.cssportal.com/assets/images/cssicon.png",
       "icon": "https://www.cssportal.com/assets/images/favicon.ico"
     },
     "extraction_method": "fetch",
@@ -29143,7 +29143,7 @@
       "url": "https://quaternius.com",
       "title": "Quaternius • Free Game Assets",
       "description": "A library of hundreds of free Low Poly 3D Models, using the CC0 License.",
-      "image": "/assets/images/fullres/metadata.jpg",
+      "image": "https://quaternius.com/assets/images/fullres/metadata.jpg",
       "icon": "https://quaternius.com/assets/images/site/favicon.ico"
     },
     "extraction_method": "fetch",
@@ -30731,7 +30731,7 @@
     "og": {
       "site_name": "ShareTextures.com",
       "title": "CC0 Textures & Models | Share Textures",
-      "image": "/favicon.png",
+      "image": "https://www.sharetextures.com/favicon.png",
       "description": "ShareTextures.com Free PBR Textures and models archive include wood, stone, wall, ground, metal and more. Download free models and textures up to 4K resolution.",
       "icon": "https://www.sharetextures.com/favicon.png",
       "url": "https://www.sharetextures.com/"
@@ -33461,7 +33461,7 @@
   {
     "url": "https://www.shadcn-vue.com/",
     "og": {
-      "image": "/__og-image__/static/og.png",
+      "image": "https://www.shadcn-vue.com/__og-image__/static/og.png",
       "title": "The Foundation for your Design System",
       "description": "A set of beautifully designed components that you can customize, extend, and build on. Start here then make it your own. Open Source. Open Code.",
       "icon": "https://www.shadcn-vue.com/favicon-16x16.png",
@@ -35301,7 +35301,7 @@
       "url": "https://colourcontrast.cc",
       "type": "website",
       "title": "Colour Contrast Checker",
-      "image": "/favicons/favicon-256x256.png",
+      "image": "https://colourcontrast.cc/favicons/favicon-256x256.png",
       "description": "Check the contrast between different colour combinations against WCAG standards.",
       "site_name": "Colour Contrast Checker",
       "icon": "https://colourcontrast.cc/favicons/favicon-48x48.png"
@@ -36218,7 +36218,7 @@
     "og": {
       "title": "The Spriters Resource",
       "url": "https://www.spriters-resource.com/",
-      "image": "/images/icons/sprites.png",
+      "image": "https://www.spriters-resource.com/images/icons/sprites.png",
       "site_name": "The Spriters Resource",
       "description": "Archiving and preserving video game media since 2003!",
       "icon": "https://www.spriters-resource.com/images/icons/sprites.png"
@@ -37794,7 +37794,7 @@
       "url": "https://www.svend3r.dev/",
       "title": "Svender Charts - A Svelte Component Charting Library",
       "description": "Interactive Plug and Play chart components for your Svelte app",
-      "image": "/getStarted/chart_list.png",
+      "image": "https://svend3r.dev/getStarted/chart_list.png",
       "icon": "https://svend3r.dev/favicon.png"
     },
     "extraction_method": "fetch",
@@ -38832,7 +38832,7 @@
   {
     "url": "https://pglite.dev/",
     "og": {
-      "image": "/img/brand/og-image.png",
+      "image": "https://pglite.dev/img/brand/og-image.png",
       "title": "PGlite",
       "description": "Lightweight WASM Postgres",
       "icon": "https://pglite.dev/img/favicons/favicon-16x16.png",
@@ -43605,7 +43605,7 @@
       "description": "Cosmos is your space to dream—discover, collect, and share inspiration that moves you.",
       "url": "https://www.cosmos.so/",
       "site_name": "Cosmos",
-      "image": "/home-ogimg.jpg",
+      "image": "https://www.cosmos.so/home-ogimg.jpg",
       "icon": "https://www.cosmos.so/favicon-32x32.png"
     },
     "extraction_method": "fetch",
@@ -43663,7 +43663,7 @@
     "og": {
       "title": "961 Best   Landing Page Design Inspiration & Examples  ",
       "description": "Landingfolio features the best  landing page designs on the web. Get inspiration from real  landing page examples, curated by us to ensure the highest quality.",
-      "image": "/_nuxt/img/main.68a8f7f.png",
+      "image": "https://www.landingfolio.com/_nuxt/img/main.68a8f7f.png",
       "icon": "https://www.landingfolio.com/favicon.ico",
       "url": "https://www.landingfolio.com/inspiration/landing-page"
     },
@@ -45679,7 +45679,7 @@
       "type": "article",
       "description": "The classic, reliable, trusted JavaScript test framework for Node.js & the Browser. ☕",
       "site_name": "Mocha",
-      "image": "/_astro/mocha-thumbnail.BSeUZGOr.svg",
+      "image": "https://mochajs.org/_astro/mocha-thumbnail.BSeUZGOr.svg",
       "icon": "https://mochajs.org/favicon.svg",
       "url": "https://mochajs.org/"
     },
@@ -46593,7 +46593,7 @@
     "og": {
       "title": "Caninclude",
       "description": "'Caninclude' tool to help determine if one HTML tag can be included in another HTML tag",
-      "image": "/images/front.png?v=1638616243086",
+      "image": "https://caninclude.glitch.me/images/front.png?v=1638616243086",
       "url": "https://caninclude.glitch.me/",
       "site_name": "Caninclude",
       "icon": "https://caninclude.glitch.me/favicon.ico"
@@ -47912,7 +47912,7 @@
   {
     "url": "https://es-toolkit.slash.page/",
     "og": {
-      "image": "/og.png",
+      "image": "https://es-toolkit.slash.page/og.png",
       "title": "es-toolkitJSRJSR",
       "description": "A state-of-the-art, high-performance JavaScript utility library with a small bundle size and strong type annotations.",
       "icon": "https://es-toolkit.slash.page/favicon-100x100.png",
@@ -48711,7 +48711,7 @@
   {
     "url": "https://infisical.com/",
     "og": {
-      "image": "/images/message.png",
+      "image": "https://infisical.com/images/message.png",
       "title": "Infisical is an open-source end-to-end platform to manage secrets and configuration across your team and infrastructure.",
       "description": "Infisical is all-in-one platform to securely manage application configuration and secrets across your team and infrastructure. Used by Fortune 500 enterprises, international governments, and fastest-growing startups.",
       "icon": "https://infisical.com/infisical.ico",
@@ -48826,7 +48826,7 @@
     "og": {
       "title": "The Collaborative API Development Platform",
       "description": "Leading Open Source API Development Platform for HTTP, REST, GraphQL, gRPC, SOAP, and WebSockets",
-      "image": "/images/open-graph-insomnia.png",
+      "image": "https://insomnia.rest/images/open-graph-insomnia.png",
       "icon": "https://insomnia.rest/favicon.ico",
       "url": "https://insomnia.rest/"
     },
@@ -49799,7 +49799,7 @@
   {
     "url": "https://oklch.com/",
     "og": {
-      "image": "/og-oklch.png",
+      "image": "https://oklch.com/og-oklch.png",
       "title": "OKLCH Color Picker & Converter",
       "description": "OKLCH is a new way to encode colors (like hex, RGBA, or HSL)",
       "icon": "https://oklch.com/favicon.ico",
@@ -52109,7 +52109,7 @@
   {
     "url": "https://reflex.dev/",
     "og": {
-      "image": "/previews/index_preview.webp",
+      "image": "https://reflex.dev/previews/index_preview.webp",
       "url": "https://reflex.dev/",
       "type": "website",
       "title": "The unified platform to build and scale enterprise apps.",
@@ -53027,7 +53027,7 @@
     "og": {
       "title": "Carbon",
       "description": "Carbon is the easiest way to create and share beautiful images of your source code.",
-      "image": "/static/brand/banner.png",
+      "image": "https://carbon.now.sh/static/brand/banner.png",
       "icon": "https://carbon.now.sh/favicon.ico",
       "url": "https://carbon.now.sh/"
     },
@@ -53260,7 +53260,7 @@
       "title": "Markdown Badges",
       "description": "This project is a simple tool to search and copy markdown badgets to use in your profile or projects.",
       "url": "https://markdown-badges.vercel.app/",
-      "image": "/images/banners/og.png",
+      "image": "https://markdown-badges.vercel.app/images/banners/og.png",
       "site_name": "Markdown Badges",
       "type": "website",
       "icon": "https://markdown-badges.vercel.app/favicon.ico"
@@ -54050,7 +54050,7 @@
   {
     "url": "https://skillicons.dev/",
     "og": {
-      "image": "/banner.png",
+      "image": "https://skillicons.dev/banner.png",
       "title": "Skill Icons",
       "description": "Showcase the languages, frameworks, and tools you use on your GitHub or resumé with ease!",
       "icon": "https://skillicons.dev/favicon.png",
@@ -57025,7 +57025,7 @@
       "type": "website",
       "title": "Grainy Gradients playground",
       "description": "Explore the parameters that make up noisy gradients",
-      "image": "/social.png",
+      "image": "https://grainy-gradients.vercel.app/social.png",
       "icon": "https://grainy-gradients.vercel.app/favicon.ico"
     },
     "extraction_method": "fetch",
@@ -63216,7 +63216,7 @@
     "url": "https://cruxvis.withgoogle.com/#/",
     "og": {
       "title": "CrUX Vis",
-      "image": "/img/crux-vis.jpg",
+      "image": "https://cruxvis.withgoogle.com/img/crux-vis.jpg",
       "description": "CrUX Vis is a tool by the Chrome team to help you explore the Chrome User Experience Report (CrUX) data with visualizations and helpful links to articles, for a particular web page or origin.",
       "icon": "https://cruxvis.withgoogle.com/favicon.png",
       "url": "https://cruxvis.withgoogle.com/#/"
@@ -63276,7 +63276,7 @@
     "og": {
       "type": "website",
       "site_name": "Playground",
-      "image": "/og/default.png",
+      "image": "https://playground.com/og/default.png",
       "description": "Create custom designs and graphics with Playground",
       "title": "Free AI Design Tool: Logos, T-Shirts, Social Media - Playground",
       "icon": "https://playground.com/favicon.ico",
@@ -66411,7 +66411,7 @@
     "url": "https://leetcode.com/",
     "og": {
       "title": "LeetCode - The World's Leading Online Programming Learning Platform",
-      "image": "/static/images/LeetCode_Sharing.png",
+      "image": "https://leetcode.com/static/images/LeetCode_Sharing.png",
       "description": "Level up your coding skills and quickly land a job. This is the best place to expand your knowledge and get prepared for your next interview.",
       "icon": "/favicon-16x16.png",
       "url": "https://leetcode.com/"
@@ -66469,7 +66469,7 @@
     "url": "https://leetcode.com/",
     "og": {
       "title": "LeetCode - The World's Leading Online Programming Learning Platform",
-      "image": "/static/images/LeetCode_Sharing.png",
+      "image": "https://leetcode.com/static/images/LeetCode_Sharing.png",
       "description": "Level up your coding skills and quickly land a job. This is the best place to expand your knowledge and get prepared for your next interview.",
       "icon": "/favicon-16x16.png",
       "url": "https://leetcode.com/"
@@ -66477,7 +66477,7 @@
     "extraction_method": "browser",
     "extracted_at": "2026-01-21T21:13:56.438Z",
     "name": "LeetCode",
-    "description": "The leading platform for developers to enhance their coding skills, master algorithms, and prepare for technical interviews through a vast collection of practice problems.",
+    "description": "The premier online platform for sharpening coding skills and preparing for technical interviews with a vast library of algorithmic challenges and real-world problems.",
     "category": [
       "Learning Resources",
       "Challenges",
@@ -66487,42 +66487,41 @@
     "main_features": [
       {
         "feature": "Extensive Problem Library",
-        "description": "Access to over 4,000 coding challenges covering algorithms, data structures, system design, and SQL."
+        "description": "Access to over 3,000 coding questions ranging from easy to hard, covering algorithms, data structures, and system design."
       },
       {
-        "feature": "Interactive Playground",
-        "description": "A powerful online coding environment that supports over 14 popular programming languages for testing and debugging."
+        "feature": "Online Code Editor",
+        "description": "A powerful integrated development environment that supports more than 14 programming languages for real-time code execution."
       },
       {
-        "feature": "Weekly & Biweekly Contests",
-        "description": "Global competitive programming contests where users can solve new problems under time constraints to earn rewards and rankings."
+        "feature": "Mock Interviews",
+        "description": "Company-specific interview simulations that help users practice under timed conditions similar to top tech firms."
       },
       {
-        "feature": "Company-Specific Prep",
-        "description": "Premium access to curated question sets frequently asked by top tech companies like Google, Amazon, and Meta."
+        "feature": "Weekly Contests",
+        "description": "Regularly scheduled programming competitions where users can compete globally to improve their ranking and speed."
       },
       {
         "feature": "Community Discussions",
-        "description": "A massive community forum where developers share optimal solutions, interview experiences, and career advice."
+        "description": "A dedicated forum for users to share optimized solutions, discuss problem-solving strategies, and post interview experiences."
       }
     ],
     "tags": [
-      "Coding Interview",
+      "Coding",
       "Algorithms",
       "Data Structures",
-      "Competitive Programming",
-      "Software Engineering",
-      "Problem Solving",
       "Interview Prep",
-      "Technical Skills"
+      "Software Engineering",
+      "Competitive Programming",
+      "Technical Skills",
+      "Career Development"
     ],
     "targetAudience": [
       "Developers",
-      "Students",
-      "Beginner developers"
+      "Students"
     ],
     "pricing": "Freemium",
-    "enriched_at": "2026-01-31T23:26:15.362Z"
+    "enriched_at": "2026-01-31T23:26:05.945Z"
   },
   {
     "url": "https://pixabay.com/",
@@ -67691,7 +67690,7 @@
     "url": "https://openverse.org/",
     "og": {
       "title": "Openverse",
-      "image": "/openverse-default.jpg",
+      "image": "https://openverse.org/openverse-default.jpg",
       "description": "Search over 800 million free and openly licensed images, photos, audio, and other media types for reuse and remixing.",
       "url": "https://openverse.org",
       "icon": "/favicon.ico"
@@ -67748,122 +67747,6 @@
     ],
     "pricing": "Opensource",
     "enriched_at": "2026-02-01T00:08:36.493Z"
-  },
-  {
-    "url": "https://openverse.org/",
-    "og": {
-      "title": "Openverse",
-      "image": "/openverse-default.jpg",
-      "description": "Search over 800 million free and openly licensed images, photos, audio, and other media types for reuse and remixing.",
-      "url": "https://openverse.org",
-      "icon": "/favicon.ico"
-    },
-    "extraction_method": "browser",
-    "extracted_at": "2026-01-21T22:04:01.966Z",
-    "name": "Openverse",
-    "description": "An open-source search engine for discovering over 800 million Creative Commons-licensed and public domain images and audio files for reuse and remixing.",
-    "category": [
-      "Photos",
-      "Audio",
-      "Tools"
-    ],
-    "topic": "Creative Commons Media Search",
-    "main_features": [
-      {
-        "feature": "Extensive Media Indexing",
-        "description": "Indexes over 800 million images and audio files from more than 45 different sources including Wikimedia Commons, Flickr, and NASA."
-      },
-      {
-        "feature": "Advanced License Filtering",
-        "description": "Enables users to filter search results by specific Creative Commons license types, public domain status, and commercial usage rights."
-      },
-      {
-        "feature": "One-Click Attribution",
-        "description": "Provides pre-formatted, well-formed attribution statements for every media asset to ensure creators are properly credited."
-      },
-      {
-        "feature": "Developer API",
-        "description": "Offers a public API that allows developers to programmatically search and integrate the Openverse catalog into their own applications."
-      }
-    ],
-    "tags": [
-      "creative-commons",
-      "stock-photos",
-      "open-source",
-      "public-domain",
-      "media-search",
-      "free-assets",
-      "attribution-tool",
-      "wordpress"
-    ],
-    "targetAudience": [
-      "Designers",
-      "Content Creators",
-      "Educators",
-      "Developers"
-    ],
-    "pricing": "Opensource",
-    "enriched_at": "2026-02-01T00:08:48.929Z"
-  },
-  {
-    "url": "https://openverse.org/",
-    "og": {
-      "title": "Openverse",
-      "image": "/openverse-default.jpg",
-      "description": "Search over 800 million free and openly licensed images, photos, audio, and other media types for reuse and remixing.",
-      "url": "https://openverse.org",
-      "icon": "/favicon.ico"
-    },
-    "extraction_method": "browser",
-    "extracted_at": "2026-01-21T22:04:01.966Z",
-    "name": "Openverse",
-    "description": "An open-source search engine for discovering openly licensed media, providing access to over 800 million images and audio files for reuse and remixing.",
-    "category": [
-      "Photos",
-      "Audio",
-      "Design"
-    ],
-    "topic": "Openly licensed media search engine",
-    "main_features": [
-      {
-        "feature": "Extensive Media Catalog",
-        "description": "Search through more than 800 million free and openly licensed images and audio files from diverse providers."
-      },
-      {
-        "feature": "License Filtering",
-        "description": "Filter results by specific Creative Commons licenses or intended use cases like commercial use or modification."
-      },
-      {
-        "feature": "Automated Attribution",
-        "description": "Generate ready-to-use attribution text for media to ensure compliance with legal licensing requirements."
-      },
-      {
-        "feature": "Provider Integration",
-        "description": "Aggregates content from over 45 different sources including Wikimedia Commons, Flickr, and Jamendo."
-      },
-      {
-        "feature": "Open API",
-        "description": "Provides a public API for developers to integrate the media search functionality into their own applications."
-      }
-    ],
-    "tags": [
-      "creative commons",
-      "public domain",
-      "free stock photos",
-      "audio search",
-      "open source",
-      "attribution",
-      "media library",
-      "digital assets"
-    ],
-    "targetAudience": [
-      "Designers",
-      "Content Creators",
-      "Educators",
-      "Developers"
-    ],
-    "pricing": "Opensource",
-    "enriched_at": "2026-02-01T00:09:00.932Z"
   },
   {
     "url": "https://www.npmjs.com/package/animated-tailwindcss",
@@ -71128,7 +71011,7 @@
       "title": "Online CSS Code Quality Analyzer - Project Wallace",
       "description": "This online analyzer takes your CSS and tells you exactly which areas should be improved.",
       "site_name": "projectwallace.com",
-      "image": "/_app/immutable/assets/og-image.BLkbbWKp.png",
+      "image": "https://www.projectwallace.com/_app/immutable/assets/og-image.BLkbbWKp.png",
       "icon": "https://www.projectwallace.com/favicon.png"
     },
     "extraction_method": "fetch",
@@ -73047,7 +72930,7 @@
   {
     "url": "https://www.cofolios.com/",
     "og": {
-      "image": "/cofolios.jpg",
+      "image": "https://www.cofolios.com/cofolios.jpg",
       "title": "Cofolios",
       "description": "Portfolios of designers from top tech companies.",
       "icon": "https://www.cofolios.com/favicons/favicon-32x32.png",
@@ -76283,7 +76166,7 @@
       "type": "website",
       "title": "Flexilla : Versatile Interactive Component Library",
       "description": "A headless, CSS-agnostic library for creating interactive components.",
-      "image": "/flexilla-cover.png",
+      "image": "https://flexilla-docs.vercel.app/flexilla-cover.png",
       "icon": "https://flexilla-docs.vercel.app/favicon.svg"
     },
     "extraction_method": "fetch",
@@ -76691,7 +76574,7 @@
       "url": "https://ghostty.org",
       "site_name": "Ghostty",
       "description": "Ghostty is a fast, feature-rich, and cross-platform terminal emulator that uses platform-native UI and GPU acceleration.",
-      "image": "/social-share-card.jpg",
+      "image": "https://ghostty.org/social-share-card.jpg",
       "icon": "https://ghostty.org/favicon-32.png"
     },
     "extraction_method": "fetch",
@@ -79177,7 +79060,7 @@
       "type": "article",
       "description": "UI engine for building smooth interactions in the browser.",
       "site_name": "Veloxi",
-      "image": "/site-image.png",
+      "image": "https://veloxijs.com/site-image.png",
       "icon": "https://veloxijs.com/favicon.svg",
       "url": "https://veloxijs.com/"
     },
@@ -80508,7 +80391,7 @@
       "type": "article",
       "title": "Official Tailwind UI Components & Templates - Tailwind Plus",
       "description": "Beautiful UI components and templates by the creators of Tailwind CSS.",
-      "image": "/plus-assets/img/og/default.png",
+      "image": "https://tailwindui.starxg.com/plus-assets/img/og/default.png",
       "icon": "https://tailwindui.starxg.com/plus-assets/img/favicon/favicon.ico",
       "url": "https://tailwindui.starxg.com/components"
     },
