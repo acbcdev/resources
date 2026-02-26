@@ -21,7 +21,13 @@ import { generateText, Output } from "ai";
 import { google } from "@ai-sdk/google";
 import { z } from "zod";
 import { SCRIPTS_CONFIG, validateConfig } from "./config";
-import { logger, fileIO, setupGracefulShutdown, updateShutdownStats, onShutdown } from "./utils";
+import {
+  logger,
+  fileIO,
+  setupGracefulShutdown,
+  updateShutdownStats,
+  onShutdown,
+} from "./utils";
 import type { ResourceWithOG, ResourceWithAI } from "./types";
 import {
   FeatureSchema,
@@ -91,8 +97,8 @@ async function generateAIMetadata(
   const searchPrompt = `Research this resource and extract structured metadata. Use the search tools to find current, accurate information.
 
 Website URL: ${resource.url}
-OG Title: ${resource.og.title || "N/A"}
-OG Description: ${resource.og.description || "N/A"}
+OG Title: ${resource?.og?.title || "N/A"}
+OG Description: ${resource?.og?.description || "N/A"}
 
 Search for information about this resource and extract:
 - name: The actual name/title of the resource
@@ -215,20 +221,6 @@ async function main() {
     logger.section("Enriching Resources");
     const successful: ResourceWithAI[] = [];
     const failed: Array<{ url: string; error: string; timestamp: string }> = [];
-
-    // Register shutdown callback to save final state
-    onShutdown(async () => {
-      const allEnriched = [...existingEnriched, ...successful];
-      await fileIO.writeJSON(SCRIPTS_CONFIG.paths.output.aiEnriched, allEnriched);
-
-      if (failed.length > 0) {
-        await fileIO.appendToJSONArray(
-          SCRIPTS_CONFIG.paths.output.failedAI,
-          failed,
-        );
-      }
-      logger.info("Final output saved before shutdown");
-    });
 
     for (let i = 0; i < resourcesToEnrich.length; i++) {
       const resource = resourcesToEnrich[i];
