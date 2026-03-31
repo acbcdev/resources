@@ -271,10 +271,9 @@ async function main() {
 
     // Save failed resources for retry on next run
     if (failed.length > 0) {
-      await fileIO.appendToJSONArray(
-        SCRIPTS_CONFIG.paths.output.failedAI,
-        failed,
-      );
+      for (const entry of failed) {
+        await fileIO.appendToJSONArray(SCRIPTS_CONFIG.paths.output.failedAI, entry);
+      }
       logger.info(
         `Saved ${failed.length} failed resources to: ${SCRIPTS_CONFIG.paths.output.failedAI}`,
       );
