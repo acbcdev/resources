@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "web": "pnpm --filter web ",
+    "dev": "pnpm --filter web dev",
     "script": "pnpm --filter scripts ",
     "extract-og": "bun packages/scripts/1-extract-og.ts",
     "enrich-ai": "bun packages/scripts/2-enrich-ai.ts",
