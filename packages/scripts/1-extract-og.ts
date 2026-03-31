@@ -58,14 +58,17 @@ async function tryFetch(url: string): Promise<ResourceWithOG | null> {
       extracted_at: new Date().toISOString(),
     };
   } catch (error) {
-    const statusCode =
-      error instanceof Error && error.message.includes("HTTP")
-        ? parseInt(error.message.replace("HTTP ", ""))
-        : undefined;
+    const msg = error instanceof Error ? error.message : String(error);
+
+    if (msg.startsWith("REDIRECT") || msg.startsWith("HTTP_4XX")) {
+      throw error;
+    }
+
+    const statusCode = msg.includes("HTTP") ? parseInt(msg.split(" ")[1]) : undefined;
     logger.networkError(
       url,
       "fetch",
-      error instanceof Error ? error : new Error(String(error)),
+      error instanceof Error ? error : new Error(msg),
       statusCode,
       [...OG_FIELDS],
     );
@@ -217,10 +220,25 @@ async function main() {
           logger.itemStatus("success", url, "Retrieved");
         }
       } catch (error) {
-        failedCount++;
         const err = error instanceof Error ? error : new Error(String(error));
-        failedUrls.push({ url, error: err });
-        logger.itemStatus("error", url, err.message);
+
+        if (err.message.startsWith("REDIRECT")) {
+          const [, status, location] = err.message.split(" ");
+          await fileIO.appendToJSONArray(SCRIPTS_CONFIG.paths.output.redirectOG, {
+            url, status: parseInt(status), location, timestamp: new Date().toISOString(),
+          });
+          logger.itemStatus("warning", url, err.message);
+        } else if (err.message.startsWith("HTTP_4XX")) {
+          const status = parseInt(err.message.split(" ")[1]);
+          await fileIO.appendToJSONArray(SCRIPTS_CONFIG.paths.output.errorOG, {
+            url, status, timestamp: new Date().toISOString(),
+          });
+          logger.itemStatus("error", url, `HTTP ${status}`);
+        } else {
+          failedCount++;
+          failedUrls.push({ url, error: err });
+          logger.itemStatus("error", url, err.message);
+        }
       }
 
       // Save incrementally for resume capability
@@ -301,8 +319,7 @@ async function main() {
     logger.error("Fatal error", error);
     process.exit(1);
   } finally {
-    // Ensure browser is closed on exit
-    process.exit(1);
+    process.exit(0);
   }
 }
 

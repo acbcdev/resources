@@ -31,11 +31,19 @@ export class HTTPFetcher {
 	async fetchHTML(url: string, timeoutMs: number = SCRIPTS_CONFIG.network.fetchTimeout): Promise<string> {
 		return this.withTimeout(async (signal) => {
 			const response = await fetch(url, {
-				headers: {
-					'User-Agent': SCRIPTS_CONFIG.network.userAgent,
-				},
+				headers: { 'User-Agent': SCRIPTS_CONFIG.network.userAgent },
 				signal,
+				redirect: 'manual',
 			});
+
+			if (response.status >= 300 && response.status < 400) {
+				const location = response.headers.get('location') || '';
+				throw new Error(`REDIRECT ${response.status} ${location}`);
+			}
+
+			if (response.status >= 400 && response.status < 500) {
+				throw new Error(`HTTP_4XX ${response.status}`);
+			}
 
 			if (!response.ok) {
 				throw new Error(`HTTP ${response.status}`);

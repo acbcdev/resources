@@ -27,12 +27,16 @@ export const SCRIPTS_CONFIG = {
       ogData: resolve(SCRIPTS_OUTPUT_DIR, "ogData.json"),
       backupOG: resolve(SCRIPTS_OUTPUT_DIR, "backupOG.json"),
       failedOG: resolve(SCRIPTS_OUTPUT_DIR, "failedOG.json"),
+      errorOG: resolve(SCRIPTS_OUTPUT_DIR, "errorOG.json"),
+      redirectOG: resolve(SCRIPTS_OUTPUT_DIR, "redirectOG.json"),
       aiEnriched: resolve(SCRIPTS_OUTPUT_DIR, "aiEnriched.json"),
       backupAI: resolve(SCRIPTS_OUTPUT_DIR, "backupAI.json"),
       failedAI: resolve(SCRIPTS_OUTPUT_DIR, "failedAI.json"),
       withScreenshots: resolve(SCRIPTS_OUTPUT_DIR, "withScreenshots.json"),
       backupScreenshots: resolve(SCRIPTS_OUTPUT_DIR, "backupScreenshots.json"),
       failedScreenshots: resolve(SCRIPTS_OUTPUT_DIR, "failedScreenshots.json"),
+      errorScreenshots: resolve(SCRIPTS_OUTPUT_DIR, "errorScreenshots.json"),
+      redirectScreenshots: resolve(SCRIPTS_OUTPUT_DIR, "redirectScreenshots.json"),
     },
     // Screenshot storage
     screenshots: {

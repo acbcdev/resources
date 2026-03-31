@@ -8,6 +8,15 @@ import type { OGMetadata } from '../types';
  * Uses singleton pattern for consistent extraction logic
  */
 export class MetadataExtractor {
+	private resolveUrl(href: string, base: string): string {
+		if (!href || href.startsWith('http')) return href;
+		try {
+			return new URL(href, base).href;
+		} catch {
+			return href;
+		}
+	}
+
 	/**
 	 * Extract OG metadata from raw HTML using Cheerio
 	 */
@@ -45,22 +54,16 @@ export class MetadataExtractor {
 			}
 		}
 
+		// Resolve relative og:image
+		if (metadata.image) metadata.image = this.resolveUrl(metadata.image, url);
+
 		// Extract favicon
 		const favicon =
 			$('link[rel="icon"]').attr('href') ||
 			$('link[rel="shortcut icon"]').attr('href') ||
 			'/favicon.ico';
 
-		if (favicon) {
-			// Resolve relative URLs
-			try {
-				const faviconUrl = new URL(favicon, url).href;
-				metadata.icon = faviconUrl;
-			} catch {
-				// If URL parsing fails, use favicon as-is
-				metadata.icon = favicon;
-			}
-		}
+		if (favicon) metadata.icon = this.resolveUrl(favicon, url);
 
 		return metadata;
 	}
@@ -69,7 +72,7 @@ export class MetadataExtractor {
 	 * Extract OG metadata from a Playwright page
 	 */
 	async extractFromPage(page: Page): Promise<OGMetadata> {
-		return page.evaluate(() => {
+		const metadata = await page.evaluate(() => {
 			const metadata: OGMetadata = {};
 
 			// Extract from meta tags
@@ -108,12 +111,16 @@ export class MetadataExtractor {
 				document.querySelector('link[rel="shortcut icon"]')?.getAttribute('href') ||
 				'/favicon.ico';
 
-			if (favicon) {
-				metadata.icon = favicon;
-			}
+			if (favicon) metadata.icon = favicon;
 
 			return metadata;
-		});
+		}) as OGMetadata;
+
+		const pageUrl = page.url();
+		if (metadata.icon) metadata.icon = this.resolveUrl(metadata.icon, pageUrl);
+		if (metadata.image) metadata.image = this.resolveUrl(metadata.image, pageUrl);
+
+		return metadata;
 	}
 }
 
